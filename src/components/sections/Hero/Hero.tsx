@@ -339,23 +339,13 @@ const Hero = () => {
         {/* Name */}
         <div ref={nameRef} className='mb-6'>
           <h1 className='text-[90px] leading-[90%] md:text-[130px] lg:text-[150px] xl:text-[210px] font-montserrat uppercase font-black select-none'>
-            {"Sadid".split("").map((letter, idx) => (
+            {"Tirtho Ray".split("").map((letter, idx) => (
               <span
                 key={idx}
-                ref={idx === 2 ? dLetterRef : null}
                 className={cn(
                   "inline-block mx-1 bg-linear-to-r from-white via-slate-300 to-slate-400 bg-clip-text text-transparent",
                   "cursor-default"
                 )}
-                style={
-                  idx === 2
-                    ? {
-                        WebkitFontSmoothing: "antialiased",
-                        MozOsxFontSmoothing: "grayscale",
-                        textRendering: "optimizeLegibility",
-                      }
-                    : undefined
-                }
               >
                 {letter}
               </span>

@@ -19,7 +19,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Sadid - Let's Build Something Amazing Together!",
+  title: "Tirtho Ray - Let's Build Something Amazing Together!",
   description: "Let's code! 😊",
 };
 
