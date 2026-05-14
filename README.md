@@ -1,7 +1,7 @@
-## 🚀 Personal Portfolio — Sadid Hasan
+## 🚀 Personal Portfolio — Tirtho Ray
 
 Hi 👋
-I’m Sadid Hasan, a passionate Full-Stack Web Developer focused on building modern, fast, and user-friendly web applications.
+I’m Tirtho Ray, a passionate Full-Stack Web Developer focused on building modern, fast, and user-friendly web applications.
 This repository contains the source code for my personal portfolio website, where I showcase my skills, projects, and experience.
 
 ### 🌐 Live Preview
