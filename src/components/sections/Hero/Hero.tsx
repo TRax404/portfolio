@@ -88,7 +88,7 @@ const Hero = () => {
                 duration: 0.5,
                 clearProps: "all",
               });
-              gsap.to([nameRef.current, description, cta, dLetter, social, ...leftLetters, ...rightLetters], {
+              gsap.to([nameRef.current, description, cta, focalLetter, social, ...leftLetters, ...rightLetters], {
                 x: 0,
                 y: 0,
                 scale: 1,
@@ -155,17 +155,17 @@ const Hero = () => {
         );
 
         tl.to(
-          dLetter,
+          focalLetter,
           {
             x: () => {
-              if (!dLetter) return 0;
-              const dRect = dLetter.getBoundingClientRect();
+              if (!focalLetter) return 0;
+              const dRect = focalLetter.getBoundingClientRect();
               const dCenterX = dRect.left + dRect.width / 2;
               return window.innerWidth / 2 - dCenterX;
             },
             y: () => {
-              if (!dLetter) return 0;
-              const dRect = dLetter.getBoundingClientRect();
+              if (!focalLetter) return 0;
+              const dRect = focalLetter.getBoundingClientRect();
               const dCenterY = dRect.top + dRect.height / 2;
               return window.innerHeight / 2 - dCenterY;
             },
@@ -225,7 +225,7 @@ const Hero = () => {
         );
 
         tl.to(
-          dLetter,
+          focalLetter,
           {
             scale: 30,
             fontWeight: 900,
