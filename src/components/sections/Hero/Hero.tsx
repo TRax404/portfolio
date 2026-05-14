@@ -54,9 +54,10 @@ const Hero = () => {
         }
 
         const letters = Array.from(nameRef.current?.querySelectorAll("span") ?? []);
-        const leftLetters = letters.slice(0, 2); // S, A
-        const rightLetters = letters.slice(3, 5); // I, D
-        const dLetter = dLetterRef.current;
+        const focalLetterIdx = 0; // Focus on 'T'
+        const leftLetters = letters.slice(0, focalLetterIdx);
+        const rightLetters = letters.slice(focalLetterIdx + 1);
+        const focalLetter = dLetterRef.current;
         const description = containerRef.current?.querySelector(".GradualSpacing");
         const cta = containerRef.current?.querySelector(".cta-btn");
         const social = containerRef.current?.querySelector(".social-links-container");
@@ -342,10 +343,20 @@ const Hero = () => {
             {"Tirtho Ray".split("").map((letter, idx) => (
               <span
                 key={idx}
+                ref={idx === 0 ? dLetterRef : null}
                 className={cn(
                   "inline-block mx-1 bg-linear-to-r from-white via-slate-300 to-slate-400 bg-clip-text text-transparent",
                   "cursor-default"
                 )}
+                style={
+                  idx === 0
+                    ? {
+                        WebkitFontSmoothing: "antialiased",
+                        MozOsxFontSmoothing: "grayscale",
+                        textRendering: "optimizeLegibility",
+                      }
+                    : undefined
+                }
               >
                 {letter}
               </span>
