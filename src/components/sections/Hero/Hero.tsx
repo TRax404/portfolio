@@ -67,7 +67,7 @@ const Hero = () => {
           ...Array.from(ctaButtons),
           ...Array.from(socialEls),
           ...Array.from(blurTargets),
-        ];
+        ].filter(Boolean);
         if (portraitRef.current) otherContentTargets.push(portraitRef.current);
 
         const tl = gsap.timeline({
@@ -81,99 +81,114 @@ const Hero = () => {
             anticipatePin: 1,
             invalidateOnRefresh: true,
             onLeaveBack: () => {
-              gsap.to(otherContentTargets, {
-                opacity: 1,
-                filter: "blur(0px)",
-                scale: 1,
-                duration: 0.5,
-                clearProps: "all",
-              });
-              gsap.to([nameRef.current, description, cta, focalLetter, social, ...leftLetters, ...rightLetters], {
-                x: 0,
-                y: 0,
-                scale: 1,
-                opacity: 1,
-                filter: "blur(0px)",
-                duration: 0.5,
-                clearProps: "all",
-              });
-              gsap.to(revealRef.current, {
-                clipPath: "circle(0% at 50% 50%)",
-                duration: 0.5,
-                clearProps: "all",
-              });
+              if (otherContentTargets.length > 0) {
+                gsap.to(otherContentTargets, {
+                  opacity: 1,
+                  filter: "blur(0px)",
+                  scale: 1,
+                  duration: 0.5,
+                  clearProps: "all",
+                });
+              }
+              const leaveBackTargets = [nameRef.current, description, cta, focalLetter, social, ...leftLetters, ...rightLetters].filter(
+                Boolean
+              );
+              if (leaveBackTargets.length > 0) {
+                gsap.to(leaveBackTargets, {
+                  x: 0,
+                  y: 0,
+                  scale: 1,
+                  opacity: 1,
+                  filter: "blur(0px)",
+                  duration: 0.5,
+                  clearProps: "all",
+                });
+              }
+              if (revealRef.current) {
+                gsap.to(revealRef.current, {
+                  clipPath: "circle(0% at 50% 50%)",
+                  duration: 0.5,
+                  clearProps: "all",
+                });
+              }
             },
           },
         });
 
-        gsap.set(otherContentTargets, {
-          filter: "blur(0px)",
-          opacity: 1,
-          scale: 1,
-        });
-        gsap.set([...leftLetters, ...rightLetters], {
-          filter: "blur(0px)",
-          opacity: 1,
-          x: 0,
-        });
+        if (otherContentTargets.length > 0) {
+          gsap.set(otherContentTargets, {
+            filter: "blur(0px)",
+            opacity: 1,
+            scale: 1,
+          });
+        }
+        const initialLetters = [...leftLetters, ...rightLetters].filter(Boolean);
+        if (initialLetters.length > 0) {
+          gsap.set(initialLetters, {
+            filter: "blur(0px)",
+            opacity: 1,
+            x: 0,
+          });
+        }
 
-        tl.to(
-          otherContentTargets,
-          {
-            filter: "blur(3px)",
-            opacity: 0.8,
-            scale: 0.98,
-            duration: 0.8,
-            ease: "power2.out",
-          },
-          0
-        );
-
-        tl.to(
-          otherContentTargets,
-          {
-            filter: "blur(8px)",
-            opacity: 0.5,
-            scale: 0.96,
-            duration: 0.7,
-            ease: "power2.inOut",
-          },
-          0.8
-        );
-
-        // Final blur stage
-        tl.to(
-          otherContentTargets,
-          {
-            filter: "blur(12px)",
-            opacity: 0.2,
-            scale: 0.95,
-            duration: 0.8,
-            ease: "power2.in",
-          },
-          1.5
-        );
-
-        tl.to(
-          focalLetter,
-          {
-            x: () => {
-              if (!focalLetter) return 0;
-              const dRect = focalLetter.getBoundingClientRect();
-              const dCenterX = dRect.left + dRect.width / 2;
-              return window.innerWidth / 2 - dCenterX;
+        if (otherContentTargets.length > 0) {
+          tl.to(
+            otherContentTargets,
+            {
+              filter: "blur(3px)",
+              opacity: 0.8,
+              scale: 0.98,
+              duration: 0.8,
+              ease: "power2.out",
             },
-            y: () => {
-              if (!focalLetter) return 0;
-              const dRect = focalLetter.getBoundingClientRect();
-              const dCenterY = dRect.top + dRect.height / 2;
-              return window.innerHeight / 2 - dCenterY;
+            0
+          );
+
+          tl.to(
+            otherContentTargets,
+            {
+              filter: "blur(8px)",
+              opacity: 0.5,
+              scale: 0.96,
+              duration: 0.7,
+              ease: "power2.inOut",
             },
-            duration: 1.5,
-            ease: "power2.inOut",
-          },
-          0
-        );
+            0.8
+          );
+
+          tl.to(
+            otherContentTargets,
+            {
+              filter: "blur(12px)",
+              opacity: 0.2,
+              scale: 0.95,
+              duration: 0.8,
+              ease: "power2.in",
+            },
+            1.5
+          );
+        }
+
+        if (focalLetter) {
+          tl.to(
+            focalLetter,
+            {
+              x: () => {
+                const dRect = focalLetter.getBoundingClientRect();
+                const dCenterX = dRect.left + dRect.width / 2;
+                return window.innerWidth / 2 - dCenterX;
+              },
+              y: () => {
+                const dRect = focalLetter.getBoundingClientRect();
+                const dCenterY = dRect.top + dRect.height / 2;
+                return window.innerHeight / 2 - dCenterY;
+              },
+              duration: 1.5,
+              ease: "power2.inOut",
+            },
+            0
+          );
+        }
 
         if (socialEls.length > 0) {
           tl.to(
@@ -188,101 +203,113 @@ const Hero = () => {
           );
         }
 
-        tl.to(
-          [description, cta],
-          {
-            y: 100,
-            opacity: 0.1,
-            duration: 1.2,
-            ease: "power3.inOut",
-          },
-          0.5
-        );
-
-        // Combine movement with blur so they don't look stuck
-        tl.to(
-          leftLetters,
-          {
-            x: -300,
-            opacity: 0,
-            filter: "blur(12px)",
-            duration: 2,
-            ease: "power2.inOut",
-          },
-          0
-        );
-
-        tl.to(
-          rightLetters,
-          {
-            x: 300,
-            opacity: 0,
-            filter: "blur(12px)",
-            duration: 2,
-            ease: "power2.inOut",
-          },
-          0
-        );
-
-        tl.to(
-          focalLetter,
-          {
-            scale: 30,
-            fontWeight: 900,
-            textShadow: "0 0 80px rgba(56, 189, 248, 0.6)",
-            ease: "power3.inOut",
-            duration: 1.5,
-            force3D: false,
-            lazy: false,
-            onStart: () => {
-              if (!dLetterRef.current) return;
-              gsap.set(dLetterRef.current, {
-                backgroundImage: "linear-gradient(to right, #ffffff, #e2e8f0, #f8fafc)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                color: "transparent",
-              });
+        const descCtaTargets = [description, cta].filter(Boolean);
+        if (descCtaTargets.length > 0) {
+          tl.to(
+            descCtaTargets,
+            {
+              y: 100,
+              opacity: 0.1,
+              duration: 1.2,
+              ease: "power3.inOut",
             },
-          },
-          2.3
-        );
+            0.5
+          );
+        }
 
-        tl.to(
-          revealRef.current,
-          {
-            clipPath: "circle(150% at 50% 50%)",
-            ease: "power2.in",
-            duration: 1.5,
-          },
-          3.2
-        );
+        if (leftLetters.length > 0) {
+          tl.to(
+            leftLetters,
+            {
+              x: -300,
+              opacity: 0,
+              filter: "blur(12px)",
+              duration: 2,
+              ease: "power2.inOut",
+            },
+            0
+          );
+        }
 
-        tl.to(
-          dLetterRef.current,
-          {
-            opacity: 0,
-            duration: 1,
-          },
-          3.4
-        );
+        if (rightLetters.length > 0) {
+          tl.to(
+            rightLetters,
+            {
+              x: 300,
+              opacity: 0,
+              filter: "blur(12px)",
+              duration: 2,
+              ease: "power2.inOut",
+            },
+            0
+          );
+        }
+
+        if (focalLetter) {
+          tl.to(
+            focalLetter,
+            {
+              scale: 30,
+              fontWeight: 900,
+              textShadow: "0 0 80px rgba(56, 189, 248, 0.6)",
+              ease: "power3.inOut",
+              duration: 1.5,
+              force3D: false,
+              lazy: false,
+              onStart: () => {
+                if (!dLetterRef.current) return;
+                gsap.set(dLetterRef.current, {
+                  backgroundImage: "linear-gradient(to right, #ffffff, #e2e8f0, #f8fafc)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  color: "transparent",
+                });
+              },
+            },
+            2.3
+          );
+
+          tl.to(
+            focalLetter,
+            {
+              opacity: 0,
+              duration: 1,
+            },
+            3.4
+          );
+        }
+
+        if (revealRef.current) {
+          tl.to(
+            revealRef.current,
+            {
+              clipPath: "circle(150% at 50% 50%)",
+              ease: "power2.in",
+              duration: 1.5,
+            },
+            3.2
+          );
+        }
 
         // Floating icons gentle animation
         const floatingIcons = Array.from(containerRef.current?.querySelectorAll(".floating-icon") ?? []);
-        floatingIcons.forEach((el, idx) => {
-          const baseDuration = 3 + (idx % 3) * 0.6;
-          gsap.to(el, {
-            y: "+=18",
-            rotate: idx % 2 === 0 ? 6 : -6,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut",
-            duration: baseDuration,
+        if (floatingIcons.length > 0) {
+          floatingIcons.forEach((el, idx) => {
+            const baseDuration = 3 + (idx % 3) * 0.6;
+            gsap.to(el, {
+              y: "+=18",
+              rotate: idx % 2 === 0 ? 6 : -6,
+              repeat: -1,
+              yoyo: true,
+              ease: "sine.inOut",
+              duration: baseDuration,
+            });
           });
-        });
+        }
 
         // Parallax with mouse move
         const onMouseMove = (e: MouseEvent) => {
-          if (!containerRef.current) return;
+          if (!containerRef.current || floatingIcons.length === 0) return;
           const rect = containerRef.current.getBoundingClientRect();
           const mx = (e.clientX - rect.left) / rect.width - 0.5; // -0.5..0.5
           const my = (e.clientY - rect.top) / rect.height - 0.5;
@@ -295,7 +322,9 @@ const Hero = () => {
 
         return () => {
           containerRef.current?.removeEventListener("mousemove", onMouseMove);
-          gsap.killTweensOf(floatingIcons);
+          if (floatingIcons.length > 0) {
+            gsap.killTweensOf(floatingIcons);
+          }
         };
       },
       containerRef
@@ -327,7 +356,7 @@ const Hero = () => {
         <div
           className='absolute right-[10%] md:right-[40%] bottom-[40%] md:-bottom-[20%] w-full h-[130%] bg-no-repeat bg-bottom-right bg-contain opacity-[0.08]'
           style={{
-            backgroundImage: "url('/images/v3.png')",
+            backgroundImage: "url('/images/v2.png')",
             maskImage: "linear-gradient(to left, black 20%, transparent 80%), linear-gradient(to top, black 20%, transparent 80%)",
             WebkitMaskImage: "linear-gradient(to left, black 20%, transparent 80%), linear-gradient(to top, black 100%, transparent 100%)",
             maskComposite: "intersect",
