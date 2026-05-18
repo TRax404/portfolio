@@ -367,34 +367,35 @@ const Hero = () => {
       </div>
       <Container className='relative z-30 pb-20 pr-4 lg:pr-28 2xl:pr-0 h-full flex flex-col justify-end items-end text-right'>
         {/* Name */}
-        <div ref={nameRef} className='mb-6'>
-          <h1 className='text-[90px] leading-[90%] md:text-[130px] lg:text-[150px] xl:text-[210px] font-montserrat uppercase font-black select-none'>
-            {"Tirtho Ray".split("").map((letter, idx) => (
-              <span
-                key={idx}
-                ref={idx === 0 ? dLetterRef : null}
-                className={cn(
-                  "inline-block mx-1 bg-linear-to-r from-white via-slate-300 to-slate-400 bg-clip-text text-transparent",
-                  "cursor-default"
-                )}
-                style={
-                  idx === 0
-                    ? {
+        {/* Description */}
+        <div className='text-slate-300 font-poppins font-normal max-w-[700px] mb-6 GradualSpacing'>
+
+          <div ref={nameRef} className='mb-6'>
+            <h1 className='text-[10px] leading-[90%] md:text-[130px] lg:text-[20px] xl:text-[20px] font-montserrat uppercase font-black select-none'>
+              {"TIRTHO RAY".split("").map((letter, idx) => (
+                <span
+                  key={idx}
+                  ref={idx === 0 ? dLetterRef : null}
+                  className={cn(
+                    "inline-block mx-1 bg-linear-to-r from-white via-slate-300 to-slate-400 bg-clip-text text-transparent",
+                    "cursor-default"
+                  )}
+                  style={
+                    idx === 0
+                      ? {
                         WebkitFontSmoothing: "antialiased",
                         MozOsxFontSmoothing: "grayscale",
                         textRendering: "optimizeLegibility",
                       }
-                    : undefined
-                }
-              >
-                {letter}
-              </span>
-            ))}
-          </h1>
-        </div>
+                      : undefined
+                  }
+                >
+                  {letter}
+                </span>
+              ))}
+            </h1>
+          </div>
 
-        {/* Description */}
-        <div className='text-slate-300 font-poppins font-normal max-w-[700px] mb-6 GradualSpacing'>
           Passionate {<FlipWords words={words} />} specializing in React, Next.js, Node.js, PostgreSQL and TypeScript. I love someone who
           loves programming and is eager to learn.
         </div>
