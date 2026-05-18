@@ -342,6 +342,27 @@ const Hero = () => {
 
         <IconBrandNextjs className='floating-icon absolute bottom-32 left-[35%] w-10 h-10 text-slate-200/70' />
         <IconBrandTypescript className='floating-icon absolute top-[15%] md:top-1/2 right-[10%] w-9 h-9 text-blue-300/70' />
+
+        <img
+          src='https://cdn.simpleicons.org/docker/2496ED'
+          className='floating-icon absolute top-[45%] left-[15%] w-10 h-10'
+          alt='Docker'
+        />
+        <img
+          src='https://cdn.simpleicons.org/amazonaws/FF9900'
+          className='floating-icon absolute bottom-[40%] right-[45%] w-11 h-11'
+          alt='AWS'
+        />
+        <img
+          src='https://cdn.simpleicons.org/githubactions/2088FF'
+          className='floating-icon absolute top-[65%] left-[25%] w-9 h-9'
+          alt='GitHub Actions'
+        />
+        <img
+          src='https://cdn.simpleicons.org/nginx/009639'
+          className='floating-icon absolute bottom-[70%] right-[50%] w-10 h-10'
+          alt='Nginx'
+        />
       </div>
       <div ref={revealRef} className='absolute inset-0 z-50 bg-mainBgColor' style={{ clipPath: "circle(0% at 50% 50%)" }}>
         <Skills />
@@ -369,7 +390,6 @@ const Hero = () => {
         {/* Name */}
         {/* Description */}
         <div className='text-slate-300 font-poppins font-normal max-w-175 mb-6 GradualSpacing'>
-
           <div ref={nameRef} className='mb-6'>
             <h1 className='text-[10px] leading-[90%] md:text-[130px] lg:text-[20px] xl:text-[60px] font-montserrat uppercase font-black select-none'>
               {"TIRTHO RAY".split("").map((letter, idx) => (
@@ -395,7 +415,6 @@ const Hero = () => {
               ))}
             </h1>
           </div>
-
           Passionate {<FlipWords words={words} />} specializing in React, Next.js, Node.js, PostgreSQL and TypeScript. I love someone who
           loves programming and is eager to learn.
         </div>

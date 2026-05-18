@@ -85,7 +85,7 @@ export const Timeline: React.FC<Props> = ({ data }) => {
   }, []);
 
   return (
-    <div className='w-full md:px-10 overflow-hidden z-10' ref={containerRef}>
+    <div className='w-full md:px-10 overflow-hidden z-10 mt-20' ref={containerRef}>
       {/* Header Section */}
       <div className='px-4 lg:w-1/2 mx-auto text-center'>
         <BoxReveal duration={0.7}>
