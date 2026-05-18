@@ -2,7 +2,6 @@
 
 import React, { useRef, useState } from "react";
 import { motion, useMotionTemplate, useMotionValue, useSpring } from "motion/react";
-import Image from "next/image";
 import { Skill } from "@/data/skills";
 
 interface TechCardProps {
@@ -104,12 +103,12 @@ const TechCard: React.FC<TechCardProps> = ({ skill, index }) => {
         }}
         className="relative z-10 flex flex-col items-center gap-3"
       >
-        <div className="relative w-12 h-12 md:w-16 md:h-16 transition-transform duration-300 group-hover:scale-110">
-          <Image
+        <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+          <img
             src={skill.logo}
             alt={skill.name}
-            fill
-            className="object-contain filter transition-all duration-300 group-hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]"
+            className="w-full h-full object-contain filter transition-all duration-300 group-hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]"
+            loading="lazy"
           />
         </div>
         
