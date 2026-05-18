@@ -1,92 +1,186 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-
-import * as motion from "motion/react-client";
-import "./Skills.css";
-import LargeTitle from "@/components/global/LargeTitle";
-import SectionTitle from "@/components/global/SectionTitle";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import skills, { TABS } from "@/data/skills";
-import { useMemo } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import skills, { TABS, SkillCategory } from "@/data/skills";
+import TechCard from "./TechCard";
 import Container from "@/components/global/Container";
+import SectionTitle from "@/components/global/SectionTitle";
+import LargeTitle from "@/components/global/LargeTitle";
+import "./Skills.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Skills = () => {
-  const skillParam = useSearchParams();
-  const skill = skillParam.get("skills") || TABS[0].value;
+  const [activeTab, setActiveTab] = useState<SkillCategory>("all");
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-  const filteredSkills = useMemo(() => skills.filter((item) => item.category === skill), [skill]);
+  // Filter skills based on active tab
+  const filteredSkills = useMemo(() => {
+    if (activeTab === "all") return skills;
+    return skills.filter((skill) => skill.category === activeTab);
+  }, [activeTab]);
+
+  // GSAP Infinite Marquee for all logos
+  useEffect(() => {
+    const marquee = marqueeRef.current;
+    if (!marquee) return;
+
+    const totalWidth = marquee.scrollWidth;
+    
+    gsap.to(marquee, {
+      x: -totalWidth / 2,
+      duration: 30,
+      ease: "none",
+      repeat: -1,
+    });
+  }, []);
+
+  // GSAP Scroll Animations for background elements
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const orbs = sectionRef.current.querySelectorAll(".glow-orb");
+    orbs.forEach((orb, i) => {
+      gsap.to(orb, {
+        x: "random(-100, 100)",
+        y: "random(-100, 100)",
+        duration: "random(10, 20)",
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: i * 2,
+      });
+    });
+
+    gsap.to(".grid-pattern", {
+      backgroundPosition: "0 100px",
+      duration: 20,
+      repeat: -1,
+      ease: "none",
+    });
+  }, []);
 
   return (
-    <Container className='w-full flex flex-col items-center justify-center gap-16 overflow-hidden relative min-h-screen z-40'>
-      <SectionTitle color='Skills' text='_' />
-      <LargeTitle title='Skills' />
+    <section 
+      id="skills"
+      ref={sectionRef}
+      className="relative min-h-screen w-full py-24 overflow-hidden bg-[#030712] font-sans"
+    >
+      {/* Background Effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Dark Gradient Mesh */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(17,24,39,1)_0%,rgba(3,7,18,1)_100%)]" />
+        
+        {/* Animated Grid Pattern */}
+        <div className="grid-pattern absolute inset-0 opacity-[0.15]" 
+          style={{ 
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
+            backgroundSize: '50px 50px'
+          }} 
+        />
+        
+        {/* Blurred Glowing Orbs */}
+        <div className="glow-orb absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px]" />
+        <div className="glow-orb absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[150px]" />
+        <div className="glow-orb absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[180px]" />
+        
+        {/* Noise Texture */}
+        <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      </div>
 
-      {/* Skills tabs */}
-      <motion.div
-        className='tabs flex flex-wrap gap-5 items-center justify-center '
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        {TABS.map((tab) => (
-          <Link
-            scroll={false}
-            className={`tab-btn font-montserrat ${skill === tab.value ? "tab-active" : ""}`}
-            href={`?skills=${tab.value}`}
-            key={tab.value}
+      <Container className="relative z-10 flex flex-col items-center">
+        <div className="text-center mb-16">
+          <SectionTitle color="Tech" text="Stack" />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {tab.label}
-          </Link>
-        ))}
-      </motion.div>
-
-      {/* Skills container */}
-      <motion.div
-        className='skills-container flex flex-wrap items-center justify-center gap-10 mt-12'
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
-      >
-        {filteredSkills.map((skill, i) => (
-          <motion.div key={i} className='tooltip-container' whileHover={{ scale: 1.1 }}>
-            <motion.div transition={{ duration: 1, delay: 2 }} className='tooltip'>
-              <div className='side whitespace-nowrap text-xs'>
-                <div className='about font-montserrat'>{skill.side}</div>
-              </div>
-            </motion.div>
-            <motion.div className='text'>
-              <div className='icon'>
-                <div className='layer w-[70px] h-[70px] md:w-[100px] md:h-[100px]'>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span className='p-2 md:p-3'>
-                    {/* Image with Skeleton Loader */}
-                    <div className='w-[53px] h-[53px]  md:w-[75px] md:h-[75px] relative'>
-                      <img
-                        src={skill.logo}
-                        alt={skill.name}
-                        width={100}
-                        height={100}
-                        // layout="fill"
-                        style={{ objectFit: "cover" }}
-                        className='rounded-full border-2 border-[#11c6cf] transition-opacity duration-500 ease-in-out w-[53px] h-[53px]  md:w-[75px] md:h-[75px]'
-                      />
-                    </div>
-                  </span>
-                </div>
-                <div className='text font-poppins font-italic'>{skill.name}</div>
-              </div>
-            </motion.div>
+            <LargeTitle title="My Expertise" />
+            <p className="mt-4 text-gray-400 max-w-2xl mx-auto text-lg">
+              Crafting robust digital solutions with modern technologies and industry best practices.
+            </p>
           </motion.div>
-        ))}
-      </motion.div>
-    </Container>
+        </div>
+
+        {/* Infinite Logo Marquee */}
+        <div className="w-full overflow-hidden mb-20 relative">
+          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#030712] to-transparent z-10" />
+          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#030712] to-transparent z-10" />
+          
+          <div ref={marqueeRef} className="flex whitespace-nowrap gap-12 py-4 items-center">
+            {[...skills, ...skills].map((skill, i) => (
+              <div key={`marquee-${i}`} className="flex items-center gap-3 opacity-30 hover:opacity-100 transition-opacity duration-300 group cursor-default">
+                <img src={skill.logo} alt={skill.name} className="w-8 h-8 grayscale group-hover:grayscale-0 transition-all duration-300" />
+                <span className="text-xl font-bold text-white/20 group-hover:text-white transition-all duration-300 uppercase tracking-tighter">
+                  {skill.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Category Tabs */}
+        <div className="flex flex-wrap justify-center gap-3 mb-16 p-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+          {TABS.map((tab) => (
+            <button
+              key={tab.value}
+              onClick={() => setActiveTab(tab.value)}
+              className={`relative px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                activeTab === tab.value 
+                ? "text-white" 
+                : "text-gray-400 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              {activeTab === tab.value && (
+                <motion.div
+                  layoutId="activeTab"
+                  className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-white/20 rounded-xl z-0"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              <span className="relative z-10">{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Skills Grid */}
+        <div className="w-full">
+          <motion.div 
+            layout
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 justify-items-center"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredSkills.map((skill, index) => (
+                <TechCard key={skill.id} skill={skill} index={index} />
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        </div>
+
+        {/* Bottom Call to Action or Info */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 1, duration: 1 }}
+          className="mt-24 text-center"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+            </span>
+            ALWAYS LEARNING NEW TECHNOLOGIES
+          </div>
+        </motion.div>
+      </Container>
+    </section>
   );
 };
 

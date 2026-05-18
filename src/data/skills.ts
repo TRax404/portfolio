@@ -2,10 +2,12 @@ import ICONS from "@/constant/icons";
 
 /* ================= Tabs ================= */
 export const TABS = [
+  { label: "All", value: "all" },
   { label: "Frontend", value: "frontend" },
   { label: "Backend", value: "backend" },
-  { label: "Databases & APIs", value: "databases" },
-  { label: "DevOps & Tools", value: "devops" },
+  { label: "Database", value: "database" },
+  { label: "DevOps & Cloud", value: "devops" },
+  { label: "Monitoring", value: "monitoring" },
 ] as const;
 
 export type SkillCategory = (typeof TABS)[number]["value"];
@@ -16,7 +18,7 @@ export interface Skill {
   name: string;
   side: string;
   logo: string;
-  category: SkillCategory;
+  category: Exclude<SkillCategory, "all">;
 }
 
 /* ================= Skills Data ================= */
@@ -25,71 +27,43 @@ const skills: Skill[] = [
   {
     id: 1,
     name: "JavaScript",
-    side: "Frontend / Backend",
+    side: "Language",
     logo: ICONS.javascript,
     category: "frontend",
   },
   {
     id: 2,
     name: "TypeScript",
-    side: "Frontend / Backend",
+    side: "Language",
     logo: ICONS.typescript,
     category: "frontend",
   },
   {
     id: 3,
-    name: "React.js",
-    side: "Frontend",
+    name: "React",
+    side: "Library",
     logo: ICONS.react,
     category: "frontend",
   },
   {
     id: 4,
     name: "Next.js",
-    side: "Full Stack",
+    side: "Framework",
     logo: ICONS.nextjs,
-    category: "frontend",
-  },
-  {
-    id: 5,
-    name: "HTML5",
-    side: "Frontend",
-    logo: ICONS.html,
-    category: "frontend",
-  },
-  {
-    id: 6,
-    name: "CSS3",
-    side: "Frontend",
-    logo: ICONS.css,
-    category: "frontend",
-  },
-  {
-    id: 7,
-    name: "Tailwind CSS",
-    side: "Styling",
-    logo: ICONS.tailwind,
-    category: "frontend",
-  },
-  {
-    id: 8,
-    name: "MUI",
-    side: "UI Components",
-    logo: ICONS.mui,
     category: "frontend",
   },
   {
     id: 9,
     name: "Redux",
-    side: "State Management",
+    side: "State Mgmt",
     logo: ICONS.redux,
     category: "frontend",
   },
   {
     id: 10,
-    name: "Remix",
-    side: "Frontend",
-    logo: ICONS.remix,
+    name: "TanStack Query",
+    side: "Data Fetching",
+    logo: "https://cdn.simpleicons.org/reactquery",
     category: "frontend",
   },
 
@@ -97,112 +71,136 @@ const skills: Skill[] = [
   {
     id: 11,
     name: "Node.js",
-    side: "JavaScript Runtime",
+    side: "Runtime",
     logo: ICONS.nodejs,
     category: "backend",
   },
   {
     id: 12,
     name: "Express.js",
-    side: "Node.js Framework",
+    side: "Framework",
     logo: ICONS.express,
     category: "backend",
   },
   {
     id: 13,
-    name: "JWT",
-    side: "Authentication & Secure",
-    logo: ICONS.jwt,
-    category: "backend",
-  },
-  {
-    id: 14,
-    name: "Auth.js",
-    side: "Authentication",
-    logo: ICONS.next_auth,
-    category: "backend",
-  },
-  {
-    id: 15,
-    name: "Firebase Auth",
-    side: "Authentication & Storage",
-    logo: ICONS.firebase,
+    name: "NestJS",
+    side: "Framework",
+    logo: "https://cdn.simpleicons.org/nestjs",
     category: "backend",
   },
 
-  /* ===== Databases & APIs ===== */
+  /* ===== Database ===== */
   {
     id: 16,
     name: "MongoDB",
-    side: "NoSQL Database",
+    side: "NoSQL DB",
     logo: ICONS.mongodb,
-    category: "databases",
+    category: "database",
   },
   {
     id: 17,
-    name: "Mongoose",
-    side: "ODM",
-    logo: ICONS.mongoose,
-    category: "databases",
-  },
-  {
-    id: 24,
     name: "PostgreSQL",
-    side: "Relational Database",
+    side: "Relational DB",
     logo: ICONS.postgresql,
-    category: "databases",
+    category: "database",
   },
   {
-    id: 25,
+    id: 18,
     name: "Prisma ORM",
     side: "Database ORM",
     logo: ICONS.prisma,
-    category: "databases",
-  },
-
-  /* ===== DevOps & Tools ===== */
-  {
-    id: 18,
-    name: "Git",
-    side: "Version Control",
-    logo: ICONS.git,
-    category: "devops",
+    category: "database",
   },
   {
     id: 19,
-    name: "GitHub",
-    side: "Code Hosting",
-    logo: ICONS.github,
-    category: "devops",
+    name: "DynamoDB",
+    side: "Cloud NoSQL",
+    logo: "https://cdn.simpleicons.org/amazondynamodb",
+    category: "database",
   },
   {
     id: 20,
-    name: "Vercel",
-    side: "Deployment",
-    logo: ICONS.vercel,
-    category: "devops",
+    name: "SQL",
+    side: "Language",
+    logo: "https://cdn.simpleicons.org/sqlite",
+    category: "database",
   },
+
+  /* ===== DevOps & Cloud ===== */
   {
     id: 21,
-    name: "AWS",
-    side: "Cloud Services",
-    logo: ICONS.aws,
+    name: "Docker",
+    side: "Containerization",
+    logo: "https://cdn.simpleicons.org/docker",
     category: "devops",
   },
   {
     id: 22,
-    name: "Figma",
-    side: "UI/UX Design",
-    logo: ICONS.figma,
+    name: "CI/CD",
+    side: "Automation",
+    logo: "https://cdn.simpleicons.org/githubactions",
     category: "devops",
   },
   {
     id: 23,
-    name: "Canva",
-    side: "Design Tool",
-    logo: ICONS.canva,
+    name: "GitHub Actions",
+    side: "Workflow",
+    logo: "https://cdn.simpleicons.org/githubactions",
     category: "devops",
+  },
+  {
+    id: 24,
+    name: "AWS",
+    side: "Cloud Platform",
+    logo: ICONS.aws,
+    category: "devops",
+  },
+  {
+    id: 25,
+    name: "AWS EC2",
+    side: "Cloud Compute",
+    logo: "https://cdn.simpleicons.org/amazonec2",
+    category: "devops",
+  },
+  {
+    id: 26,
+    name: "Nginx",
+    side: "Web Server",
+    logo: "https://cdn.simpleicons.org/nginx",
+    category: "devops",
+  },
+  {
+    id: 27,
+    name: "Linux Server",
+    side: "OS",
+    logo: "https://cdn.simpleicons.org/linux",
+    category: "devops",
+  },
+
+  /* ===== Monitoring ===== */
+  {
+    id: 28,
+    name: "Grafana",
+    side: "Visualization",
+    logo: "https://cdn.simpleicons.org/grafana",
+    category: "monitoring",
+  },
+  {
+    id: 29,
+    name: "Prometheus",
+    side: "Monitoring",
+    logo: "https://cdn.simpleicons.org/prometheus",
+    category: "monitoring",
+  },
+  {
+    id: 30,
+    name: "Loki",
+    side: "Logging",
+    logo: "https://cdn.simpleicons.org/grafanaloki",
+    category: "monitoring",
   },
 ];
 
 export default skills;
+
