@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
+
 import { ReactLenis } from "@/utils/lenis";
 import { Montserrat, Poppins } from "next/font/google";
 import { cn } from "@/lib/cn";
@@ -29,18 +30,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <ReactLenis
-        options={{
-          duration: 1.1,
-          lerp: 0.1,
-          wheelMultiplier: 1.5,
-          touchMultiplier: 2,
-        }}
-        root
+    <html lang="en">
+      <body
+        suppressHydrationWarning
+        className={cn(
+          montserrat.variable,
+          poppins.variable,
+          "antialiased"
+        )}
       >
-        <body className={cn(montserrat.variable, poppins.variable, "antialiased")}>{children}</body>
-      </ReactLenis>
+        <ReactLenis
+          root
+          options={{
+            duration: 1.1,
+            lerp: 0.1,
+            wheelMultiplier: 1.5,
+            touchMultiplier: 2,
+          }}
+        >
+          {children}
+        </ReactLenis>
+      </body>
     </html>
   );
 }

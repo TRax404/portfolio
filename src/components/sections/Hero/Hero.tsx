@@ -28,7 +28,7 @@ const Hero = () => {
   const portraitRef = useRef<HTMLDivElement>(null);
   const handleScroll = usePageScroll();
   const isScroll = useScrollTrigger();
-  const words = ["Software developer", "Web developer", "Full stack developer", "React developer"];
+  const words = ["Backend developer", "Full stack developer", "System designer"];
 
   useLayoutEffect(() => {
     ScrollTrigger.getAll().forEach((t) => t.kill());
@@ -354,7 +354,7 @@ const Hero = () => {
       {/* Background Portrait Overlay */}
       <div ref={portraitRef} className='absolute inset-0 z-0 pointer-events-none overflow-hidden'>
         <div
-          className='absolute right-[10%] md:right-[40%] bottom-[40%] md:-bottom-[20%] w-full h-[130%] bg-no-repeat bg-bottom-right bg-contain opacity-[0.08]'
+          className='absolute right-[10%] md:right-[40%] bottom-[40%] md:bottom-[-20%] w-full h-[130%] bg-no-repeat bg-bottom-right bg-contain opacity-[0.08]'
           style={{
             backgroundImage: "url('/images/v2.png')",
             maskImage: "linear-gradient(to left, black 20%, transparent 80%), linear-gradient(to top, black 20%, transparent 80%)",
@@ -368,10 +368,10 @@ const Hero = () => {
       <Container className='relative z-30 pb-20 pr-4 lg:pr-28 2xl:pr-0 h-full flex flex-col justify-end items-end text-right'>
         {/* Name */}
         {/* Description */}
-        <div className='text-slate-300 font-poppins font-normal max-w-[700px] mb-6 GradualSpacing'>
+        <div className='text-slate-300 font-poppins font-normal max-w-175 mb-6 GradualSpacing'>
 
           <div ref={nameRef} className='mb-6'>
-            <h1 className='text-[10px] leading-[90%] md:text-[130px] lg:text-[20px] xl:text-[20px] font-montserrat uppercase font-black select-none'>
+            <h1 className='text-[10px] leading-[90%] md:text-[130px] lg:text-[20px] xl:text-[60px] font-montserrat uppercase font-black select-none'>
               {"TIRTHO RAY".split("").map((letter, idx) => (
                 <span
                   key={idx}
