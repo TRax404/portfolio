@@ -1,12 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { IconSearch, IconSparkles, IconX } from "@tabler/icons-react";
 import { blogPosts, blogTags } from "@/data/blogs";
 import BlogCard from "./BlogCard";
 import BlogListSkeleton from "./BlogListSkeleton";
 import { getPlainContent } from "./blogUtils";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 const PAGE_SIZE = 6;
 
@@ -15,6 +21,11 @@ const BlogListPage = () => {
   const [activeTag, setActiveTag] = useState("All");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [loading, setLoading] = useState(true);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const searchBarRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setLoading(false), 420);
@@ -40,22 +51,36 @@ const BlogListPage = () => {
   const visiblePosts = filteredPosts.slice(0, visibleCount);
   const canLoadMore = visibleCount < filteredPosts.length;
 
+  useGSAP(() => {
+    if (loading) return;
+
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    tl.fromTo(
+      headerRef.current,
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1, delay: 0.2 }
+    );
+
+    tl.fromTo(
+      searchBarRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.8 },
+      "-=0.6"
+    );
+  }, [loading]);
+
   if (loading) {
     return <BlogListSkeleton />;
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#030711] px-4 py-28 text-white sm:px-6 lg:px-8">
+    <main ref={containerRef} className="relative min-h-screen overflow-hidden bg-[#030711] px-4 py-28 text-white sm:px-6 lg:px-8">
       <div className="blog-grid-bg absolute inset-0 opacity-75" />
       <div className="blog-particles absolute inset-0" />
 
       <section className="relative mx-auto max-w-7xl" aria-labelledby="blog-heading">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mx-auto mb-12 max-w-3xl text-center"
-        >
+        <div ref={headerRef} className="mx-auto mb-12 max-w-3xl text-center">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200">
             <IconSparkles size={16} aria-hidden="true" />
             Engineering Journal
@@ -66,12 +91,10 @@ const BlogListPage = () => {
           <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-400 md:text-lg">
             Practical posts on systems, frontend performance, backend design, DevOps workflows, and the decisions behind production-ready software.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.08, ease: "easeOut" }}
+        <div
+          ref={searchBarRef}
           className="mb-10 rounded-2xl border border-white/10 bg-white/[0.055] p-4 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl md:p-5"
         >
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
@@ -113,40 +136,34 @@ const BlogListPage = () => {
               })}
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        <AnimatePresence mode="popLayout">
-          {visiblePosts.length > 0 ? (
-            <motion.div layout className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {visiblePosts.map((post, index) => (
-                <BlogCard key={post.id} post={post} index={index} />
-              ))}
-            </motion.div>
-          ) : (
-            <motion.div
-              key="empty"
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 18 }}
-              className="rounded-2xl border border-white/10 bg-white/[0.055] p-10 text-center backdrop-blur-xl"
+        {visiblePosts.length > 0 ? (
+          <div ref={gridRef} className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {visiblePosts.map((post, index) => (
+              <BlogCard key={post.id} post={post} index={index} />
+            ))}
+          </div>
+        ) : (
+          <div
+            className="rounded-2xl border border-white/10 bg-white/[0.055] p-10 text-center backdrop-blur-xl"
+          >
+            <p className="text-xl font-bold text-white">No posts found</p>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-slate-400">
+              Try a different search term or clear the active tag filter.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setQuery("");
+                setActiveTag("All");
+              }}
+              className="mt-6 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-5 py-2.5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20"
             >
-              <p className="text-xl font-bold text-white">No posts found</p>
-              <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-slate-400">
-                Try a different search term or clear the active tag filter.
-              </p>
-              <button
-                type="button"
-                onClick={() => {
-                  setQuery("");
-                  setActiveTag("All");
-                }}
-                className="mt-6 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-5 py-2.5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20"
-              >
-                Reset Filters
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              Reset Filters
+            </button>
+          </div>
+        )}
 
         {canLoadMore && (
           <div className="mt-12 flex justify-center">

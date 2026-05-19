@@ -1,15 +1,69 @@
 "use client";
 
+import { useRef } from "react";
 import { IconArrowLeft, IconCalendar, IconClock, IconTag } from "@tabler/icons-react";
-import { motion } from "motion/react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { getBlogBySlug, getRelatedPosts } from "@/data/blogs";
 import BlogCard from "./BlogCard";
 import { formatBlogDate } from "./blogUtils";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 const BlogDetailPage = () => {
   const { slug } = useParams();
   const post = slug ? getBlogBySlug(slug) : undefined;
+
+  const headerRef = useRef<HTMLElement>(null);
+  const backBtnRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const relatedRef = useRef<HTMLElement>(null);
+
+  useGSAP(() => {
+    if (!post) return;
+
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    tl.fromTo(
+      backBtnRef.current,
+      { opacity: 0, x: -20 },
+      { opacity: 1, x: 0, duration: 0.6 }
+    );
+
+    tl.fromTo(
+      headerRef.current,
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.8 },
+      "-=0.4"
+    );
+
+    tl.fromTo(
+      contentRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.8 },
+      "-=0.6"
+    );
+
+    if (relatedRef.current) {
+      gsap.fromTo(
+        relatedRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          scrollTrigger: {
+            trigger: relatedRef.current,
+            start: "top 85%",
+          },
+        }
+      );
+    }
+  }, [post]);
 
   if (!post) {
     return <Navigate to="/" replace />;
@@ -23,7 +77,7 @@ const BlogDetailPage = () => {
       <div className="blog-particles absolute inset-0" />
 
       <article className="relative mx-auto max-w-5xl">
-        <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.45 }}>
+        <div ref={backBtnRef}>
           <Link
             to="/"
             className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-sm font-semibold text-slate-200 backdrop-blur-xl transition hover:border-cyan-300/40 hover:bg-cyan-300/10 hover:text-white"
@@ -31,12 +85,10 @@ const BlogDetailPage = () => {
             <IconArrowLeft size={18} aria-hidden="true" />
             Back to Blogs
           </Link>
-        </motion.div>
+        </div>
 
-        <motion.header
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease: "easeOut" }}
+        <header
+          ref={headerRef}
           className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.055] shadow-2xl shadow-cyan-950/20 backdrop-blur-xl"
         >
           <div className="relative h-[340px] overflow-hidden md:h-[460px]">
@@ -67,12 +119,10 @@ const BlogDetailPage = () => {
               {post.readTime}
             </span>
           </div>
-        </motion.header>
+        </header>
 
-        <motion.div
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.08, ease: "easeOut" }}
+        <div
+          ref={contentRef}
           className="blog-prose mt-10 rounded-3xl border border-white/10 bg-white/[0.045] p-6 shadow-2xl shadow-cyan-950/15 backdrop-blur-xl md:p-10"
         >
           <p className="lead">{post.excerpt}</p>
@@ -114,11 +164,11 @@ const BlogDetailPage = () => {
               </div>
             );
           })}
-        </motion.div>
+        </div>
       </article>
 
       {relatedPosts.length > 0 && (
-        <section className="relative mx-auto mt-16 max-w-7xl" aria-labelledby="related-posts-heading">
+        <section ref={relatedRef} className="relative mx-auto mt-16 max-w-7xl" aria-labelledby="related-posts-heading">
           <div className="mb-7 flex items-end justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200">Keep Reading</p>

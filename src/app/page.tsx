@@ -7,6 +7,7 @@ import Footer from "@/components/shared/footer/Footer";
 import TopProgressBar from "@/components/ui/TopProgressBar";
 import Experience from "@/components/sections/Experience/Experience";
 import Skills from "@/components/sections/Skills/Skills";
+import BlogSection from "@/components/sections/Blog/BlogSection";
 import { Suspense } from "react";
 
 export default async function Home() {
@@ -21,6 +22,7 @@ export default async function Home() {
       <Experience />
       <Achievements />
       <Projects />
+      <BlogSection />
       <Footer />
     </DynamicBackground>
   );
