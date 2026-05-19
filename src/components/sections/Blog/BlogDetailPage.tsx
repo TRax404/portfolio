@@ -145,7 +145,7 @@ const BlogDetailPage = () => {
                       </span>
                     ))}
                   </div>
-                  <h1 className="font-poppins text-4xl font-black leading-tight text-white md:text-6xl lg:text-7xl">
+                  <h1 className="font-poppins text-3xl font-black leading-tight text-white md:text-5xl lg:text-6xl">
                     {post.title}
                   </h1>
                 </div>
@@ -170,28 +170,28 @@ const BlogDetailPage = () => {
             </header>
 
             <div ref={contentRef} className="detail-reveal blog-prose-premium max-w-none space-y-12 rounded-[3rem] border border-white/5 bg-[#0a0f1d]/20 p-8 md:p-16 backdrop-blur-xl">
-              <p className="prose-block text-xl leading-relaxed text-slate-300 font-medium italic border-l-4 border-cyan-500/40 pl-8 py-2">
+              <p className="prose-block text-lg leading-relaxed text-slate-300 font-medium italic border-l-4 border-cyan-500/40 pl-6 py-2">
                 {post.excerpt}
               </p>
 
               {post.content.map((block, index) => {
                 if (block.type === "heading") {
-                  return <h2 key={index} className="prose-block group flex items-center gap-6 pt-12 first:pt-0">
-                    <span className="text-white font-poppins font-black uppercase tracking-wider whitespace-nowrap">{block.body}</span>
+                  return <h2 key={index} className="prose-block group flex items-center gap-6 pt-10 first:pt-0">
+                    <span className="text-white font-poppins text-lg md:text-xl font-black uppercase tracking-wider whitespace-nowrap">{block.body}</span>
                     <span className="h-px flex-grow bg-gradient-to-r from-white/10 to-transparent" />
                   </h2>;
                 }
 
                 if (block.type === "paragraph") {
-                  return <p key={index} className="prose-block text-lg leading-[1.8] text-slate-400">{block.body}</p>;
+                  return <p key={index} className="prose-block text-base md:text-[1.05rem] leading-[1.8] text-slate-400">{block.body}</p>;
                 }
 
                 if (block.type === "list") {
                   return (
                     <ul key={index} className="prose-block space-y-5">
                       {block.items.map((item) => (
-                        <li key={item} className="flex items-start gap-4 text-lg text-slate-400">
-                          <div className="mt-2.5 h-2 w-2 flex-shrink-0 rounded-full bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
+                        <li key={item} className="flex items-start gap-4 text-base md:text-[1.05rem] text-slate-400">
+                          <div className="mt-2.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
                           <span>{item}</span>
                         </li>
                       ))}
@@ -201,8 +201,8 @@ const BlogDetailPage = () => {
 
                 if (block.type === "quote") {
                   return (
-                    <blockquote key={index} className="prose-block relative rounded-3xl border border-cyan-500/20 bg-cyan-500/5 p-10">
-                      <p className="relative z-10 text-2xl font-poppins font-bold text-cyan-50 leading-relaxed italic">
+                    <blockquote key={index} className="prose-block relative rounded-3xl border border-cyan-500/20 bg-cyan-500/5 p-8 md:p-10">
+                      <p className="relative z-10 text-xl font-poppins font-bold text-cyan-50 leading-relaxed italic">
                         "{block.body}"
                       </p>
                     </blockquote>

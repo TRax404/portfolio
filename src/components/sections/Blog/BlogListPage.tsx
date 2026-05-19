@@ -58,8 +58,6 @@ const BlogListPage = () => {
   const canLoadMore = visibleCount < filteredPosts.length;
 
   useGSAP(() => {
-    if (loading) return;
-
     const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
     tl.fromTo(
@@ -74,7 +72,7 @@ const BlogListPage = () => {
       { opacity: 1, scale: 1, duration: 0.6 },
       "-=0.5"
     );
-  }, [loading]);
+  }, []);
 
   // Tab indicator animation
   useGSAP(() => {

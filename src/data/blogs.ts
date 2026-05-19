@@ -17,6 +17,7 @@ export interface BlogPost {
   tags: string[];
   createdAt: string;
   readTime: string;
+  previewUrl?: string;
   content: BlogContentBlock[];
 }
 
@@ -31,6 +32,7 @@ export const blogPosts: BlogPost[] = [
     tags: ["Case Study", "Education", "Architecture", "Scaling"],
     createdAt: "2026-05-15",
     readTime: "12 min read",
+    previewUrl: "https://example.com/edutech-preview",
     content: [
       { type: "heading", body: "Project Overview" },
       { type: "paragraph", body: "The goal was to build a robust Learning Management System capable of handling rapid spikes during exam seasons. The system needed to support video streaming, real-time quizzes, and complex progress tracking." },
