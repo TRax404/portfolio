@@ -41,12 +41,14 @@ const BlogListPage = () => {
 
   const filteredPosts = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
+    const queryTerms = normalizedQuery.split(/\s+/).filter(Boolean);
 
     return blogPosts.filter((post) => {
       const matchesType = activeTab === "all" || post.type === activeTab;
       const matchesTag = activeTag === "All" || post.tags.includes(activeTag);
       const searchable = `${post.title} ${post.excerpt} ${post.tags.join(" ")} ${getPlainContent(post.content)}`.toLowerCase();
-      const matchesQuery = !normalizedQuery || searchable.includes(normalizedQuery);
+      
+      const matchesQuery = !normalizedQuery || queryTerms.every(term => searchable.includes(term));
 
       return matchesType && matchesTag && matchesQuery;
     });
@@ -62,15 +64,15 @@ const BlogListPage = () => {
 
     tl.fromTo(
       ".blog-header-reveal",
-      { opacity: 0, y: 40, filter: "blur(10px)" },
-      { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, stagger: 0.1, delay: 0.2 }
+      { opacity: 0, y: 30, filter: "blur(8px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, stagger: 0.08, delay: 0.1 }
     );
 
     tl.fromTo(
       filterRef.current,
-      { opacity: 0, scale: 0.95 },
-      { opacity: 1, scale: 1, duration: 1 },
-      "-=0.8"
+      { opacity: 0, scale: 0.98 },
+      { opacity: 1, scale: 1, duration: 0.6 },
+      "-=0.5"
     );
   }, [loading]);
 
@@ -82,8 +84,8 @@ const BlogListPage = () => {
       gsap.to(activeTabRef.current, {
         left: offsetLeft,
         width: offsetWidth,
-        duration: 0.5,
-        ease: "elastic.out(1, 0.8)",
+        duration: 0.35,
+        ease: "power3.out",
       });
     }
   }, [activeTab, loading]);
@@ -95,13 +97,13 @@ const BlogListPage = () => {
     if (cards.length > 0) {
       gsap.fromTo(
         cards,
-        { opacity: 0, y: 30, scale: 0.95 },
+        { opacity: 0, y: 20, scale: 0.98 },
         { 
           opacity: 1, 
           y: 0, 
           scale: 1, 
-          duration: 0.8, 
-          stagger: 0.08, 
+          duration: 0.5, 
+          stagger: 0.05, 
           ease: "power3.out",
           overwrite: "auto"
         }
@@ -109,9 +111,6 @@ const BlogListPage = () => {
     }
   }, [activeTab, activeTag, query, loading, visibleCount]);
 
-  if (loading) {
-    return <BlogListSkeleton />;
-  }
 
   return (
     <main ref={containerRef} className="relative min-h-screen overflow-hidden bg-[#030712] px-4 py-32 text-white sm:px-6 lg:px-8">
@@ -128,7 +127,7 @@ const BlogListPage = () => {
             <IconSparkles size={16} />
             Engineering Journal
           </div>
-          <h1 id="blog-heading" className="blog-header-reveal font-poppins text-5xl font-black leading-[1.1] text-white sm:text-6xl lg:text-8xl">
+          <h1 id="blog-heading" className="blog-header-reveal font-poppins text-3xl font-black leading-[1.1] text-white sm:text-4xl lg:text-5xl">
             Notes from <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-500 bg-clip-text text-transparent">Real Builds</span>
           </h1>
           <p className="blog-header-reveal mx-auto mt-10 max-w-3xl text-base leading-relaxed text-slate-400 md:text-xl md:leading-relaxed">
@@ -141,11 +140,11 @@ const BlogListPage = () => {
           className="mb-20 space-y-10 rounded-[2.5rem] border border-white/5 bg-[#0a0f1d]/40 p-8 shadow-3xl backdrop-blur-3xl md:p-10"
         >
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8 border-b border-white/5 pb-10">
-            <div className="relative flex flex-wrap gap-2 p-1.5 bg-black/60 rounded-2xl border border-white/5 w-full lg:w-auto">
+            <div className="relative flex flex-wrap gap-2 p-1.5 bg-[#0a0f1d]/60 rounded-full border border-white/5 shadow-inner backdrop-blur-xl w-full lg:w-auto">
               {/* Animated Tab Indicator */}
               <div 
                 ref={activeTabRef}
-                className="absolute top-1.5 bottom-1.5 rounded-xl bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 border border-white/10 shadow-[0_0_20px_rgba(6,182,212,0.1)] z-0"
+                className="absolute top-1.5 bottom-1.5 rounded-full bg-white/10 border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.5)] z-0 backdrop-blur-md"
               />
               
               {[
@@ -160,12 +159,17 @@ const BlogListPage = () => {
                     key={tab.id}
                     ref={(el) => { tabRefs.current[tab.id] = el; }}
                     onClick={() => setActiveTab(tab.id as any)}
-                    className={`relative z-10 flex flex-1 lg:flex-none items-center justify-center gap-3 rounded-xl px-6 py-3.5 text-[0.7rem] font-bold uppercase tracking-widest transition-all duration-300 whitespace-nowrap ${
-                      isActive ? "text-white" : "text-slate-500 hover:text-slate-300"
+                    className={`group relative z-10 flex flex-1 lg:flex-none items-center justify-center gap-2.5 rounded-full px-6 py-3 text-[0.8rem] font-semibold tracking-wide transition-all duration-300 whitespace-nowrap ${
+                      isActive ? "text-white" : "text-slate-400 hover:text-slate-200"
                     }`}
                   >
-                    <Icon size={18} className={isActive ? "text-cyan-400" : "text-slate-600"} />
-                    {tab.label}
+                    <Icon 
+                      size={18} 
+                      className={`transition-colors duration-300 ${
+                        isActive ? "text-cyan-400" : "text-slate-500 group-hover:text-slate-400"
+                      }`} 
+                    />
+                    <span className="relative z-10">{tab.label}</span>
                   </button>
                 );
               })}
@@ -214,7 +218,9 @@ const BlogListPage = () => {
           </div>
         </div>
 
-        {visiblePosts.length > 0 ? (
+        {loading ? (
+          <BlogListSkeleton />
+        ) : visiblePosts.length > 0 ? (
           <div ref={gridRef} className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
             {visiblePosts.map((post, index) => (
               <BlogCard key={post.id} post={post} index={index} />

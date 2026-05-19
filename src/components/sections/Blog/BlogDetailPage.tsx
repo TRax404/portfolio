@@ -25,6 +25,10 @@ const BlogDetailPage = () => {
   const heroImageRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
+
+  useEffect(() => {
     const handleScroll = () => {
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
