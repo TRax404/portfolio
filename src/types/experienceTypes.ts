@@ -6,5 +6,7 @@ export type TExperience = {
   period: string;
   tech: string[];
   website?: string;
+  logo?: string;
+  keyAchievement?: string;
   highlights: string[];
 };
