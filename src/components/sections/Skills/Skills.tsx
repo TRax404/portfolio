@@ -31,11 +31,13 @@ const Skills = () => {
     return baseSkills;
   }, [activeTab, showAll]);
 
-  useEffect(() => {
-    if (activeTab !== "all") {
-      setShowAll(true);
+  const handleTabClick = (tab: SkillCategory) => {
+    setActiveTab(tab);
+
+    if (tab === "all") {
+      setShowAll(false);
     }
-  }, [activeTab]);
+  };
 
   // Staggered Entrance Animation
   useEffect(() => {
@@ -163,7 +165,7 @@ const Skills = () => {
           {TABS.map((tab) => (
             <button
               key={tab.value}
-              onClick={() => setActiveTab(tab.value)}
+              onClick={() => handleTabClick(tab.value)}
               className={`relative px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                 activeTab === tab.value ? "text-white" : "text-gray-400 hover:text-white hover:bg-white/5"
               }`}
@@ -198,7 +200,7 @@ const Skills = () => {
         {activeTab === "all" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-12">
             <button
-              onClick={() => setShowAll(!showAll)}
+              onClick={() => setShowAll((current) => !current)}
               className="group relative px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white font-medium overflow-hidden transition-all duration-300 hover:border-cyan-500/50 hover:bg-white/10"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
