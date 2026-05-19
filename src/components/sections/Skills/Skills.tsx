@@ -15,13 +15,30 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Skills = () => {
   const [activeTab, setActiveTab] = useState<SkillCategory>("all");
+  const [showAll, setShowAll] = useState(false);
   const marqueeRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // Filter skills based on active tab
+  // Priority skill IDs based on user request: js, ts, react, next, express, nest, postgresh, prisma, linux, docker, github action, aws, nginx
+  const prioritySkillIds = [1, 2, 3, 4, 12, 13, 17, 18, 27, 21, 22, 24, 26];
+
+  // Filter skills based on active tab and showAll state
   const filteredSkills = useMemo(() => {
-    if (activeTab === "all") return skills;
-    return skills.filter((skill) => skill.category === activeTab);
+    let baseSkills = activeTab === "all" ? skills : skills.filter((skill) => skill.category === activeTab);
+    
+    // If in "All" tab and showAll is false, only show priority skills
+    if (activeTab === "all" && !showAll) {
+      return baseSkills.filter((skill) => prioritySkillIds.includes(skill.id));
+    }
+    
+    return baseSkills;
+  }, [activeTab, showAll]);
+
+  // Reset showAll when switching categories to ensure specific categories show everything
+  useEffect(() => {
+    if (activeTab !== "all") {
+      setShowAll(true);
+    }
   }, [activeTab]);
 
   // GSAP Infinite Marquee for all logos
@@ -162,6 +179,31 @@ const Skills = () => {
             </AnimatePresence>
           </motion.div>
         </div>
+
+        {/* Show More/Less Button */}
+        {activeTab === "all" && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-12"
+          >
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="group relative px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white font-medium overflow-hidden transition-all duration-300 hover:border-cyan-500/50 hover:bg-white/10"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <span className="relative z-10 flex items-center gap-2">
+                {showAll ? "Show Less" : "Show All"}
+                <motion.span
+                  animate={{ rotate: showAll ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  ↓
+                </motion.span>
+              </span>
+            </button>
+          </motion.div>
+        )}
 
         {/* Bottom Call to Action or Info */}
         <motion.div
