@@ -75,7 +75,7 @@ const Navbar = () => {
                 </button>
               ))}
             </div>
-            <Link target='_blank' href={LINKS.blog}>
+            <Link href={LINKS.blog}>
               <ShinnyButton className={cn("transition-all duration-300", isScrolled ? "scale-90" : "scale-100")}>BLOGS</ShinnyButton>
             </Link>
           </div>

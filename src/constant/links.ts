@@ -8,7 +8,7 @@ const LINKS = {
   facebook: "https://www.facebook.com/tirtho.ray.935187",
   discord: "https://discord.com/users/1151169623149002752/",
   linkedIn: "https://www.linkedin.com/in/tirthoray10",
-  blog: "https://nexg-lab.vercel.app/",
+  blog: "/blogs",
 
   olynex: "https://olynex.com",
 
