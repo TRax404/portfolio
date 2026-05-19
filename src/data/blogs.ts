@@ -5,8 +5,11 @@ export type BlogContentBlock =
   | { type: "code"; language: string; body: string }
   | { type: "quote"; body: string };
 
+export type BlogType = "engineering-note" | "case-study";
+
 export interface BlogPost {
   id: number;
+  type: BlogType;
   slug: string;
   title: string;
   excerpt: string;
@@ -19,7 +22,50 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: 11,
+    type: "case-study",
+    slug: "edutech-lms-platform-scaling",
+    title: "EduTech LMS: Scaling to 50k Concurrent Students",
+    excerpt: "A deep dive into the architecture decisions, bottleneck resolutions, and engineering tradeoffs made while building a high-scale learning platform.",
+    coverImage: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=1400&q=85",
+    tags: ["Case Study", "Education", "Architecture", "Scaling"],
+    createdAt: "2026-05-15",
+    readTime: "12 min read",
+    content: [
+      { type: "heading", body: "Project Overview" },
+      { type: "paragraph", body: "The goal was to build a robust Learning Management System capable of handling rapid spikes during exam seasons. The system needed to support video streaming, real-time quizzes, and complex progress tracking." },
+      { type: "heading", body: "Tech Stack Decisions" },
+      { type: "list", items: ["Next.js for the student dashboard to enable SEO and fast initial loads.", "Go-based microservices for performance-critical path like quiz engines.", "PostgreSQL with read-replicas for data integrity.", "Redis for real-time leaderboards and session caching."] },
+      { type: "heading", body: "Problems Faced & Solutions" },
+      { type: "paragraph", body: "The primary challenge was the 'Thundering Herd' problem when 10,000 students joined a live quiz simultaneously. We implemented a message queue based approach and used WebSockets with a specialized gateway service to handle the connection load." },
+      { type: "code", language: "go", body: "// Simplified Quiz Gateway Dispatcher\nfunc handleQuizEvent(event Event) {\n    queue.Push(event)\n    go broadcastToStudents(event.RoomID, event.Payload)\n}" },
+      { type: "heading", body: "Architecture Decisions" },
+      { type: "paragraph", body: "We chose a hexagonal architecture for the core services to keep the business logic isolated from external changes in streaming providers and database drivers." }
+    ],
+  },
+  {
+    id: 12,
+    type: "case-study",
+    slug: "ai-saas-dashboard-design-system",
+    title: "AI SaaS Dashboard: From Concept to Production Design System",
+    excerpt: "How I designed and implemented a custom design system for an AI-powered data analytics platform with a focus on usability and data density.",
+    coverImage: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1400&q=85",
+    tags: ["Case Study", "AI", "Design System", "Frontend"],
+    createdAt: "2026-05-02",
+    readTime: "10 min read",
+    content: [
+      { type: "heading", body: "The Challenge" },
+      { type: "paragraph", body: "Building a dashboard that presents complex AI-generated insights without overwhelming the user. We needed a system that felt futuristic yet familiar." },
+      { type: "heading", body: "Solution: Atomic Design Pattern" },
+      { type: "paragraph", body: "We built a multi-layered design system using Tailwind CSS and Radix UI primitives. This allowed for maximum flexibility while maintaining strict visual consistency." },
+      { type: "list", items: ["Custom component library with 50+ primitives.", "Dynamic theme engine for dark/light mode transition.", "High-density data visualization components using D3.js.", "AI feedback loop integrated into the UI."] },
+      { type: "heading", body: "Architecture Decisions" },
+      { type: "paragraph", body: "We utilized a Mono-repo structure (Turborepo) to share components between the main marketing site and the internal dashboard app." }
+    ],
+  },
+  {
     id: 1,
+    type: "engineering-note",
     slug: "redis-caching-optimization-node-api",
     title: "Redis Caching Optimization for High-Traffic Node APIs",
     excerpt: "How I reduced repeated database reads with cache-aside patterns, stable keys, TTL strategy, and safe invalidation.",
@@ -39,6 +85,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 2,
+    type: "engineering-note",
     slug: "docker-deployment-production-node-nextjs",
     title: "Docker Deployment Notes for a Production Node + Next.js App",
     excerpt: "A practical container setup with multi-stage builds, small images, health checks, and environment-safe runtime configuration.",
@@ -56,6 +103,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 3,
+    type: "engineering-note",
     slug: "react-performance-optimization-render-budget",
     title: "React Performance Optimization with a Render Budget",
     excerpt: "A measured approach to memoization, list rendering, expensive derived state, and interaction responsiveness.",
@@ -73,6 +121,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 4,
+    type: "engineering-note",
     slug: "jwt-authentication-refresh-token-rotation",
     title: "JWT Authentication with Refresh Token Rotation",
     excerpt: "A safer auth flow using short-lived access tokens, rotating refresh tokens, reuse detection, and HTTP-only cookies.",
@@ -89,6 +138,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 5,
+    type: "engineering-note",
     slug: "postgresql-indexing-query-plans",
     title: "PostgreSQL Indexing: Reading Query Plans Before Adding Indexes",
     excerpt: "How to use EXPLAIN ANALYZE, composite indexes, partial indexes, and realistic query patterns without over-indexing.",
@@ -106,6 +156,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 6,
+    type: "engineering-note",
     slug: "websocket-real-time-systems-presence-events",
     title: "WebSocket Real-Time Systems: Presence, Events, and Backpressure",
     excerpt: "Notes from building real-time features with connection lifecycle handling, event contracts, and graceful degradation.",
@@ -122,6 +173,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 7,
+    type: "engineering-note",
     slug: "linux-vps-deployment-nginx-pm2",
     title: "Linux VPS Deployment with Nginx, PM2, and Zero-Downtime Habits",
     excerpt: "A practical deployment checklist for Node apps on a Linux VPS with reverse proxying, logs, SSL, and process management.",
@@ -137,6 +189,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 8,
+    type: "engineering-note",
     slug: "cicd-pipelines-quality-gates",
     title: "CI/CD Pipelines with Quality Gates That Actually Help",
     excerpt: "A pipeline design that runs fast checks early, protects main, builds artifacts once, and deploys with confidence.",
@@ -148,39 +201,6 @@ export const blogPosts: BlogPost[] = [
       { type: "paragraph", body: "A good pipeline gives fast feedback without becoming theater. I split checks into layers: formatting and types first, unit tests next, then build and deployment steps only after the cheap failures are out of the way." },
       { type: "code", language: "yaml", body: "name: quality\non: [push, pull_request]\njobs:\n  verify:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: pnpm/action-setup@v4\n      - run: pnpm install --frozen-lockfile\n      - run: pnpm lint\n      - run: pnpm test\n      - run: pnpm build" },
       { type: "paragraph", body: "The highest leverage change was making the build artifact immutable. The same artifact that passed CI is the one deployed, which removes a whole class of environment surprises." },
-    ],
-  },
-  {
-    id: 9,
-    slug: "microservices-communication-events-vs-http",
-    title: "Microservices Communication: Events vs HTTP Calls",
-    excerpt: "How I decide between synchronous requests, async events, queues, and the operational complexity each option adds.",
-    coverImage: "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&w=1400&q=85",
-    tags: ["Microservices", "Architecture", "Backend", "Queues"],
-    createdAt: "2026-02-14",
-    readTime: "8 min read",
-    content: [
-      { type: "paragraph", body: "Microservices are a communication problem before they are a code organization problem. I reach for synchronous HTTP when the caller truly needs an immediate answer, and events when services should react independently to facts that already happened." },
-      { type: "heading", body: "Decision rules" },
-      { type: "list", items: ["Use HTTP for direct queries and user-facing commands that need immediate confirmation.", "Use events for fan-out workflows like notifications, analytics, and projections.", "Use queues when work should be retried and processed independently.", "Document ownership so services do not secretly share a database contract."] },
-      { type: "quote", body: "Async systems buy resilience with complexity. The bill arrives in observability, retries, idempotency, and debugging." },
-    ],
-  },
-  {
-    id: 10,
-    slug: "clean-architecture-nodejs-services",
-    title: "Clean Architecture in Node.js Without Making It Heavy",
-    excerpt: "A pragmatic service structure with use cases, repositories, DTO boundaries, and dependency direction that stays readable.",
-    coverImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1400&q=85",
-    tags: ["Node.js", "Architecture", "Backend", "Clean Code"],
-    createdAt: "2026-02-02",
-    readTime: "9 min read",
-    content: [
-      { type: "paragraph", body: "Clean architecture is useful when it protects business behavior from framework churn. It becomes harmful when every feature needs five files before it can say hello. My preferred Node structure keeps boundaries real but light." },
-      { type: "code", language: "txt", body: "src/\n  modules/users/\n    users.controller.ts\n    create-user.use-case.ts\n    users.repository.ts\n    users.schema.ts" },
-      { type: "heading", body: "The rule that matters" },
-      { type: "paragraph", body: "Use cases should not know whether data comes from Prisma, MongoDB, Redis, or an HTTP API. They receive interfaces and return application-specific results. Framework details stay at the edges." },
-      { type: "code", language: "ts", body: "export class CreateUserUseCase {\n  constructor(private readonly users: UserRepository) {}\n\n  async execute(input: CreateUserInput) {\n    const existing = await this.users.findByEmail(input.email);\n    if (existing) throw new ConflictError('Email already exists');\n\n    return this.users.create(input);\n  }\n}" },
     ],
   },
 ];
