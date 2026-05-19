@@ -22,7 +22,7 @@ const BlogListPage = () => {
   const [activeTag, setActiveTag] = useState("All");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [loading, setLoading] = useState(true);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isTagsExpanded, setIsTagsExpanded] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -136,10 +136,12 @@ const BlogListPage = () => {
 
         <div
           ref={filterRef}
-          className="mb-20 space-y-10 rounded-[2.5rem] border border-white/5 bg-[#0a0f1d]/40 p-8 shadow-3xl backdrop-blur-3xl md:p-10"
+          className="mb-20 flex flex-col gap-6 rounded-[2.5rem] border border-white/5 bg-[#0a0f1d]/40 p-8 shadow-3xl backdrop-blur-3xl md:p-10"
         >
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 border-b border-white/5 pb-10">
-            <div className="relative flex flex-wrap gap-2 p-1.5 bg-[#0a0f1d]/60 rounded-full border border-white/5 shadow-inner backdrop-blur-xl w-full lg:w-auto">
+          {/* Top Row */}
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-8 xl:gap-6">
+            {/* Tabs */}
+            <div className="relative flex flex-wrap gap-2 p-1.5 bg-[#0a0f1d]/60 rounded-full border border-white/5 shadow-inner backdrop-blur-xl w-full xl:w-auto xl:flex-none">
               {/* Animated Tab Indicator */}
               <div 
                 ref={activeTabRef}
@@ -158,7 +160,7 @@ const BlogListPage = () => {
                     key={tab.id}
                     ref={(el) => { tabRefs.current[tab.id] = el; }}
                     onClick={() => setActiveTab(tab.id as any)}
-                    className={`group relative z-10 flex flex-1 lg:flex-none items-center justify-center gap-2.5 rounded-full px-6 py-3 text-[0.8rem] font-semibold tracking-wide transition-all duration-300 whitespace-nowrap ${
+                    className={`group relative z-10 flex flex-1 xl:flex-none items-center justify-center gap-2.5 rounded-full px-6 py-3 text-[0.8rem] font-semibold tracking-wide transition-all duration-300 whitespace-nowrap ${
                       isActive ? "text-white" : "text-slate-400 hover:text-slate-200"
                     }`}
                   >
@@ -174,95 +176,68 @@ const BlogListPage = () => {
               })}
             </div>
 
-            <div className="relative group w-full lg:min-w-[400px]">
-              <IconSearch className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 transition-colors group-focus-within:text-cyan-400" size={20} />
-              <input
-                id="blog-search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search Redis, Docker, Scaling..."
-                className="h-14 w-full rounded-2xl border border-white/5 bg-black/60 px-14 text-sm text-white outline-none transition-all placeholder:text-slate-700 focus:border-cyan-500/30 focus:ring-4 focus:ring-cyan-500/5 focus:bg-black/80"
-              />
-              {query && (
-                <button
-                  onClick={() => setQuery("")}
-                  className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
-                >
-                  <IconX size={18} />
-                </button>
-              )}
+            {/* Right Side: Search & Filter Toggle */}
+            <div className="flex flex-col md:flex-row md:items-center gap-6 xl:gap-6 w-full xl:w-auto">
+              {/* Search */}
+              <div className="relative group w-full xl:w-72 flex-none">
+                <IconSearch className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 transition-colors group-focus-within:text-cyan-400" size={20} />
+                <input
+                  id="blog-search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search Redis, Docker, Scaling..."
+                  className="h-14 w-full rounded-2xl border border-white/5 bg-black/60 px-14 text-sm text-white outline-none transition-all placeholder:text-slate-700 focus:border-cyan-500/30 focus:ring-4 focus:ring-cyan-500/5 focus:bg-black/80"
+                />
+                {query && (
+                  <button
+                    onClick={() => setQuery("")}
+                    className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
+                  >
+                    <IconX size={18} />
+                  </button>
+                )}
+              </div>
+
+              {/* Filter Toggle Button */}
+              <button 
+                onClick={() => {
+                  if (isTagsExpanded) {
+                    setActiveTag("All");
+                  }
+                  setIsTagsExpanded(!isTagsExpanded);
+                }}
+                className="flex h-14 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-[#0a0f1d]/80 px-6 text-[0.7rem] font-bold uppercase tracking-[0.2em] text-slate-300 hover:text-white hover:border-cyan-500/30 transition-all outline-none flex-none"
+              >
+                <IconFilter size={16} /> 
+                <span className="hidden md:inline">Tags</span>
+                <IconChevronDown size={16} className={`transition-transform duration-300 ${isTagsExpanded ? "rotate-180 text-cyan-400" : ""}`} />
+              </button>
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row md:flex-wrap md:items-center gap-4">
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-slate-600 md:mr-2 flex items-center gap-2">
-              <IconFilter size={14} /> Filter Tags:
-            </span>
-            
-            {/* Mobile Dropdown */}
-            <div className="md:hidden relative w-full">
-              {/* Click-away backdrop */}
-              {isDropdownOpen && (
-                <div 
-                  className="fixed inset-0 z-10" 
-                  onClick={() => setIsDropdownOpen(false)} 
-                />
-              )}
-              
-              <div className="relative z-20">
-                <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-[#0a0f1d]/80 px-5 py-3 text-[0.7rem] font-bold uppercase tracking-widest text-white outline-none transition-colors hover:border-cyan-500/30 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50"
-                >
-                  <span>{activeTag}</span>
-                  <IconChevronDown size={16} className={`text-slate-400 transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`} />
-                </button>
-
-                <div
-                  className={`absolute left-0 right-0 top-full mt-2 origin-top overflow-hidden rounded-xl border border-white/10 bg-[#0a0f1d]/95 backdrop-blur-md shadow-2xl transition-all duration-300 ${
-                    isDropdownOpen ? "scale-y-100 opacity-100" : "scale-y-95 opacity-0 pointer-events-none"
-                  }`}
-                >
-                  <div className="flex flex-col py-2 max-h-60 overflow-y-auto custom-scrollbar">
-                    {["All", ...blogTags].map((tag) => (
-                      <button
-                        key={tag}
-                        onClick={() => {
-                          setActiveTag(tag);
-                          setIsDropdownOpen(false);
-                        }}
-                        className={`px-5 py-3 text-left text-[0.65rem] font-bold uppercase tracking-[0.15em] transition-colors ${
-                          activeTag === tag
-                            ? "bg-cyan-500/10 text-cyan-400 border-l-2 border-cyan-500"
-                            : "text-slate-400 border-l-2 border-transparent hover:bg-white/5 hover:text-white"
-                        }`}
-                      >
-                        {tag}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+          {/* Collapsible Tags Row */}
+          <div className={`transition-all duration-500 ease-in-out overflow-hidden ${
+            isTagsExpanded ? "max-h-[200px] opacity-100 pt-6 border-t border-white/5 mt-2" : "max-h-0 opacity-0 pt-0 border-transparent mt-0 pointer-events-none"
+          }`}>
+            <div className="w-full overflow-x-auto scrollbar-hide pb-2 -mb-2">
+              <div className="flex w-max gap-2 px-1">
+                {["All", ...blogTags].map((tag) => {
+                  const isActive = activeTag === tag;
+                  return (
+                    <button
+                      key={tag}
+                      onClick={() => setActiveTag(tag)}
+                      className={`rounded-xl px-5 py-2.5 text-[0.65rem] font-bold uppercase tracking-widest transition-all duration-500 whitespace-nowrap ${
+                        isActive 
+                          ? "bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 shadow-[0_0_15px_rgba(6,182,212,0.2)]" 
+                          : "bg-white/5 text-slate-500 border border-transparent hover:bg-white/10 hover:text-slate-300"
+                      }`}
+                    >
+                      {tag}
+                    </button>
+                  );
+                })}
               </div>
-            </div>
-
-            {/* Desktop Buttons */}
-            <div className="hidden md:flex flex-wrap items-center gap-4">
-              {["All", ...blogTags].map((tag) => {
-                const isActive = activeTag === tag;
-                return (
-                  <button
-                    key={tag}
-                    onClick={() => setActiveTag(tag)}
-                    className={`rounded-xl px-5 py-2.5 text-[0.65rem] font-bold uppercase tracking-widest transition-all duration-500 ${
-                      isActive 
-                        ? "bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 shadow-[0_0_25px_rgba(6,182,212,0.2)]" 
-                        : "bg-white/5 text-slate-500 border border-transparent hover:bg-white/10 hover:text-slate-300"
-                    }`}
-                  >
-                    {tag}
-                  </button>
-                );
-              })}
             </div>
           </div>
         </div>
