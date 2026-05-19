@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { IconArrowLeft, IconCalendar, IconClock, IconTag, IconShare, IconChevronRight, IconNotes, IconRocket, IconSparkles } from "@tabler/icons-react";
+import { IconArrowLeft, IconCalendar, IconClock, IconTag, IconShare, IconChevronRight, IconNotes, IconRocket, IconSparkles, IconExternalLink } from "@tabler/icons-react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { getBlogBySlug, getRelatedPosts } from "@/data/blogs";
 import BlogCard from "./BlogCard";
@@ -148,6 +148,19 @@ const BlogDetailPage = () => {
                   <h1 className="font-poppins text-3xl font-black leading-tight text-white md:text-5xl lg:text-6xl">
                     {post.title}
                   </h1>
+                  {isCaseStudy && post.previewUrl && (
+                    <div className="mt-8">
+                      <a 
+                        href={post.previewUrl} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 px-6 py-3.5 text-[0.75rem] font-bold uppercase tracking-[0.15em] text-slate-950 transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95"
+                      >
+                        <IconExternalLink size={18} />
+                        Project Preview
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
 

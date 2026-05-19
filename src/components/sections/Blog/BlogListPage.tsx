@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useRef } from "react";
-import { IconSearch, IconSparkles, IconX, IconNotes, IconRocket, IconFilter } from "@tabler/icons-react";
+import { IconSearch, IconSparkles, IconX, IconNotes, IconRocket, IconFilter, IconChevronDown } from "@tabler/icons-react";
 import { blogPosts, blogTags, BlogType } from "@/data/blogs";
 import BlogCard from "./BlogCard";
 import BlogListSkeleton from "./BlogListSkeleton";
@@ -22,6 +22,7 @@ const BlogListPage = () => {
   const [activeTag, setActiveTag] = useState("All");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [loading, setLoading] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -193,26 +194,76 @@ const BlogListPage = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-slate-600 mr-2 flex items-center gap-2">
+          <div className="flex flex-col md:flex-row md:flex-wrap md:items-center gap-4">
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-slate-600 md:mr-2 flex items-center gap-2">
               <IconFilter size={14} /> Filter Tags:
             </span>
-            {["All", ...blogTags].map((tag) => {
-              const isActive = activeTag === tag;
-              return (
+            
+            {/* Mobile Dropdown */}
+            <div className="md:hidden relative w-full">
+              {/* Click-away backdrop */}
+              {isDropdownOpen && (
+                <div 
+                  className="fixed inset-0 z-10" 
+                  onClick={() => setIsDropdownOpen(false)} 
+                />
+              )}
+              
+              <div className="relative z-20">
                 <button
-                  key={tag}
-                  onClick={() => setActiveTag(tag)}
-                  className={`rounded-xl px-5 py-2.5 text-[0.65rem] font-bold uppercase tracking-widest transition-all duration-500 ${
-                    isActive 
-                      ? "bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 shadow-[0_0_25px_rgba(6,182,212,0.2)]" 
-                      : "bg-white/5 text-slate-500 border border-transparent hover:bg-white/10 hover:text-slate-300"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-[#0a0f1d]/80 px-5 py-3 text-[0.7rem] font-bold uppercase tracking-widest text-white outline-none transition-colors hover:border-cyan-500/30 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50"
+                >
+                  <span>{activeTag}</span>
+                  <IconChevronDown size={16} className={`text-slate-400 transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`} />
+                </button>
+
+                <div
+                  className={`absolute left-0 right-0 top-full mt-2 origin-top overflow-hidden rounded-xl border border-white/10 bg-[#0a0f1d]/95 backdrop-blur-md shadow-2xl transition-all duration-300 ${
+                    isDropdownOpen ? "scale-y-100 opacity-100" : "scale-y-95 opacity-0 pointer-events-none"
                   }`}
                 >
-                  {tag}
-                </button>
-              );
-            })}
+                  <div className="flex flex-col py-2 max-h-60 overflow-y-auto custom-scrollbar">
+                    {["All", ...blogTags].map((tag) => (
+                      <button
+                        key={tag}
+                        onClick={() => {
+                          setActiveTag(tag);
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`px-5 py-3 text-left text-[0.65rem] font-bold uppercase tracking-[0.15em] transition-colors ${
+                          activeTag === tag
+                            ? "bg-cyan-500/10 text-cyan-400 border-l-2 border-cyan-500"
+                            : "text-slate-400 border-l-2 border-transparent hover:bg-white/5 hover:text-white"
+                        }`}
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop Buttons */}
+            <div className="hidden md:flex flex-wrap items-center gap-4">
+              {["All", ...blogTags].map((tag) => {
+                const isActive = activeTag === tag;
+                return (
+                  <button
+                    key={tag}
+                    onClick={() => setActiveTag(tag)}
+                    className={`rounded-xl px-5 py-2.5 text-[0.65rem] font-bold uppercase tracking-widest transition-all duration-500 ${
+                      isActive 
+                        ? "bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 shadow-[0_0_25px_rgba(6,182,212,0.2)]" 
+                        : "bg-white/5 text-slate-500 border border-transparent hover:bg-white/10 hover:text-slate-300"
+                    }`}
+                  >
+                    {tag}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 

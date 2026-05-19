@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { IconArrowRight, IconCalendar, IconClock, IconNotes, IconRocket } from "@tabler/icons-react";
+import { IconArrowRight, IconCalendar, IconClock, IconNotes, IconRocket, IconExternalLink } from "@tabler/icons-react";
 import { Link as RouterLink } from "react-router-dom";
 import Link from "next/link";
 import { BlogPost } from "@/data/blogs";
@@ -119,7 +119,7 @@ const BlogCard = ({ post, index = 0, compact = false }: BlogCardProps) => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#030711] via-[#030711]/20 to-transparent transition-opacity duration-500 group-hover:opacity-60" />
         
         {/* Type Badge */}
-        <div className="absolute left-4 top-4 flex flex-wrap gap-2">
+        <div className="absolute left-4 top-4 flex flex-wrap gap-2 pr-12">
           <div className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-[0.62rem] font-bold uppercase tracking-wider backdrop-blur-md shadow-lg ${
             isCaseStudy 
               ? "border-amber-500/30 bg-amber-500/10 text-amber-200" 
@@ -200,6 +200,19 @@ const BlogCard = ({ post, index = 0, compact = false }: BlogCardProps) => {
         <Link href={`/blogs/${post.slug}`} className="flex flex-col flex-grow focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50">
           {content}
         </Link>
+      )}
+
+      {isCaseStudy && post.previewUrl && (
+        <a
+          href={post.previewUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-slate-300 backdrop-blur-md border border-white/10 transition-all hover:bg-cyan-500 hover:text-white hover:border-cyan-400 hover:scale-110 shadow-xl"
+          onClick={(e) => e.stopPropagation()}
+          title="Project Preview"
+        >
+          <IconExternalLink size={16} />
+        </a>
       )}
     </article>
   );
