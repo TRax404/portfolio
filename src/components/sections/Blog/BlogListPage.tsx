@@ -141,7 +141,8 @@ const BlogListPage = () => {
           {/* Top Row */}
           <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-8 xl:gap-6">
             {/* Tabs */}
-            <div className="relative flex flex-wrap gap-2 p-1.5 bg-[#0a0f1d]/60 rounded-full border border-white/5 shadow-inner backdrop-blur-xl w-full xl:w-auto xl:flex-none">
+            <div className="w-full overflow-x-auto scrollbar-hide pb-2 -mb-2 xl:pb-0 xl:mb-0 xl:w-auto xl:overflow-visible">
+              <div className="relative flex w-max min-w-full xl:min-w-0 xl:w-auto gap-1 sm:gap-2 p-1.5 bg-[#0a0f1d]/60 rounded-full border border-white/5 shadow-inner backdrop-blur-xl xl:flex-none">
               {/* Animated Tab Indicator */}
               <div 
                 ref={activeTabRef}
@@ -160,13 +161,13 @@ const BlogListPage = () => {
                     key={tab.id}
                     ref={(el) => { tabRefs.current[tab.id] = el; }}
                     onClick={() => setActiveTab(tab.id as any)}
-                    className={`group relative z-10 flex flex-1 xl:flex-none items-center justify-center gap-2.5 rounded-full px-6 py-3 text-[0.8rem] font-semibold tracking-wide transition-all duration-300 whitespace-nowrap ${
+                    className={`group relative z-10 flex flex-1 xl:flex-none items-center justify-center gap-1 sm:gap-2.5 rounded-full px-2 sm:px-6 py-2 sm:py-3 text-[0.55rem] sm:text-[0.8rem] font-semibold tracking-wide transition-all duration-300 whitespace-nowrap ${
                       isActive ? "text-white" : "text-slate-400 hover:text-slate-200"
                     }`}
                   >
                     <Icon 
                       size={18} 
-                      className={`transition-colors duration-300 ${
+                      className={`hidden sm:block transition-colors duration-300 ${
                         isActive ? "text-cyan-400" : "text-slate-500 group-hover:text-slate-400"
                       }`} 
                     />
@@ -175,25 +176,28 @@ const BlogListPage = () => {
                 );
               })}
             </div>
+          </div>
 
-            {/* Right Side: Search & Filter Toggle */}
-            <div className="flex flex-col md:flex-row md:items-center gap-6 xl:gap-6 w-full xl:w-auto">
+          {/* Right Side: Search & Filter Toggle */}
+          <div className="flex flex-row items-center gap-3 sm:gap-6 w-full xl:w-auto">
               {/* Search */}
-              <div className="relative group w-full xl:w-72 flex-none">
-                <IconSearch className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 transition-colors group-focus-within:text-cyan-400" size={20} />
+              <div className="relative group flex-1 min-w-0 xl:flex-none xl:w-72">
+                <div className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2">
+                  <IconSearch className="text-slate-500 transition-colors group-focus-within:text-cyan-400 w-4 h-4 sm:w-5 sm:h-5" />
+                </div>
                 <input
                   id="blog-search"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search Redis, Docker, Scaling..."
-                  className="h-14 w-full rounded-2xl border border-white/5 bg-black/60 px-14 text-sm text-white outline-none transition-all placeholder:text-slate-700 focus:border-cyan-500/30 focus:ring-4 focus:ring-cyan-500/5 focus:bg-black/80"
+                  placeholder="Search Redis, Docker..."
+                  className="h-10 sm:h-14 w-full rounded-xl sm:rounded-2xl border border-white/5 bg-black/60 pl-10 pr-10 sm:px-14 text-xs sm:text-sm text-white outline-none transition-all placeholder:text-slate-700 focus:border-cyan-500/30 focus:ring-4 focus:ring-cyan-500/5 focus:bg-black/80"
                 />
                 {query && (
                   <button
                     onClick={() => setQuery("")}
-                    className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
+                    className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
                   >
-                    <IconX size={18} />
+                    <IconX className="w-3 h-3 sm:w-[18px] sm:h-[18px]" />
                   </button>
                 )}
               </div>
@@ -206,11 +210,11 @@ const BlogListPage = () => {
                   }
                   setIsTagsExpanded(!isTagsExpanded);
                 }}
-                className="flex h-14 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-[#0a0f1d]/80 px-6 text-[0.7rem] font-bold uppercase tracking-[0.2em] text-slate-300 hover:text-white hover:border-cyan-500/30 transition-all outline-none flex-none"
+                className="flex h-10 sm:h-14 items-center justify-center gap-1 sm:gap-2 rounded-xl sm:rounded-2xl border border-white/10 bg-[#0a0f1d]/80 px-3 sm:px-6 text-[0.6rem] sm:text-[0.7rem] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] text-slate-300 hover:text-white hover:border-cyan-500/30 transition-all outline-none flex-none"
               >
-                <IconFilter size={16} /> 
+                <IconFilter className="w-3 h-3 sm:w-4 sm:h-4" /> 
                 <span className="hidden md:inline">Tags</span>
-                <IconChevronDown size={16} className={`transition-transform duration-300 ${isTagsExpanded ? "rotate-180 text-cyan-400" : ""}`} />
+                <IconChevronDown className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 ${isTagsExpanded ? "rotate-180 text-cyan-400" : ""}`} />
               </button>
             </div>
           </div>
