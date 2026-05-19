@@ -15,11 +15,9 @@ export default async function Home() {
       <TopProgressBar />
       <Navbar />
       <Hero />
-      <div className='block lg:hidden'>
-        <Suspense>
-          <Skills />
-        </Suspense>
-      </div>
+      <Suspense>
+        <Skills />
+      </Suspense>
       <Experience />
       <Achievements />
       <Projects />

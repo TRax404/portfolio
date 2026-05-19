@@ -2,7 +2,6 @@
 
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { IconBrandReact, IconBrandNextjs, IconBrandTypescript, IconRocket } from "@tabler/icons-react";
 import Container from "@/components/global/Container";
 import { cn } from "@/lib/cn";
@@ -10,287 +9,22 @@ import Link from "next/link";
 import socialLinks from "@/data/socialLinks";
 import usePageScroll from "@/hooks/usePageScroll";
 import { FlipWords } from "@/components/ui/FlipWords";
-import Skills from "../Skills/Skills";
 import LINKS from "@/constant/links";
 import styles from "@/styles/hero.module.css";
-import useScrollTrigger from "@/hooks/useScrollTrigger";
-
-// Register GSAP plugins
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLDivElement>(null);
-  const dLetterRef = useRef<HTMLSpanElement>(null);
-  const revealRef = useRef<HTMLDivElement>(null);
   const portraitRef = useRef<HTMLDivElement>(null);
   const handleScroll = usePageScroll();
-  const isScroll = useScrollTrigger();
   const words = ["Backend developer", "Full stack developer", "System designer"];
 
   useLayoutEffect(() => {
-    ScrollTrigger.getAll().forEach((t) => t.kill());
-
     const mm = gsap.matchMedia();
 
     mm.add(
       "(min-width: 1024px)",
       () => {
-        const ctaButtons = containerRef.current?.querySelectorAll(".cta-btn") ?? [];
-        const gradualEls = containerRef.current?.querySelectorAll(".GradualSpacing") ?? [];
-        const socialEls = containerRef.current?.querySelectorAll(".social-links-container") ?? [];
-        const blurTargets = containerRef.current?.querySelectorAll(".blur-target") ?? [];
-
-        // Initial states
-        if (revealRef.current) gsap.set(revealRef.current, { clipPath: "circle(0% at 50% 50%)" });
-        if (dLetterRef.current) {
-          gsap.set(dLetterRef.current, {
-            scale: 1,
-            opacity: 1,
-            transformOrigin: "50% 50%",
-          });
-        }
-
-        const letters = Array.from(nameRef.current?.querySelectorAll("span") ?? []);
-        const focalLetterIdx = 0; // Focus on 'T'
-        const leftLetters = letters.slice(0, focalLetterIdx);
-        const rightLetters = letters.slice(focalLetterIdx + 1);
-        const focalLetter = dLetterRef.current;
-        const description = containerRef.current?.querySelector(".GradualSpacing");
-        const cta = containerRef.current?.querySelector(".cta-btn");
-        const social = containerRef.current?.querySelector(".social-links-container");
-
-        const otherContentTargets: (Element | HTMLElement)[] = [
-          ...Array.from(gradualEls),
-          ...Array.from(ctaButtons),
-          ...Array.from(socialEls),
-          ...Array.from(blurTargets),
-        ].filter(Boolean);
-        if (portraitRef.current) otherContentTargets.push(portraitRef.current);
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: "+=2000",
-            scrub: 1.5,
-            pin: true,
-            pinSpacing: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onLeaveBack: () => {
-              if (otherContentTargets.length > 0) {
-                gsap.to(otherContentTargets, {
-                  opacity: 1,
-                  filter: "blur(0px)",
-                  scale: 1,
-                  duration: 0.5,
-                  clearProps: "all",
-                });
-              }
-              const leaveBackTargets = [nameRef.current, description, cta, focalLetter, social, ...leftLetters, ...rightLetters].filter(
-                Boolean
-              );
-              if (leaveBackTargets.length > 0) {
-                gsap.to(leaveBackTargets, {
-                  x: 0,
-                  y: 0,
-                  scale: 1,
-                  opacity: 1,
-                  filter: "blur(0px)",
-                  duration: 0.5,
-                  clearProps: "all",
-                });
-              }
-              if (revealRef.current) {
-                gsap.to(revealRef.current, {
-                  clipPath: "circle(0% at 50% 50%)",
-                  duration: 0.5,
-                  clearProps: "all",
-                });
-              }
-            },
-          },
-        });
-
-        if (otherContentTargets.length > 0) {
-          gsap.set(otherContentTargets, {
-            filter: "blur(0px)",
-            opacity: 1,
-            scale: 1,
-          });
-        }
-        const initialLetters = [...leftLetters, ...rightLetters].filter(Boolean);
-        if (initialLetters.length > 0) {
-          gsap.set(initialLetters, {
-            filter: "blur(0px)",
-            opacity: 1,
-            x: 0,
-          });
-        }
-
-        if (otherContentTargets.length > 0) {
-          tl.to(
-            otherContentTargets,
-            {
-              filter: "blur(3px)",
-              opacity: 0.8,
-              scale: 0.98,
-              duration: 0.8,
-              ease: "power2.out",
-            },
-            0
-          );
-
-          tl.to(
-            otherContentTargets,
-            {
-              filter: "blur(8px)",
-              opacity: 0.5,
-              scale: 0.96,
-              duration: 0.7,
-              ease: "power2.inOut",
-            },
-            0.8
-          );
-
-          tl.to(
-            otherContentTargets,
-            {
-              filter: "blur(12px)",
-              opacity: 0.2,
-              scale: 0.95,
-              duration: 0.8,
-              ease: "power2.in",
-            },
-            1.5
-          );
-        }
-
-        if (focalLetter) {
-          tl.to(
-            focalLetter,
-            {
-              x: () => {
-                const dRect = focalLetter.getBoundingClientRect();
-                const dCenterX = dRect.left + dRect.width / 2;
-                return window.innerWidth / 2 - dCenterX;
-              },
-              y: () => {
-                const dRect = focalLetter.getBoundingClientRect();
-                const dCenterY = dRect.top + dRect.height / 2;
-                return window.innerHeight / 2 - dCenterY;
-              },
-              duration: 1.5,
-              ease: "power2.inOut",
-            },
-            0
-          );
-        }
-
-        if (socialEls.length > 0) {
-          tl.to(
-            socialEls,
-            {
-              y: -350,
-              opacity: 0.1,
-              duration: 1.2,
-              ease: "power3.inOut",
-            },
-            0.5
-          );
-        }
-
-        const descCtaTargets = [description, cta].filter(Boolean);
-        if (descCtaTargets.length > 0) {
-          tl.to(
-            descCtaTargets,
-            {
-              y: 100,
-              opacity: 0.1,
-              duration: 1.2,
-              ease: "power3.inOut",
-            },
-            0.5
-          );
-        }
-
-        if (leftLetters.length > 0) {
-          tl.to(
-            leftLetters,
-            {
-              x: -300,
-              opacity: 0,
-              filter: "blur(12px)",
-              duration: 2,
-              ease: "power2.inOut",
-            },
-            0
-          );
-        }
-
-        if (rightLetters.length > 0) {
-          tl.to(
-            rightLetters,
-            {
-              x: 300,
-              opacity: 0,
-              filter: "blur(12px)",
-              duration: 2,
-              ease: "power2.inOut",
-            },
-            0
-          );
-        }
-
-        if (focalLetter) {
-          tl.to(
-            focalLetter,
-            {
-              scale: 30,
-              fontWeight: 900,
-              textShadow: "0 0 80px rgba(56, 189, 248, 0.6)",
-              ease: "power3.inOut",
-              duration: 1.5,
-              force3D: false,
-              lazy: false,
-              onStart: () => {
-                if (!dLetterRef.current) return;
-                gsap.set(dLetterRef.current, {
-                  backgroundImage: "linear-gradient(to right, #ffffff, #e2e8f0, #f8fafc)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  color: "transparent",
-                });
-              },
-            },
-            2.3
-          );
-
-          tl.to(
-            focalLetter,
-            {
-              opacity: 0,
-              duration: 1,
-            },
-            3.4
-          );
-        }
-
-        if (revealRef.current) {
-          tl.to(
-            revealRef.current,
-            {
-              clipPath: "circle(150% at 50% 50%)",
-              ease: "power2.in",
-              duration: 1.5,
-            },
-            3.2
-          );
-        }
-
         // Floating icons gentle animation
         const floatingIcons = Array.from(containerRef.current?.querySelectorAll(".floating-icon") ?? []);
         if (floatingIcons.length > 0) {
@@ -337,7 +71,7 @@ const Hero = () => {
 
   return (
     <section id='home' ref={containerRef} className='relative h-screen overflow-hidden'>
-      <div className='pointer-events-none hidden lg:block absolute inset-0 z-20 blur-target'>
+      <div className='pointer-events-none hidden lg:block absolute inset-0 z-20'>
         <IconBrandReact className='floating-icon absolute top-[20%] right-[30%] w-9 h-9 text-blue-300/70 drop-shadow-[0_0_10px_rgba(203,213,225,0.25)]' />
 
         <IconBrandNextjs className='floating-icon absolute bottom-32 left-[35%] w-10 h-10 text-slate-200/70' />
@@ -364,13 +98,11 @@ const Hero = () => {
           alt='Nginx'
         />
       </div>
-      <div ref={revealRef} className='absolute inset-0 z-50 bg-mainBgColor' style={{ clipPath: "circle(0% at 50% 50%)" }}>
-        <Skills />
-      </div>
-      <div className='absolute inset-0 z-0 blur-target'>
+
+      <div className='absolute inset-0 z-0'>
         <div className='absolute top-1/3 -right-20 w-96 h-96 bg-linear-to-r from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl float-slow'></div>
       </div>
-      <div className='absolute inset-0 z-0 blur-target bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[48px_48px] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,black_20%,transparent_100%)]'></div>
+      <div className='absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[48px_48px] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,black_20%,transparent_100%)]'></div>
 
       {/* Background Portrait Overlay */}
       <div ref={portraitRef} className='absolute inset-0 z-0 pointer-events-none overflow-hidden'>
@@ -388,27 +120,16 @@ const Hero = () => {
       </div>
       <Container className='relative z-30 pb-20 pr-4 lg:pr-28 2xl:pr-0 h-full flex flex-col justify-end items-end text-right'>
         {/* Name */}
-        {/* Description */}
-        <div className='text-slate-300 font-poppins font-normal max-w-175 mb-6 GradualSpacing'>
+        <div className='text-slate-300 font-poppins font-normal max-w-175 mb-6'>
           <div ref={nameRef} className='mb-6'>
             <h1 className='text-[10px] leading-[90%] md:text-[130px] lg:text-[20px] xl:text-[60px] font-montserrat uppercase font-black select-none'>
               {"TIRTHO RAY".split("").map((letter, idx) => (
                 <span
                   key={idx}
-                  ref={idx === 0 ? dLetterRef : null}
                   className={cn(
                     "inline-block mx-1 bg-linear-to-r from-white via-slate-300 to-slate-400 bg-clip-text text-transparent",
                     "cursor-default"
                   )}
-                  style={
-                    idx === 0
-                      ? {
-                        WebkitFontSmoothing: "antialiased",
-                        MozOsxFontSmoothing: "grayscale",
-                        textRendering: "optimizeLegibility",
-                      }
-                      : undefined
-                  }
                 >
                   {letter}
                 </span>
@@ -425,7 +146,7 @@ const Hero = () => {
             onClick={(e) => handleScroll(e, "#projects")}
             className={cn(
               "group relative h-12 px-8 bg-slate-800/40 backdrop-blur-xl border border-sky-500/20 outline-none cursor-pointer font-montserrat rounded-xl font-semibold tracking-wide transition-all duration-500 hover:border-sky-400/50 hover:shadow-[0_0_30px_rgba(56,189,248,0.25)] hover:-translate-y-1 flex items-center gap-2 text-sky-100 overflow-hidden focus:outline-none focus:ring-2 focus:ring-sky-400/50 focus:ring-offset-2 focus:ring-offset-slate-950",
-              isScroll ? "z-[-1]" : "z-1"
+              "z-10"
             )}
           >
             <span className='absolute inset-0 bg-linear-to-r from-transparent via-sky-400/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700'></span>
@@ -437,7 +158,7 @@ const Hero = () => {
             href={LINKS.resume}
             className={cn(
               "group relative h-12 px-8 bg-sky-500/20 backdrop-blur-xl border border-sky-400/30 outline-none cursor-pointer font-montserrat rounded-xl font-semibold tracking-wide transition-all duration-500 hover:bg-sky-500/30 hover:border-sky-400/50 hover:shadow-[0_0_25px_rgba(56,189,248,0.3)] hover:-translate-y-1 flex items-center gap-2 text-sky-100 overflow-hidden focus:outline-none focus:ring-2 focus:ring-sky-400/50 focus:ring-offset-2 focus:ring-offset-slate-950",
-              isScroll ? "z-[-1]" : "z-1"
+              "z-10"
             )}
           >
             <span>Resume</span>
