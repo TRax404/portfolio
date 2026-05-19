@@ -3,30 +3,55 @@ import { TExperience } from "@/types/experienceTypes";
 const EXPERIENCE: TExperience[] = [
   {
     id: "exp-2",
-    role: "Full‑stack Developer",
-    company: "Team",
-    location: "Remote · Germany",
-    period: "1 Oct, 2025 – Present",
-    tech: ["Next.js", "Node.js", "PostgreSQL", "Prisma", "Docker"],
+    role: "Full Stack Engineer (Backend Focused)",
+    company: "Softvence Agency",
+    location: "On-site · Dhaka, Bangladesh",
+    period: "Jan 2026 – Present",
+    tech: [
+      "NestJS",
+      "Express.js",
+      "TypeScript",
+      "PostgreSQL",
+      "Prisma",
+      "Next.js",
+      "Docker",
+      "GitHub Actions",
+      "AWS (EC2, S3, SES, Rekognition)",
+      "Nginx",
+      "Caddy",
+      "Socket.io"
+    ],
     highlights: [
-      "Improved existing projects through active collaboration with the dev team.",
-      "Introduced modern technologies to enhance scalability and maintainability.",
-      "Resolved critical bugs and optimized UI performance.",
+      "Successfully managed and executed end-to-end deployments for multiple production-grade web applications, mastering multi-server configurations and custom infrastructure setup.",
+      "Architected scalable backend microservices and RESTful APIs, driving a noticeable reduction in server-side response latency through strategic indexing and caching.",
+      "Streamlined deployment workflows by implementing automated CI/CD pipelines via GitHub Actions, containerizing environments with Docker, and configuring Nginx/Caddy reverse proxies.",
+      "Engineered real-time features using Socket.io and integrated complex cloud services, including AWS Rekognition for AI-driven image processing and secure S3 storage layers.",
+      "Collaborated closely with cross-functional teams to refactor legacy codebases, resolving critical performance bottlenecks and enhancing overall system maintainability."
     ],
   },
   {
     id: "exp-1",
-    role: "Full-stack Developer",
-    company: "Olynex LLC",
-    location: "On-site · Bogura, Bangladesh",
-    period: "1 Jun, 2024 – 1 Oct, 2025",
-    tech: ["React", "Next.js", "TypeScript", "Node.js", "MongoDB"],
-    website: "https://olynex.com?source=sadid",
+    role: "Backend Developer",
+    company: "Softvence Agency",
+    location: "On-site · Dhaka, Bangladesh",
+    period: "Nov 2025 – Jan 2026",
+    tech: [
+      "Node.js",
+      "Express.js",
+      "TypeScript",
+      "MongoDB",
+      "Mongoose",
+      "Docker",
+      "WebSockets"
+    ],
+    website: "",
     highlights: [
-      "Spearheaded transition from Frontend Developer to Full-Stack role within 6 months",
-      "Developed and maintained 10+ scalable web applications using React/Next.js and Node.js",
-      "Implemented performance optimizations improving load times",
+      "Spearheaded a rapid structural transition from frontend operations into core backend architecture within a tight release cycle, taking immediate ownership of database design.",
+      "Developed, optimized, and maintained high-throughput web applications using Node.js and MongoDB, enforcing strict TypeScript type-safety across the stack.",
+      "Implemented critical system performance optimizations and schema indexing strategies that significantly improved API payload delivery and application load speeds.",
+      "Built resilient real-time communication modules utilizing WebSockets to handle concurrent user state synchronization seamlessly."
     ],
   },
 ];
+
 export default EXPERIENCE;
