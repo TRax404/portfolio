@@ -20,8 +20,8 @@ const Skills = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  // Priority skill IDs
-  const prioritySkillIds = [1, 2, 3, 4, 12, 13, 17, 18, 27, 21, 22, 24, 26];
+  // Priority skill IDs - Added 31 (Redis)
+  const prioritySkillIds = [1, 2, 3, 4, 12, 13, 17, 18, 31, 27, 21, 22, 24, 26];
 
   const filteredSkills = useMemo(() => {
     let baseSkills = activeTab === "all" ? skills : skills.filter((skill) => skill.category === activeTab);

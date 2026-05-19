@@ -7,7 +7,7 @@ export const TABS = [
   { label: "Backend", value: "backend" },
   { label: "Database", value: "database" },
   { label: "DevOps & Cloud", value: "devops" },
-  { label: "Monitoring", value: "monitoring" },
+  { label: "Learning Now", value: "learning" },
 ] as const;
 
 export type SkillCategory = (typeof TABS)[number]["value"];
@@ -22,8 +22,6 @@ export interface Skill {
 }
 
 /* ================= Skills Data ================= */
-// Using Simple Icons (https://simpleicons.org/) for better reliability and crisp SVGs
-// Adding .svg extension and using colored variants where appropriate
 const skills: Skill[] = [
   /* ===== High Priority (Requested for "All") ===== */
   {
@@ -83,6 +81,13 @@ const skills: Skill[] = [
     category: "database",
   },
   {
+    id: 31,
+    name: "Redis",
+    side: "Cache/DB",
+    logo: "https://cdn.simpleicons.org/redis/DC382D",
+    category: "database",
+  },
+  {
     id: 24,
     name: "AWS",
     side: "Cloud",
@@ -109,6 +114,36 @@ const skills: Skill[] = [
     side: "OS",
     logo: "https://cdn.simpleicons.org/linux/white",
     category: "devops",
+  },
+
+  /* ===== Learning Now ===== */
+  {
+    id: 32,
+    name: "Kubernetes",
+    side: "Orchestration",
+    logo: "https://cdn.simpleicons.org/kubernetes/326CE5",
+    category: "learning",
+  },
+  {
+    id: 33,
+    name: "Azure",
+    side: "Cloud",
+    logo: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/microsoftazure.svg",
+    category: "learning",
+  },
+  {
+    id: 34,
+    name: "System Design",
+    side: "Architecture",
+    logo: "https://cdn.simpleicons.org/diagramsdotnet/F08705",
+    category: "learning",
+  },
+  {
+    id: 35,
+    name: "Microservices",
+    side: "Patterns",
+    logo: "https://cdn.simpleicons.org/cncf/white",
+    category: "learning",
   },
 
   /* ===== Other Frontend ===== */
@@ -179,28 +214,26 @@ const skills: Skill[] = [
     logo: "https://cdn.simpleicons.org/git/F05032",
     category: "devops",
   },
-
-  /* ===== Monitoring ===== */
   {
     id: 28,
     name: "Grafana",
     side: "Viz",
     logo: "https://cdn.simpleicons.org/grafana/F46800",
-    category: "monitoring",
+    category: "devops",
   },
   {
     id: 29,
     name: "Prometheus",
     side: "Metrics",
     logo: "https://cdn.simpleicons.org/prometheus/E6522C",
-    category: "monitoring",
+    category: "devops",
   },
   {
     id: 30,
     name: "Loki",
     side: "Logs",
-    logo: "https://cdn.simpleicons.org/grafanaloki/white",
-    category: "monitoring",
+    logo: "https://cdn.simpleicons.org/grafana/white",
+    category: "devops",
   },
 ];
 
