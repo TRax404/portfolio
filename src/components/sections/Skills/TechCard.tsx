@@ -51,15 +51,6 @@ const TechCard: React.FC<TechCardProps> = ({ skill, index }) => {
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 20, scale: 0.95 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ 
-        duration: 0.5, 
-        delay: index * 0.05,
-        type: "spring",
-        stiffness: 100 
-      }}
       onMouseMove={(e) => {
         handleMouseMove(e);
         onMouseMoveTilt(e);
