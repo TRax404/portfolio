@@ -168,7 +168,7 @@ const Hero = () => {
       {/* Social Links */}
       <div
         className={cn(
-          "social-links-container hidden absolute bottom-4 left-1/2 -translate-x-1/2 lg:flex gap-6 md:flex-col md:fixed md:right-4 md:top-1/2 md:-translate-y-1/2 md:left-auto md:translate-x-0 h-fit"
+          "social-links-container hidden absolute bottom-4 left-1/2 -translate-x-1/2 lg:flex gap-6 md:flex-col md:fixed md:right-4 md:top-1/2 md:-translate-y-1/2 md:left-auto md:translate-x-0 h-fit z-50"
         )}
       >
         {socialLinks.map(({ Icon, href, label, color }) => (
