@@ -28,6 +28,7 @@ const projects = [
       name: "OlynexLLC",
       url: LINKS.olynex,
     },
+    blog_link: "/blogs/mockuphive-case-study",
   },
   {
     id: 2,
@@ -54,6 +55,7 @@ const projects = [
       name: "OlynexLLC",
       url: LINKS.olynex,
     },
+    blog_link: "/blogs/iconiex-development",
   },
   {
     id: 3,

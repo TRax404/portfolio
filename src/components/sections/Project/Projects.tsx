@@ -7,6 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Container from "@/components/global/Container";
 import Card from "./Card";
 import VideoModal from "./VideoModal";
+import Link from "next/link";
+import ShinnyButton from "@/components/ui/ShinnyButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -55,8 +57,8 @@ const Projects = () => {
       <SectionTitle text='Projects_' color='My' />
       
       {/* Wrapper for stacked cards */}
-      <div className='relative w-full flex flex-col gap-[25vh] md:gap-[40vh] pt-10 pb-[20vh]'>
-        {projects.map((card, idx) => (
+      <div className='relative w-full flex flex-col gap-[25vh] md:gap-[40vh] pt-10 pb-[10vh]'>
+        {projects.slice(0, 4).map((card, idx) => (
           <div 
             ref={addToRefs} 
             key={idx} 
@@ -68,6 +70,12 @@ const Projects = () => {
             <Card project={card} onPlayVideo={() => setActiveVideo(card.video_url)} />
           </div>
         ))}
+      </div>
+
+      <div className="flex justify-center mt-10">
+        <Link href="/projects">
+          <ShinnyButton className="px-8 py-3 text-sm tracking-widest font-semibold">VIEW ALL PROJECTS</ShinnyButton>
+        </Link>
       </div>
 
       <VideoModal videoKey={activeVideo} onClose={() => setActiveVideo(null)} />

@@ -27,8 +27,8 @@ const Navbar = () => {
   }, []);
 
   const links = [
-    { path: "#experience", label: "Experience" },
-    { path: "#projects", label: "Projects" },
+    { path: "#experience", label: "Experience", isScroll: true },
+    { path: "/projects", label: "Projects", isScroll: false },
   ];
 
   return (
@@ -70,14 +70,25 @@ const Navbar = () => {
           <div className='hidden md:flex items-center gap-8'>
             <div className='flex gap-10 items-center'>
               {links.map((link, idx) => (
-                <button
-                  key={idx}
-                  onClick={(e) => handleScroll(e, link.path)}
-                  className='cursor-pointer relative font-semibold text-slate-300 transition-all duration-300 hover:text-white uppercase font-montserrat tracking-wider text-sm group'
-                >
-                  {link.label}
-                  <span className='absolute -bottom-1 left-0 w-0 h-0.5 bg-sky-400 transition-all duration-300 group-hover:w-full'></span>
-                </button>
+                link.isScroll ? (
+                  <button
+                    key={idx}
+                    onClick={(e) => handleScroll(e, link.path)}
+                    className='cursor-pointer relative font-semibold text-slate-300 transition-all duration-300 hover:text-white uppercase font-montserrat tracking-wider text-sm group'
+                  >
+                    {link.label}
+                    <span className='absolute -bottom-1 left-0 w-0 h-0.5 bg-sky-400 transition-all duration-300 group-hover:w-full'></span>
+                  </button>
+                ) : (
+                  <Link
+                    key={idx}
+                    href={link.path}
+                    className='cursor-pointer relative font-semibold text-slate-300 transition-all duration-300 hover:text-white uppercase font-montserrat tracking-wider text-sm group'
+                  >
+                    {link.label}
+                    <span className='absolute -bottom-1 left-0 w-0 h-0.5 bg-sky-400 transition-all duration-300 group-hover:w-full'></span>
+                  </Link>
+                )
               ))}
             </div>
             <Link href={LINKS.blog}>
@@ -138,15 +149,25 @@ const Navbar = () => {
                     <div className='flex flex-col items-center mb-16'>
                       {links.map((link, idx) => (
                         <Drawer.Close key={idx} asChild>
-                          <button
-                            onClick={(e) => {
-                              handleScroll(e, link.path);
-                              setOpen(false);
-                            }}
-                            className='font-semibold text-white uppercase font-montserrat tracking-widest py-3 px-6 hover:text-sky-400 transition-all active:scale-95'
-                          >
-                            {link.label}
-                          </button>
+                          {link.isScroll ? (
+                            <button
+                              onClick={(e) => {
+                                handleScroll(e, link.path);
+                                setOpen(false);
+                              }}
+                              className='font-semibold text-white uppercase font-montserrat tracking-widest py-3 px-6 hover:text-sky-400 transition-all active:scale-95'
+                            >
+                              {link.label}
+                            </button>
+                          ) : (
+                            <Link
+                              href={link.path}
+                              onClick={() => setOpen(false)}
+                              className='font-semibold text-white uppercase font-montserrat tracking-widest py-3 px-6 hover:text-sky-400 transition-all active:scale-95'
+                            >
+                              {link.label}
+                            </Link>
+                          )}
                         </Drawer.Close>
                       ))}
 
