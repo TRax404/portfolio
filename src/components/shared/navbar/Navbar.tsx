@@ -10,8 +10,10 @@ import LINKS from "@/constant/links";
 import socialLinks from "@/data/socialLinks";
 import { Drawer } from "vaul";
 import { IconX } from "@tabler/icons-react";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+  const pathname = usePathname();
   const handleScroll = usePageScroll();
   const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,10 +42,13 @@ const Navbar = () => {
     >
       <div className={cn("flex items-center justify-between transition-all duration-500 p-1 md:p-3")}>
         {/* Logo */}
-        <button
-          onClick={() => {
-            window.location.href = "/";
-            window.scrollTo({ top: 0, behavior: "smooth" });
+        <Link
+          href="/"
+          onClick={(e) => {
+            if (pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
           }}
           className='flex items-center cursor-pointer group'
         >
@@ -58,7 +63,7 @@ const Navbar = () => {
               style={{ width: "auto", height: "auto" }}
             />
           </div>
-        </button>
+        </Link>
 
         {/* Desktop Links */}
         <div>
@@ -115,16 +120,19 @@ const Navbar = () => {
 
                   <div className='p-8 pt-12'>
                     {/* Mobile Logo */}
-                    <button
-                      onClick={() => {
-                        window.location.href = "/";
-                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    <Link
+                      href="/"
+                      onClick={(e) => {
+                        if (pathname === "/") {
+                          e.preventDefault();
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                        }
                         setOpen(false);
                       }}
                       className='flex justify-center mb-12 mx-auto'
                     >
                       <Image src='/logo-name.png' alt='Logo' width={160} height={160} priority style={{ width: "auto", height: "auto" }} />
-                    </button>
+                    </Link>
 
                     {/* Links */}
                     <div className='flex flex-col items-center mb-16'>
