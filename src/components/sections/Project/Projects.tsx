@@ -63,6 +63,7 @@ const Projects = () => {
             // 'sticky' allows cards to stack as you scroll
             // 'top-[15vh]' sets where they stick on the screen
             className='sticky top-[10vh] md:top-[15vh] w-full md:w-[900px] mx-auto h-[400px] md:h-[450px] shadow-2xl origin-top transition-all duration-300'
+            style={{ zIndex: idx }}
           >
             <Card project={card} onPlayVideo={() => setActiveVideo(card.video_url)} />
           </div>
