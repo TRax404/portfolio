@@ -14,13 +14,22 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
   const cardsRef = useRef<HTMLDivElement[]>([]);
+  const overlaysRef = useRef<HTMLDivElement[]>([]);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   
   // Reset refs on re-render to avoid stale references
   cardsRef.current = [];
+  overlaysRef.current = [];
+  
   const addToRefs = (el: HTMLDivElement | null) => {
     if (el && !cardsRef.current.includes(el)) {
       cardsRef.current.push(el);
+    }
+  };
+
+  const addToOverlays = (el: HTMLDivElement | null) => {
+    if (el && !overlaysRef.current.includes(el)) {
+      overlaysRef.current.push(el);
     }
   };
 
@@ -29,23 +38,40 @@ const Projects = () => {
 
     const mm = gsap.matchMedia();
 
-    mm.add("(min-width: 768px)", () => {
+    mm.add("(min-width: 320px)", () => {
       cardsRef.current.forEach((card, index) => {
         // The last card doesn't need to scale down
         if (index === cardsRef.current.length - 1) return;
 
+        const overlay = overlaysRef.current[index];
+
+        // Animate the card scale
         gsap.to(card, {
-          scale: 0.9,
-          opacity: 0.5,
+          scale: 0.92,
           ease: "none",
           scrollTrigger: {
             trigger: card,
-            start: "top 15%", // When this card reaches its sticky position (top-15vh)
+            start: "top 12%", // Match the top-[12vh] sticky position
             endTrigger: cardsRef.current[index + 1],
-            end: "top 15%", // Until the next card reaches its sticky position
+            end: "top 12%", // Until the next card reaches its sticky position
             scrub: true,
           },
         });
+
+        // Animate the overlay opacity to darken the card instead of making it translucent
+        if (overlay) {
+          gsap.to(overlay, {
+            opacity: 0.6,
+            ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 12%",
+              endTrigger: cardsRef.current[index + 1],
+              end: "top 12%",
+              scrub: true,
+            },
+          });
+        }
       });
     });
 
@@ -63,11 +89,16 @@ const Projects = () => {
             ref={addToRefs} 
             key={idx} 
             // 'sticky' allows cards to stack as you scroll
-            // 'top-[15vh]' sets where they stick on the screen
-            className='sticky top-[10vh] md:top-[15vh] w-full md:w-[900px] mx-auto h-[400px] md:h-[450px] shadow-2xl origin-top transition-all duration-300'
+            // Note: REMOVED `transition-all duration-300` to fix GSAP scrub jank!
+            className='sticky top-[12vh] w-full md:w-[900px] mx-auto h-[400px] md:h-[450px] shadow-2xl origin-top'
             style={{ zIndex: idx }}
           >
             <Card project={card} onPlayVideo={() => setActiveVideo(card.video_url)} />
+            {/* Dark overlay for GSAP dimming effect */}
+            <div 
+              ref={addToOverlays} 
+              className="absolute inset-0 bg-black rounded-2xl opacity-0 pointer-events-none z-50"
+            />
           </div>
         ))}
       </div>
