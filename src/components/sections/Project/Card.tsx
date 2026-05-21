@@ -56,7 +56,7 @@ const Card = ({
         <div className='absolute inset-0 bg-linear-to-br from-white/2 to-transparent pointer-events-none' />
 
         {/* Thumbnail */}
-        <div className={`w-full ${variant === "vertical" ? "h-[200px] md:h-[240px] shrink-0" : "md:w-[42%] h-48 sm:h-56 md:h-full"} rounded-xl overflow-hidden relative cursor-pointer group/img`} onClick={onPlayVideo}>
+        <div className={`w-full ${variant === "vertical" ? "h-[200px] md:h-[240px] shrink-0" : "md:w-[42%] h-48 sm:h-56 md:h-full"} rounded-xl overflow-hidden relative group/img`}>
           <Image
             src={project?.project_thumnail}
             alt={project?.project_name}
@@ -65,12 +65,6 @@ const Card = ({
             priority={priority}
             className='w-full h-full object-cover transition-all duration-700 group-hover/img:scale-105 ease-out rounded-xl shadow-lg'
           />
-
-          <div className='absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover/img:opacity-100 transition-all duration-500'>
-            <div className='bg-white/10 backdrop-blur-md rounded-full w-14 h-14 flex items-center justify-center transform scale-90 group-hover/img:scale-100 transition-all duration-500 border border-white/20 shadow-2xl'>
-              <IconPlayerPlay className='text-white size-7 fill-white' />
-            </div>
-          </div>
         </div>
 
         {/* Content Area */}

@@ -216,6 +216,70 @@ const projects: Project[] = [
     ],
   },
   {
+    id: 7,
+    slug: "i-am-ear",
+    project_name: "I Am Ear | Peer Support Platform (Team Lead)",
+    description:
+      "A peer-to-peer emotional support platform with real-time audio calls, messaging, and a secure payment session system. Engineered for high reliability and horizontal scaling across multiple servers.",
+    project_thumnail: LINKS.i_am_ear_thumbnail,
+    technology: [
+      "NestJS",
+      "PostgreSQL",
+      "BullMQ",
+      "Redis",
+      "Socket.io",
+      "Agora",
+      "AWS",
+      "Docker",
+      "Nginx",
+      "Firebase FCM",
+      "Flutter",
+    ],
+    createdAt: "2024-06-10",
+    content: [
+      { type: "heading", body: "What is I Am Ear?" },
+      {
+        type: "paragraph",
+        body: "Mental health support should not require a therapist's appointment or a waiting list. I Am Ear is a peer-to-peer emotional support platform built around two roles: Voice (those seeking support) and Ear (trained listeners). Users can book sessions for real-time text chat or audio calls, providing immediate emotional connection when it is needed most.",
+      },
+      { type: "heading", body: "Engineering for Reliability" },
+      {
+        type: "paragraph",
+        body: "Building a platform that handles both real-time communication and financial transactions required solving complex distributed systems problems.",
+      },
+      { type: "heading", body: "1-Minute Session Window & Automatic Rollback" },
+      {
+        type: "paragraph",
+        body: "To ensure user trust, I built a bulletproof money management system. Every booking has a 1-minute server-side countdown. If the Ear doesn't accept the session within that window, the system automatically triggers a full real-time refund. This logic is handled entirely on the backend to prevent client-side failures from affecting financial integrity.",
+      },
+      { type: "heading", body: "Scalable Real-Time Infrastructure" },
+      {
+        type: "paragraph",
+        body: "We integrated Agora for low-latency audio calls and scaled Socket.io to handle 200 concurrent messaging sessions. To ensure safety and quality, every conversation is recorded and stored securely—audio to AWS S3 and text to PostgreSQL.",
+      },
+      { type: "heading", body: "Horizontal Scaling & Load Balancing" },
+      {
+        type: "paragraph",
+        body: "I architected the backend to run across multiple AWS EC2 instances using Docker. An Nginx load balancer uses a round-robin algorithm to distribute traffic, while Redis serves as a Socket.io pub/sub adapter to maintain unified state across the cluster. This removed single points of failure and allowed the system to absorb significant traffic spikes.",
+      },
+      { type: "heading", body: "My Contribution" },
+      {
+        type: "list",
+        items: [
+          "Sole Backend Architect: Designed the entire payment session, rollback logic, and real-time scaling strategy.",
+          "Team Lead: Led cross-functional teams across Flutter, Frontend, and Design, defining all API contracts for parallel development.",
+          "Infrastructure Lead: Configured horizontal scaling with Docker, Nginx, and AWS EC2.",
+          "Algorithm Design: Developed the intelligent Ear matching algorithm based on interests, dedication, and ratings.",
+        ],
+      },
+      { type: "heading", body: "Key Takeaways" },
+      {
+        type: "quote",
+        body: "Distributed systems require you to think like a systems engineer. The server must own the state—especially for financial rollbacks—because the client cannot be trusted in unstable network conditions.",
+      },
+    ],
+  },
+  {
     id: 1,
     slug: "mockuphive",
     project_name: "MockupHive | OlynexLLC",
