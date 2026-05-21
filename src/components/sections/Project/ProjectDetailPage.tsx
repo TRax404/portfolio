@@ -267,7 +267,7 @@ const ProjectDetailPage = () => {
                     {relatedProjects.map((related) => (
                       <Link
                         key={related.id}
-                        to={`/project/${related.id}`}
+                        to={`/${related.id}`}
                         className="group block rounded-2xl border border-white/5 bg-[#0a0f1d]/40 p-5 transition-all hover:border-cyan-500/30 hover:bg-[#0a0f1d]/80"
                       >
                         <p className="text-[0.6rem] font-bold uppercase tracking-widest text-cyan-500/60 mb-3 flex items-center gap-2">
