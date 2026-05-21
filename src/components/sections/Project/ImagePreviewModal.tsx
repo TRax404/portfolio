@@ -236,8 +236,8 @@ const ImagePreviewModal = ({
                   setShowThumbnails(!showThumbnails)
                 }
                 className={`p-2.5 rounded-xl border transition-all duration-300 ${showThumbnails
-                    ? "bg-cyan-500/20 border-cyan-500/30 text-cyan-400"
-                    : "bg-white/5 border-white/10 text-white/50 hover:text-white"
+                  ? "bg-cyan-500/20 border-cyan-500/30 text-cyan-400"
+                  : "bg-white/5 border-white/10 text-white/50 hover:text-white"
                   }`}
               >
                 <IconLayoutGrid size={20} />
@@ -246,8 +246,8 @@ const ImagePreviewModal = ({
               <button
                 onClick={() => setIsZoomed(!isZoomed)}
                 className={`p-2.5 rounded-xl border transition-all duration-300 ${isZoomed
-                    ? "bg-indigo-500/20 border-indigo-500/30 text-indigo-400"
-                    : "bg-white/5 border-white/10 text-white/50 hover:text-white"
+                  ? "bg-indigo-500/20 border-indigo-500/30 text-indigo-400"
+                  : "bg-white/5 border-white/10 text-white/50 hover:text-white"
                   }`}
               >
                 {isZoomed ? (
@@ -287,14 +287,14 @@ const ImagePreviewModal = ({
                 animate="center"
                 exit="exit"
                 className={`relative flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${isZoomed
-                    ? "w-full h-full"
-                    : "w-[85vw] h-[65vh] md:h-[75vh]"
+                  ? "w-full h-full"
+                  : "w-[85vw] h-[65vh] md:h-[75vh]"
                   }`}
               >
                 <div
                   className={`relative w-full h-full rounded-3xl overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.05)] ${isZoomed
-                      ? "cursor-zoom-out"
-                      : "cursor-zoom-in"
+                    ? "cursor-zoom-out"
+                    : "cursor-zoom-in"
                     }`}
                   onClick={() => setIsZoomed(!isZoomed)}
                 >
@@ -305,8 +305,8 @@ const ImagePreviewModal = ({
                     priority
                     unoptimized
                     className={`object-contain transition-transform duration-700 ease-out ${isZoomed
-                        ? "scale-110"
-                        : "scale-100"
+                      ? "scale-110"
+                      : "scale-100"
                       }`}
                   />
 
@@ -383,8 +383,8 @@ const ImagePreviewModal = ({
                         setCurrentIndex(idx);
                       }}
                       className={`relative w-24 h-14 rounded-2xl overflow-hidden border-2 transition-all duration-500 shrink-0 ${idx === currentIndex
-                          ? "border-cyan-500 scale-110 shadow-[0_0_25px_rgba(6,182,212,0.4)]"
-                          : "border-transparent opacity-40 hover:opacity-100"
+                        ? "border-cyan-500 scale-110 shadow-[0_0_25px_rgba(6,182,212,0.4)]"
+                        : "border-transparent opacity-40 hover:opacity-100"
                         }`}
                     >
                       <Image
