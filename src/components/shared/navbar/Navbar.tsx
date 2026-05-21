@@ -137,8 +137,12 @@ const Navbar = () => {
                       }}
                       className='flex justify-center mb-12 mx-auto'
                     >
-                      <Image src='/logo-name.png' alt='Logo' width={160} height={160} priority style={{ width: "auto", height: "auto" }} />
-                    </Link>
+                      <div className='relative overflow-hidden py-1'>
+                        <span className="text-xl md:text-2xl font-black font-poppins tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-400 to-sky-500 group-hover:from-cyan-400 group-hover:to-indigo-500 transition-all duration-500">
+                          Tirtho Ray
+                        </span>
+                        <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-100 transition-all duration-500 group-hover:w-full opacity-50" />
+                      </div>                    </Link>
 
                     {/* Links */}
                     <div className='flex flex-col items-center mb-16'>

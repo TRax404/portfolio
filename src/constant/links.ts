@@ -6,7 +6,7 @@ const LINKS = {
   // social
   github: "https://github.com/TRax404",
   facebook: "https://www.facebook.com/tirtho.ray.935187",
-  discord: "https://discord.com/users/1151169623149002752/",
+  // discord: "https://discord.com/users/1151169623149002752/",
   linkedIn: "https://www.linkedin.com/in/tirthoray10",
   blog: "/blogs",
 
