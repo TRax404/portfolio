@@ -31,6 +31,14 @@ const LINKS = {
   nexg_lab_video: `${cloudinaryVideoApi}/v1767102299/portfolio/videos/nexg_lab_wywpmz.mp4`,
   nexg_lab_thumnail: `${cloudinaryImageApi}//v1767102011/portfolio/projects/nexg_lab-thumbnail_efpp0e.png`,
   nexg_github: "https://github.com/sadid56/nexg-lab",
+
+  // tape
+  tape_live: "https://lawalax.vercel.app",
+  tape_thumbnail: "https://i.ibb.co.com/G3PT8PvK/screencapture-lawalax-vercel-app-dashboard-2026-05-18-22-33-02.png",
+
+  // lawalx
+  lawalx_live: "https://lawalx-superadmin-frontend.vercel.app",
+  lawalx_thumbnail: "https://i.ibb.co.com/5WPy7L2j/Screenshot-from-2026-05-21-16-56-44.png",
 };
 
 export default LINKS;

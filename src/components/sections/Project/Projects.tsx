@@ -9,6 +9,7 @@ import Card from "./Card";
 import VideoModal from "./VideoModal";
 import Link from "next/link";
 import ShinnyButton from "@/components/ui/ShinnyButton";
+import ImagePreviewModal from "./ImagePreviewModal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,7 @@ const Projects = () => {
   const cardsRef = useRef<HTMLDivElement[]>([]);
   const overlaysRef = useRef<HTMLDivElement[]>([]);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [activeImages, setActiveImages] = useState<{ images: string[]; name: string } | null>(null);
   
   // Reset refs on re-render to avoid stale references
   cardsRef.current = [];
@@ -93,7 +95,11 @@ const Projects = () => {
             className='sticky top-[12vh] w-full md:w-[900px] mx-auto h-[400px] md:h-[450px] shadow-2xl origin-top'
             style={{ zIndex: idx }}
           >
-            <Card project={card} onPlayVideo={() => setActiveVideo(card.video_url)} />
+            <Card 
+              project={card} 
+              onPlayVideo={() => setActiveVideo(card.video_url || null)} 
+              onPreviewImages={() => card.images && setActiveImages({ images: card.images, name: card.project_name })}
+            />
             {/* Dark overlay for GSAP dimming effect */}
             <div 
               ref={addToOverlays} 
@@ -110,6 +116,12 @@ const Projects = () => {
       </div>
 
       <VideoModal videoKey={activeVideo} onClose={() => setActiveVideo(null)} />
+      <ImagePreviewModal 
+        isOpen={!!activeImages} 
+        images={activeImages?.images} 
+        projectName={activeImages?.name} 
+        onClose={() => setActiveImages(null)} 
+      />
     </Container>
   );
 };

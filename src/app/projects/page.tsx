@@ -9,9 +9,11 @@ import DynamicBackground from "@/components/global/DynamicBackground";
 import Navbar from "@/components/shared/navbar/Navbar";
 import Footer from "@/components/shared/footer/Footer";
 import TopProgressBar from "@/components/ui/TopProgressBar";
+import ImagePreviewModal from "@/components/sections/Project/ImagePreviewModal";
 
 export default function ProjectsPage() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [activeImages, setActiveImages] = useState<{ images: string[]; name: string } | null>(null);
 
   return (
     <DynamicBackground>
@@ -41,13 +43,24 @@ export default function ProjectsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 xl:gap-14">
             {projects.map((project, idx) => (
               <div key={idx} className="h-[480px] md:h-[550px] w-full max-w-[550px] mx-auto">
-                <Card project={project} onPlayVideo={() => setActiveVideo(project.video_url)} variant="vertical" />
+                <Card 
+                  project={project} 
+                  onPlayVideo={() => setActiveVideo(project.video_url || null)} 
+                  onPreviewImages={() => project.images && setActiveImages({ images: project.images, name: project.project_name })}
+                  variant="vertical" 
+                />
               </div>
             ))}
           </div>
         </section>
 
         <VideoModal videoKey={activeVideo} onClose={() => setActiveVideo(null)} />
+        <ImagePreviewModal 
+          isOpen={!!activeImages} 
+          images={activeImages?.images} 
+          projectName={activeImages?.name} 
+          onClose={() => setActiveImages(null)} 
+        />
       </main>
       <Footer />
     </DynamicBackground>

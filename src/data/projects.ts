@@ -29,9 +29,75 @@ export interface Project {
   }[];
   content: ProjectContentBlock[];
   createdAt: string;
+  images?: string[];
 }
 
 const projects: Project[] = [
+  {
+    id: 5,
+    slug: "tape",
+    project_name: "Tape | Digital Signage Platform (Team Lead)",
+    description:
+      "Enterprise SaaS platform for remotely managing billboards and Android TVs. Businesses connect screens via QR code, upload media content, schedule playback, and monitor devices in real time. Led the full team across backend, Flutter, frontend, and design.",
+    project_thumnail: LINKS.tape_thumbnail,
+    technology: ["NestJS", "PostgreSQL", "BullMQ", "Redis", "Socket.io", "AWS", "Docker", "Nginx", "Flutter"],
+    live_link: LINKS.tape_live,
+    createdAt: "2024-05-15",
+    images: [
+      "https://i.ibb.co.com/20TcBSvX/1.png",
+      "https://i.ibb.co.com/vxxyCcC3/2.png",
+      "https://i.ibb.co.com/4RPxNKch/3.png",
+      "https://i.ibb.co.com/r2cHVxc4/4.png",
+      "https://i.ibb.co.com/N24K5mVM/5.png",
+      "https://i.ibb.co.com/cScK96CG/6.png",
+      "https://i.ibb.co.com/SDmRwLbc/7.png",
+      "https://i.ibb.co.com/RpN3637z/8.png",
+      "https://i.ibb.co.com/F4WTMrNC/9.png",
+      "https://i.ibb.co.com/ynDZC7cn/10.png",
+    ],
+    content: [
+      { type: "heading", body: "The Vision" },
+      { type: "paragraph", body: "Tape was built to revolutionize how businesses manage digital billboards. The goal was to create a seamless, remote-first management system that works on any Android-based screen." },
+      { type: "heading", body: "Key Technical Achievements" },
+      {
+        type: "list",
+        items: [
+          "Led cross-functional team (Backend, Flutter, Frontend, Design) to architect and deliver a production-ready MVP from scratch.",
+          "Designed secure QR-based device pairing system using Base64-encoded tokens and custom JWT for tamper-proof reconnection.",
+          "Built chunked content delivery pipeline (15-second chunks) ensuring reliable large video downloads with full offline playback support.",
+          "Implemented BullMQ job queues for async video upload processing, AWS SES email delivery, and scheduled content sync.",
+          "Engineered auto-update job system — when a program is updated, all connected devices automatically download new files without manual intervention.",
+          "Deployed backend on AWS EC2 with Docker + Nginx; applied Redis caching and API rate limiting for production reliability.",
+        ],
+      },
+    ],
+  },
+  {
+    id: 6,
+    slug: "lawalx",
+    project_name: "Lawalx | B2B Data Analyzer Platform",
+    description:
+      "Enterprise B2B SaaS with 3 panels (Client, Manager, Worker) featuring 42 dynamic nested charts for tracking construction, finance, and operational project data at unlimited hierarchy depth.",
+    project_thumnail: LINKS.lawalx_thumbnail,
+    technology: ["NestJS", "PostgreSQL", "Socket.io", "TypeScript", "Next.js"],
+    live_link: LINKS.lawalx_live,
+    createdAt: "2024-04-20",
+    content: [
+      { type: "heading", body: "Data Visualization at Scale" },
+      { type: "paragraph", body: "Lawalx solves the complexity of tracking large-scale construction and finance projects by providing a multi-panel system with deep data insights." },
+      { type: "heading", body: "Core Features" },
+      {
+        type: "list",
+        items: [
+          "Built full Support Panel backend — clients raise tickets, admins assign project specialists, with complete lifecycle tracking.",
+          "Implemented WebSocket real-time messaging system scaled to handle 200 concurrent message deliveries simultaneously.",
+          "Designed array-of-arrays JSON architecture powering 42 dynamic nested charts with non-fixed, unlimited-depth hierarchy.",
+          "Built Excel export/import pipeline — nested chart data exports to structured sheets; managers edit offline, re-upload, and charts auto-update.",
+          "Led frontend team on chart analysis architecture, defining data contracts between backend APIs and dynamic visualization components.",
+        ],
+      },
+    ],
+  },
   {
     id: 1,
     slug: "mockuphive",

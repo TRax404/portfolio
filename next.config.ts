@@ -29,6 +29,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "cdn.simpleicons.org",
       },
+      {
+        protocol: "https",
+        hostname: "i.ibb.co.com",
+      },
     ],
     qualities: [75, 85, 95, 100, 50],
   },

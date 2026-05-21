@@ -1,12 +1,22 @@
 "use client";
 import { LinkPreview } from "@/components/ui/LinkPreview";
-import { IconBrandGithub, IconPlayerPlay, IconServer, IconWorld, IconArticle } from "@tabler/icons-react";
+import { IconBrandGithub, IconPlayerPlay, IconServer, IconWorld, IconArticle, IconPhoto } from "@tabler/icons-react";
 import BoxReveal from "@/components/ui/BoxReveal";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "motion/react";
 
-const Card = ({ project, onPlayVideo, variant = "horizontal" }: { project: any; onPlayVideo: () => void; variant?: "horizontal" | "vertical" }) => {
+const Card = ({ 
+  project, 
+  onPlayVideo, 
+  onPreviewImages,
+  variant = "horizontal" 
+}: { 
+  project: any; 
+  onPlayVideo: () => void; 
+  onPreviewImages: () => void;
+  variant?: "horizontal" | "vertical" 
+}) => {
   const borderGradient = `conic-gradient(from 0deg at 50% 50%, 
     #03e8f4 0%, 
     rgba(3,232,244,0.3) 5%, 
@@ -140,6 +150,15 @@ const Card = ({ project, onPlayVideo, variant = "horizontal" }: { project: any; 
             </div>
 
             <div className='flex gap-2 items-center'>
+              {project?.images && project.images.length > 0 && (
+                <button
+                  onClick={onPreviewImages}
+                  className='flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full transition-all duration-500 font-semibold text-[10px] md:text-sm group/img bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20'
+                >
+                  <span className='tracking-wide'>Preview Images</span>
+                  <IconPhoto className='size-3.5 md:size-4 group-hover/img:scale-110 transition-transform' />
+                </button>
+              )}
               <Link href={`/project/${project.id}`}>
                 <div className='flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full transition-all duration-500 font-semibold text-[10px] md:text-sm group/blog bg-sky-500/10 text-sky-400 hover:bg-sky-500/20 border border-sky-500/20'>
                   <span className='tracking-wide'>Project Infrastructure</span>
