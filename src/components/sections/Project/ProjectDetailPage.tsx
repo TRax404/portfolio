@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { IconArrowLeft, IconCalendar, IconTag, IconShare, IconChevronRight, IconRocket, IconSparkles, IconExternalLink, IconBrandGithub, IconServer } from "@tabler/icons-react";
+import { IconArrowLeft, IconCalendar, IconTag, IconShare, IconChevronRight, IconRocket, IconSparkles, IconExternalLink } from "@tabler/icons-react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import projects, { getProjectById } from "@/data/projects";
 import gsap from "gsap";
@@ -152,28 +152,6 @@ const ProjectDetailPage = () => {
                       >
                         <IconExternalLink size={18} />
                         Live Preview
-                      </a>
-                    )}
-                    {project.client_github_link && (
-                      <a 
-                        href={project.client_github_link} 
-                        target="_blank" 
-                        rel="noreferrer" 
-                        className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 px-6 py-3.5 text-[0.75rem] font-bold uppercase tracking-[0.15em] text-white transition-all duration-300 active:scale-95"
-                      >
-                        <IconBrandGithub size={18} />
-                        Client Source
-                      </a>
-                    )}
-                    {project.server_github_link && (
-                      <a 
-                        href={project.server_github_link} 
-                        target="_blank" 
-                        rel="noreferrer" 
-                        className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 px-6 py-3.5 text-[0.75rem] font-bold uppercase tracking-[0.15em] text-white transition-all duration-300 active:scale-95"
-                      >
-                        <IconServer size={18} />
-                        Server Source
                       </a>
                     )}
                   </div>

@@ -36,9 +36,9 @@ const LINKS = {
   tape_live: "https://lawalax.vercel.app",
   tape_thumbnail: "https://i.ibb.co.com/G3PT8PvK/screencapture-lawalax-vercel-app-dashboard-2026-05-18-22-33-02.png",
 
-  // lawalx
-  lawalx_live: "https://lawalx-superadmin-frontend.vercel.app",
-  lawalx_thumbnail: "https://i.ibb.co.com/5WPy7L2j/Screenshot-from-2026-05-21-16-56-44.png",
+  // theta analyzer
+  theta_analyzer_live: "https://lawalx-superadmin-frontend.vercel.app",
+  theta_analyzer_thumbnail: "https://i.ibb.co.com/5WPy7L2j/Screenshot-from-2026-05-21-16-56-44.png",
 };
 
 export default LINKS;

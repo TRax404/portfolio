@@ -97,6 +97,7 @@ const Projects = () => {
           >
             <Card 
               project={card} 
+              priority={idx < 2}
               onPlayVideo={() => setActiveVideo(card.video_url || null)} 
               onPreviewImages={() => card.images && setActiveImages({ images: card.images, name: card.project_name })}
             />

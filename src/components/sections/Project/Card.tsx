@@ -10,12 +10,14 @@ const Card = ({
   project, 
   onPlayVideo, 
   onPreviewImages,
-  variant = "horizontal" 
+  variant = "horizontal",
+  priority = false
 }: { 
   project: any; 
   onPlayVideo: () => void; 
   onPreviewImages: () => void;
-  variant?: "horizontal" | "vertical" 
+  variant?: "horizontal" | "vertical";
+  priority?: boolean;
 }) => {
   const borderGradient = `conic-gradient(from 0deg at 50% 50%, 
     #03e8f4 0%, 
@@ -60,6 +62,7 @@ const Card = ({
             alt={project?.project_name}
             width={800}
             height={600}
+            priority={priority}
             className='w-full h-full object-cover transition-all duration-700 group-hover/img:scale-105 ease-out rounded-xl shadow-lg'
           />
 
@@ -131,44 +134,27 @@ const Card = ({
           </div>
 
           {/* Action buttons pinned to bottom */}
-          <div className='flex items-center justify-between mt-auto pt-4 border-t border-white/8'>
-            <div className='flex gap-3 md:gap-4'>
-              {project?.client_github_link && (
-                <LinkPreview url={project?.client_github_link}>
-                  <div className='text-slate-500 hover:text-[#03e8f4] transition-all duration-300 transform hover:scale-110'>
-                    <IconBrandGithub className='size-5' />
-                  </div>
-                </LinkPreview>
-              )}
-              {project?.server_github_link && (
-                <LinkPreview url={project?.server_github_link}>
-                  <div className='text-slate-500 hover:text-[#03e8f4] transition-all duration-300 transform hover:scale-110'>
-                    <IconServer className='size-5' />
-                  </div>
-                </LinkPreview>
-              )}
-            </div>
-
+          <div className='flex items-center justify-end mt-auto pt-4 border-t border-white/8'>
             <div className='flex gap-2 items-center'>
               {project?.images && project.images.length > 0 && (
                 <button
                   onClick={onPreviewImages}
-                  className='flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full transition-all duration-500 font-semibold text-[10px] md:text-sm group/img bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20'
+                  className='flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2.5 rounded-full transition-all duration-500 font-bold text-[10px] md:text-[11px] group/img bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20 whitespace-nowrap'
                 >
-                  <span className='tracking-wide'>Preview Images</span>
+                  <span className='tracking-wide uppercase'>Preview Images</span>
                   <IconPhoto className='size-3.5 md:size-4 group-hover/img:scale-110 transition-transform' />
                 </button>
               )}
               <Link href={`/project/${project.id}`}>
-                <div className='flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full transition-all duration-500 font-semibold text-[10px] md:text-sm group/blog bg-sky-500/10 text-sky-400 hover:bg-sky-500/20 border border-sky-500/20'>
-                  <span className='tracking-wide'>Project Infrastructure</span>
+                <div className='flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2.5 rounded-full transition-all duration-500 font-bold text-[10px] md:text-[11px] group/blog bg-sky-500/10 text-sky-400 hover:bg-sky-500/20 border border-sky-500/20 whitespace-nowrap'>
+                  <span className='tracking-wide uppercase'>Infrastructure</span>
                   <IconArticle className='size-3.5 md:size-4 group-hover/blog:-translate-y-0.5 transition-transform' />
                 </div>
               </Link>
               {project?.live_link && (
                 <LinkPreview url={project?.live_link}>
-                  <div className='flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2 rounded-full transition-all duration-500 font-semibold text-[10px] md:text-sm group/btn bg-white/5 text-white hover:bg-white/10 border border-white/10'>
-                    <span className='tracking-wide'>Live Preview</span>
+                  <div className='flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2.5 rounded-full transition-all duration-500 font-bold text-[10px] md:text-[11px] group/btn bg-white/5 text-white hover:bg-white/10 border border-white/10 whitespace-nowrap'>
+                    <span className='tracking-wide uppercase'>Live Preview</span>
                     <IconWorld className='size-3.5 md:size-4 group-hover/btn:rotate-12 transition-transform' />
                   </div>
                 </LinkPreview>

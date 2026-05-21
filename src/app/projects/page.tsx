@@ -45,6 +45,7 @@ export default function ProjectsPage() {
               <div key={idx} className="h-[480px] md:h-[550px] w-full max-w-[550px] mx-auto">
                 <Card 
                   project={project} 
+                  priority={idx < 4}
                   onPlayVideo={() => setActiveVideo(project.video_url || null)} 
                   onPreviewImages={() => project.images && setActiveImages({ images: project.images, name: project.project_name })}
                   variant="vertical" 
