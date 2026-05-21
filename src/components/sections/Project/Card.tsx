@@ -140,14 +140,12 @@ const Card = ({ project, onPlayVideo, variant = "horizontal" }: { project: any; 
             </div>
 
             <div className='flex gap-2 items-center'>
-              {project?.blog_link && (
-                <Link href={project.blog_link}>
-                  <div className='flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full transition-all duration-500 font-semibold text-[10px] md:text-sm group/blog bg-sky-500/10 text-sky-400 hover:bg-sky-500/20 border border-sky-500/20'>
-                    <span className='tracking-wide'>Read Blog</span>
-                    <IconArticle className='size-3.5 md:size-4 group-hover/blog:-translate-y-0.5 transition-transform' />
-                  </div>
-                </Link>
-              )}
+              <Link href={`/project/${project.id}`}>
+                <div className='flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full transition-all duration-500 font-semibold text-[10px] md:text-sm group/blog bg-sky-500/10 text-sky-400 hover:bg-sky-500/20 border border-sky-500/20'>
+                  <span className='tracking-wide'>Project Infrastructure</span>
+                  <IconArticle className='size-3.5 md:size-4 group-hover/blog:-translate-y-0.5 transition-transform' />
+                </div>
+              </Link>
               {project?.live_link && (
                 <LinkPreview url={project?.live_link}>
                   <div className='flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2 rounded-full transition-all duration-500 font-semibold text-[10px] md:text-sm group/btn bg-white/5 text-white hover:bg-white/10 border border-white/10'>
