@@ -50,12 +50,12 @@ const Card = ({
       {/* Static Glassy Highlight Overlay */}
       <div className='absolute inset-0 bg-white/5 opacity-40 mix-blend-overlay pointer-events-none' />
 
-      <div className={`flex ${variant === "vertical" ? "flex-col gap-4 md:gap-5" : "flex-col md:flex-row gap-4 md:gap-7"} rounded-2xl h-full bg-[#0a0a0a] shadow-inner p-4 relative z-10 overflow-hidden transition-all duration-500 group-hover/card:bg-[#0d0d0d]`}>
+      <div className={`flex ${variant === "vertical" ? "flex-col gap-3 md:gap-4 lg:gap-5" : "flex-col md:flex-row gap-3 md:gap-5 lg:gap-7"} rounded-2xl h-full bg-[#0a0a0a] shadow-inner p-3 md:p-3.5 lg:p-4 relative z-10 overflow-hidden transition-all duration-500 group-hover/card:bg-[#0d0d0d]`}>
         {/* Subtle static inner glow */}
         <div className='absolute inset-0 bg-linear-to-br from-white/2 to-transparent pointer-events-none' />
 
         {/* Thumbnail */}
-        <div className={`w-full ${variant === "vertical" ? "h-[200px] md:h-[240px] shrink-0" : "md:w-[42%] h-48 sm:h-56 md:h-full"} rounded-xl overflow-hidden relative group/img`}>
+        <div className={`w-full ${variant === "vertical" ? "h-[180px] md:h-[200px] lg:h-[240px] shrink-0" : "md:w-[42%] h-40 sm:h-56 md:h-full"} rounded-xl overflow-hidden relative group/img`}>
           <Image
             src={project?.project_thumnail}
             alt={project?.project_name}
@@ -70,54 +70,54 @@ const Card = ({
         <div className={`${variant === "vertical" ? "flex flex-col flex-1" : "md:w-[58%] flex flex-col justify-between py-1"} relative z-20`}>
           <div>
             <div className='flex justify-between items-start gap-2'>
-              <h3 className={`font-bold text-white font-montserrat tracking-tight leading-tight group-hover/card:text-[#03e8f4] transition-colors duration-500 ${variant === "vertical" ? "text-lg md:text-xl" : "text-lg md:text-2xl"}`}>
+              <h3 className={`font-bold text-white font-montserrat tracking-tight leading-tight group-hover/card:text-[#03e8f4] transition-colors duration-500 ${variant === "vertical" ? "text-base md:text-lg lg:text-xl" : "text-base md:text-lg lg:text-2xl"}`}>
                 <BoxReveal duration={0.8}>
                   <span>{project?.project_name}</span>
                 </BoxReveal>
               </h3>
               {project?.company && (
-                <div className='px-3 bg-[#03e8f4]/10 border border-[#03e8f4]/30 rounded-full flex items-center justify-center h-6 shrink-0'>
-                  <p className='text-[9px] uppercase tracking-[0.2em] font-black text-[#03e8f4] whitespace-nowrap mt-px'>
+                <div className='px-2 bg-[#03e8f4]/10 border border-[#03e8f4]/30 rounded-full flex items-center justify-center h-5 shrink-0'>
+                  <p className='text-[8px] uppercase tracking-[0.2em] font-black text-[#03e8f4] whitespace-nowrap mt-px'>
                     {project.company.name}
                   </p>
                 </div>
               )}
             </div>
 
-            <p className={`text-sm text-slate-400 mt-2 font-poppins leading-relaxed ${variant === "vertical" ? "mt-3 line-clamp-2 md:line-clamp-3 flex-1" : "line-clamp-2 md:line-clamp-3"}`}>{project?.description}</p>
+            <p className={`text-xs md:text-[13px] lg:text-sm text-slate-400 mt-1.5 md:mt-2 font-poppins leading-relaxed ${variant === "vertical" ? "mt-2 line-clamp-2 md:line-clamp-3 flex-1" : "line-clamp-2 md:line-clamp-3"}`}>{project?.description}</p>
 
             {/* Technologies */}
-            <div className={`mt-4 ${variant === "vertical" ? "mb-5" : ""}`}>
-            <div className={`flex flex-wrap ${variant === "vertical" ? "gap-1.5 md:gap-2" : "gap-2"}`}>
+            <div className={`mt-3 md:mt-4 ${variant === "vertical" ? "mb-3 md:mb-5" : ""}`}>
+            <div className={`flex flex-wrap ${variant === "vertical" ? "gap-1 md:gap-1.5 lg:gap-2" : "gap-1 md:gap-1.5 lg:gap-2"}`}>
               {/* Show limited techs on mobile */}
-              <div className={`flex flex-wrap ${variant === "vertical" ? "gap-1.5" : "gap-2"} md:hidden`}>
+              <div className={`flex flex-wrap ${variant === "vertical" ? "gap-1" : "gap-1.5"} md:hidden`}>
                 {visibleTechs.map((tech: string, i: number) => (
                   <span
                     key={i}
-                    className='px-2.5 py-1 bg-white/3 border border-white/10 rounded-md text-[10px] text-slate-300 font-medium hover:border-[#03e8f4]/40 hover:bg-[#03e8f4]/5 transition-all duration-300'
+                    className='px-2 py-0.5 bg-white/3 border border-white/10 rounded-md text-[9px] text-slate-300 font-medium hover:border-[#03e8f4]/40 hover:bg-[#03e8f4]/5 transition-all duration-300'
                   >
                     {tech}
                   </span>
                 ))}
                 {remainingCount > 0 && (
-                  <span className='px-2.5 py-1 bg-white/5 border border-white/20 rounded-md text-[10px] text-slate-400 font-medium'>
+                  <span className='px-2 py-0.5 bg-white/5 border border-white/20 rounded-md text-[9px] text-slate-400 font-medium'>
                     +{remainingCount} more
                   </span>
                 )}
               </div>
 
               {/* Show techs on desktop */}
-              <div className={`hidden md:flex flex-wrap ${variant === "vertical" ? "gap-1.5" : "gap-2"}`}>
+              <div className={`hidden md:flex flex-wrap ${variant === "vertical" ? "gap-1 md:gap-1.5 lg:gap-2" : "gap-1 md:gap-1.5 lg:gap-2"}`}>
                 {(variant === "vertical" ? project?.technology.slice(0, 6) : project?.technology).map((tech: string, i: number) => (
                   <span
                     key={i}
-                    className='px-2.5 py-1 bg-white/3 border border-white/10 rounded-md text-xs text-slate-300 font-medium hover:border-[#03e8f4]/40 hover:bg-[#03e8f4]/5 transition-all duration-300'
+                    className='px-2 md:px-2.5 py-0.5 md:py-1 bg-white/3 border border-white/10 rounded-md text-[10px] lg:text-xs text-slate-300 font-medium hover:border-[#03e8f4]/40 hover:bg-[#03e8f4]/5 transition-all duration-300'
                   >
                     {tech}
                   </span>
                 ))}
                 {variant === "vertical" && project?.technology.length > 6 && (
-                  <span className='px-2.5 py-1 bg-white/5 border border-white/20 rounded-md text-xs text-slate-400 font-medium'>
+                  <span className='px-2 md:px-2.5 py-0.5 md:py-1 bg-white/5 border border-white/20 rounded-md text-[10px] lg:text-xs text-slate-400 font-medium'>
                     +{project.technology.length - 6} more
                   </span>
                 )}
@@ -127,28 +127,28 @@ const Card = ({
           </div>
 
           {/* Action buttons pinned to bottom */}
-          <div className='flex items-center justify-end mt-auto pt-4 border-t border-white/8'>
-            <div className='flex gap-2 items-center'>
+          <div className='flex items-center justify-end mt-auto pt-2 md:pt-4 border-t border-white/8'>
+            <div className='flex gap-1 md:gap-1.5 lg:gap-2 items-center'>
               {project?.images && project.images.length > 0 && (
                 <button
                   onClick={onPreviewImages}
-                  className='flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2.5 rounded-full transition-all duration-500 font-bold text-[10px] md:text-[11px] group/img bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20 whitespace-nowrap'
+                  className='flex items-center gap-0.5 md:gap-1 lg:gap-2 px-1.5 md:px-2.5 lg:px-4 py-1 md:py-1.5 lg:py-2.5 rounded-full transition-all duration-500 font-bold text-[8px] md:text-[9.5px] lg:text-[11px] group/img bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20 whitespace-nowrap'
                 >
                   <span className='tracking-wide uppercase'>Preview Images</span>
-                  <IconPhoto className='size-3.5 md:size-4 group-hover/img:scale-110 transition-transform' />
+                  <IconPhoto className='size-3 md:size-3.5 lg:size-4 group-hover/img:scale-110 transition-transform' />
                 </button>
               )}
               <Link href={`/project/${project.id}`}>
-                <div className='flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2.5 rounded-full transition-all duration-500 font-bold text-[10px] md:text-[11px] group/blog bg-sky-500/10 text-sky-400 hover:bg-sky-500/20 border border-sky-500/20 whitespace-nowrap'>
+                <div className='flex items-center gap-0.5 md:gap-1 lg:gap-2 px-1.5 md:px-2.5 lg:px-4 py-1 md:py-1.5 lg:py-2.5 rounded-full transition-all duration-500 font-bold text-[8px] md:text-[9.5px] lg:text-[11px] group/blog bg-sky-500/10 text-sky-400 hover:bg-sky-500/20 border border-sky-500/20 whitespace-nowrap'>
                   <span className='tracking-wide uppercase'>Infrastructure</span>
-                  <IconArticle className='size-3.5 md:size-4 group-hover/blog:-translate-y-0.5 transition-transform' />
+                  <IconArticle className='size-3 md:size-3.5 lg:size-4 group-hover/blog:-translate-y-0.5 transition-transform' />
                 </div>
               </Link>
               {project?.live_link && (
                 <LinkPreview url={project?.live_link}>
-                  <div className='flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2.5 rounded-full transition-all duration-500 font-bold text-[10px] md:text-[11px] group/btn bg-white/5 text-white hover:bg-white/10 border border-white/10 whitespace-nowrap'>
+                  <div className='flex items-center gap-0.5 md:gap-1 lg:gap-2 px-1.5 md:px-2.5 lg:px-4 py-1 md:py-1.5 lg:py-2.5 rounded-full transition-all duration-500 font-bold text-[8px] md:text-[9.5px] lg:text-[11px] group/btn bg-white/5 text-white hover:bg-white/10 border border-white/10 whitespace-nowrap'>
                     <span className='tracking-wide uppercase'>Live Preview</span>
-                    <IconWorld className='size-3.5 md:size-4 group-hover/btn:rotate-12 transition-transform' />
+                    <IconWorld className='size-3 md:size-3.5 lg:size-4 group-hover/btn:rotate-12 transition-transform' />
                   </div>
                 </LinkPreview>
               )}

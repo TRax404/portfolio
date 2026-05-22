@@ -42,7 +42,7 @@ export default function ProjectsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 xl:gap-14">
             {projects.map((project, idx) => (
-              <div key={idx} className="h-[480px] md:h-[550px] w-full max-w-[550px] mx-auto">
+              <div key={idx} className="h-[420px] md:h-[550px] w-full max-w-[550px] mx-auto">
                 <Card 
                   project={project} 
                   priority={idx < 4}
