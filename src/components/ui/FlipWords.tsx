@@ -1,94 +1,77 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import React, { useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/cn";
 
 export const FlipWords = ({ words, duration = 3000, className }: { words: string[]; duration?: number; className?: string }) => {
-  const [currentWord, setCurrentWord] = useState(words[0]);
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
-  const [hasMounted, setHasMounted] = useState(false);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const wordsRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  useGSAP(() => {
+    if (!wordsRef.current) return;
 
-  const startAnimation = useCallback(() => {
-    const word = words[words.indexOf(currentWord) + 1] || words[0];
-    setCurrentWord(word);
-    setIsAnimating(true);
-  }, [currentWord, words]);
+    const chars = wordsRef.current.querySelectorAll(".char");
+    
+    // Entrance animation
+    const tl = gsap.timeline();
 
-  useEffect(() => {
-    if (!isAnimating)
-      setTimeout(() => {
-        startAnimation();
-      }, duration);
-  }, [isAnimating, duration, startAnimation]);
+    tl.set(wordsRef.current, { opacity: 1, y: 0, x: 0, filter: "blur(0px)", scale: 1, position: "relative" });
+    
+    tl.fromTo(chars, 
+      { opacity: 0, y: 10, filter: "blur(8px)" },
+      { 
+        opacity: 1, 
+        y: 0, 
+        filter: "blur(0px)", 
+        duration: 0.4, 
+        stagger: 0.05,
+        ease: "back.out(2)",
+      }
+    );
 
-  if (!hasMounted) {
-    return null; // Avoid rendering on the server-side
-  }
+    // Schedule exit
+    const timer = setTimeout(() => {
+      gsap.to(wordsRef.current, {
+        opacity: 0,
+        y: -40,
+        x: 40,
+        filter: "blur(8px)",
+        scale: 2,
+        duration: 0.6,
+        ease: "power2.in",
+        onComplete: () => {
+          setCurrentWordIndex((prev) => (prev + 1) % words.length);
+        }
+      });
+    }, duration);
+
+    return () => clearTimeout(timer);
+  }, [currentWordIndex, words, duration]);
+
+  const currentWord = words[currentWordIndex];
 
   return (
-    <AnimatePresence
-      onExitComplete={() => {
-        setIsAnimating(false);
-      }}
+    <div
+      className={cn("z-10 inline-block relative text-center text-sky-400 font-bold font-montserrat px-2 w-[200px]", className)}
     >
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: 10,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 100,
-          damping: 10,
-        }}
-        exit={{
-          opacity: 0,
-          y: -40,
-          x: 40,
-          filter: "blur(8px)",
-          scale: 2,
-          position: "absolute",
-        }}
-        className={cn("z-10 inline-block relative text-center text-white font-bold font-montserrat px-2 w-[200px]", className)}
-        key={currentWord}
-      >
+      <div ref={wordsRef} className="inline-block">
         {currentWord.split(" ").map((word, wordIndex) => (
-          <motion.span
-            key={word + wordIndex}
-            initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{
-              delay: wordIndex * 0.3,
-              duration: 0.3,
-            }}
-            className='inline-block whitespace-nowrap'
-          >
+          <span key={word + wordIndex} className='inline-block whitespace-nowrap'>
             {word.split("").map((letter, letterIndex) => (
-              <motion.span
+              <span
                 key={word + letterIndex}
-                initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{
-                  delay: wordIndex * 0.3 + letterIndex * 0.05,
-                  duration: 0.2,
-                }}
-                className='inline-block'
+                className='inline-block char'
               >
                 {letter}
-              </motion.span>
+              </span>
             ))}
             <span className='inline-block'>&nbsp;</span>
-          </motion.span>
+          </span>
         ))}
-      </motion.div>
-    </AnimatePresence>
+      </div>
+    </div>
   );
 };
+
+export default FlipWords;

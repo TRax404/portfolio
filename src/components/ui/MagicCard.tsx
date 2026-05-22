@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useMotionTemplate, useMotionValue } from "motion/react";
 import { cn } from "@/lib/cn";
 import React, { CSSProperties, useCallback, useEffect, useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 interface MagicCardProps {
   children?: React.ReactNode;
@@ -30,7 +31,6 @@ export function MagicCard({
   gradientFrom = "#e81cff",
   gradientTo = "#40c9ff",
   delay = 2,
-  variants,
   isInView = true,
   duration = 0.5,
   style,
@@ -38,87 +38,93 @@ export function MagicCard({
   scale,
 }: MagicCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(-gradientSize);
-  const mouseY = useMotionValue(-gradientSize);
+  const gradientRef1 = useRef<HTMLDivElement>(null);
+  const gradientRef2 = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      if (cardRef.current) {
-        const { left, top } = cardRef.current.getBoundingClientRect();
-        mouseX.set(e.clientX - left);
-        mouseY.set(e.clientY - top);
-      }
-    },
-    [mouseX, mouseY]
-  );
+  const { contextSafe } = useGSAP({ scope: cardRef });
 
-  const handleMouseOut = useCallback(
-    (e: MouseEvent) => {
-      if (!e.relatedTarget) {
-        document.removeEventListener("mousemove", handleMouseMove);
-        mouseX.set(-gradientSize);
-        mouseY.set(-gradientSize);
-      }
-    },
-    [handleMouseMove, mouseX, mouseY, gradientSize]
-  );
+  const updateMousePosition = contextSafe((e: MouseEvent) => {
+    if (cardRef.current) {
+      const { left, top } = cardRef.current.getBoundingClientRect();
+      const x = e.clientX - left;
+      const y = e.clientY - top;
 
-  const handleMouseEnter = useCallback(() => {
-    document.addEventListener("mousemove", handleMouseMove);
-    mouseX.set(-gradientSize);
-    mouseY.set(-gradientSize);
-  }, [handleMouseMove, mouseX, mouseY, gradientSize]);
+      gsap.to([gradientRef1.current, gradientRef2.current], {
+        "--x": `${x}px`,
+        "--y": `${y}px`,
+        duration: 0.2,
+        ease: "power2.out",
+      });
+    }
+  });
 
   useEffect(() => {
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseout", handleMouseOut);
-    document.addEventListener("mouseenter", handleMouseEnter);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseout", handleMouseOut);
-      document.removeEventListener("mouseenter", handleMouseEnter);
+    const handleMouseMove = (e: MouseEvent) => updateMousePosition(e);
+    const handleMouseEnter = () => {
+      gsap.to([gradientRef1.current, gradientRef2.current], {
+        opacity: 1,
+        duration: 0.3,
+      });
     };
-  }, [handleMouseEnter, handleMouseMove, handleMouseOut]);
+    const handleMouseLeave = () => {
+      gsap.to([gradientRef1.current, gradientRef2.current], {
+        opacity: 0,
+        duration: 0.3,
+      });
+    };
 
-  useEffect(() => {
-    mouseX.set(-gradientSize);
-    mouseY.set(-gradientSize);
-  }, [gradientSize, mouseX, mouseY]);
+    const card = cardRef.current;
+    if (card) {
+      card.addEventListener("mousemove", handleMouseMove);
+      card.addEventListener("mouseenter", handleMouseEnter);
+      card.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (card) {
+        card.removeEventListener("mousemove", handleMouseMove);
+        card.removeEventListener("mouseenter", handleMouseEnter);
+        card.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, [updateMousePosition]);
+
+  useGSAP(() => {
+    if (isInView) {
+      gsap.from(cardRef.current, {
+        rotate: rotate || 0,
+        scale: scale || 0.9,
+        opacity: 0,
+        duration: duration,
+        delay: delay,
+        ease: "power2.out",
+      });
+    }
+  }, [isInView, rotate, scale, duration, delay]);
 
   return (
-    <motion.div
+    <div
       ref={cardRef}
-      style={{ rotate, scale, ...style }}
-      transition={{ duration: duration, delay: delay }}
-      variants={variants}
-      initial="hidden"
-      animate={isInView ? "visible" : undefined} // ✅ only animate in once
-      className={cn("group relative rounded-[inherit] ", className)}
+      style={{ ...style }}
+      className={cn("group relative rounded-[inherit]", className)}
     >
-      <motion.div
-        initial="hidden"
-        className="pointer-events-none absolute inset-0 rounded-[inherit] bg-border duration-300 group-hover:opacity-100"
+      <div
+        ref={gradientRef1}
+        className="pointer-events-none absolute inset-0 rounded-[inherit] bg-border opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
-          background: useMotionTemplate`
-              radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px,
-              ${gradientFrom},
-              ${gradientTo},
-              transparent 100%
-              )
-            `,
-        }}
+          background: `radial-gradient(${gradientSize}px circle at var(--x, -${gradientSize}px) var(--y, -${gradientSize}px), ${gradientFrom}, ${gradientTo}, transparent 100%)`,
+        } as any}
       />
       <div className="absolute inset-px rounded-[inherit] bg-background" />
-      <motion.div
+      <div
+        ref={gradientRef2}
         className="pointer-events-none absolute inset-px rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
-          background: useMotionTemplate`
-              radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 100%)
-            `,
+          background: `radial-gradient(${gradientSize}px circle at var(--x, -${gradientSize}px) var(--y, -${gradientSize}px), ${gradientColor}, transparent 100%)`,
           opacity: gradientOpacity,
-        }}
+        } as any}
       />
       <div className="relative">{children}</div>
-    </motion.div>
+    </div>
   );
 }

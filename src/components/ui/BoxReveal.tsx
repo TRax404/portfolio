@@ -1,5 +1,10 @@
-import { JSX } from "react";
-import * as motion from "motion/react-client";
+"use client";
+import { JSX, useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface BoxRevealProps {
   children: JSX.Element;
@@ -16,39 +21,49 @@ export const BoxReveal = ({
   overflow = "hidden",
   viewportAnimate = true,
 }: BoxRevealProps) => {
-  // If viewportAnimate is true, use motion.div
-  if (viewportAnimate) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }} // animate to normal position
-        viewport={{ once: true, amount: 0.6 }} // trigger only once when 60% is visible
-        transition={{
-          duration,
-          ease: [0.4, 0, 0.2, 1],
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!containerRef.current) return;
+
+    if (viewportAnimate) {
+      gsap.fromTo(containerRef.current, 
+        { opacity: 0, y: 30 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration, 
+          ease: "power2.out", 
           delay: 0.2,
-        }}
-      >
-        {children}
-      </motion.div>
-    );
-  } else {
-    return (
-      <div style={{ position: "relative", width, overflow }}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration,
-            ease: [0.4, 0, 0.2, 1],
-            delay: 0.2,
-          }}
-        >
-          {children}
-        </motion.div>
-      </div>
-    );
-  }
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 85%",
+            once: true
+          }
+        }
+      );
+    } else {
+      gsap.fromTo(containerRef.current, 
+        { opacity: 0, y: 30 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration, 
+          ease: "power2.out", 
+          delay: 0.2 
+        }
+      );
+    }
+  }, { scope: containerRef });
+
+  return (
+    <div 
+      ref={containerRef} 
+      style={{ position: "relative", width, overflow, opacity: 0 }}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default BoxReveal;

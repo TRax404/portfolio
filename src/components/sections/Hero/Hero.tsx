@@ -70,7 +70,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id='home' ref={containerRef} className='relative h-screen overflow-hidden'>
+    <section id='home' ref={containerRef} className='relative h-screen overflow-hidden bg-[#010610]'>
       <div className='pointer-events-none hidden lg:block absolute inset-0 z-20'>
         <IconBrandReact className='floating-icon absolute top-[20%] right-[30%] w-9 h-9 text-blue-300/70 drop-shadow-[0_0_10px_rgba(203,213,225,0.25)]' />
 
@@ -99,15 +99,23 @@ const Hero = () => {
         />
       </div>
 
-      <div className='absolute inset-0 z-0'>
-        <div className='absolute top-1/3 -right-20 w-96 h-96 bg-linear-to-r from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl float-slow'></div>
+      {/* Atmospheric Background */}
+      <div className='absolute inset-0 z-0 overflow-hidden'>
+        {/* Primary Glow */}
+        <div className='absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-sky-500/10 rounded-full blur-[120px]'></div>
+        <div className='absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-600/10 rounded-full blur-[150px]'></div>
+
+        {/* Grid Lines - Sky themed, not white */}
+        <div className='absolute inset-0 bg-[linear-gradient(rgba(56,189,248,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(56,189,248,0.07)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]'></div>
+
+        {/* Radial Depth */}
+        <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(1,6,16,0.5)_100%)]'></div>
       </div>
-      <div className='absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[48px_48px] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,black_20%,transparent_100%)]'></div>
 
       {/* Background Portrait Overlay */}
       <div ref={portraitRef} className='absolute inset-0 z-0 pointer-events-none overflow-hidden'>
         <div
-          className='absolute right-[10%] md:right-[40%] bottom-[40%] md:bottom-[-20%] w-full h-[130%] bg-no-repeat bg-bottom-right bg-contain opacity-[0.08]'
+          className='absolute right-[10%] md:right-[40%] bottom-[40%] md:bottom-[-20%] w-full h-[130%] bg-no-repeat bg-bottom-right bg-contain opacity-[0.12]'
           style={{
             backgroundImage: "url('/images/v2.png')",
             maskImage: "linear-gradient(to left, black 20%, transparent 80%), linear-gradient(to top, black 20%, transparent 80%)",
@@ -122,12 +130,12 @@ const Hero = () => {
         {/* Name */}
         <div className='text-slate-300 font-poppins font-normal max-w-175 mb-6'>
           <div ref={nameRef} className='mb-6'>
-            <h1 className='text-[10px] leading-[90%] md:text-[130px] lg:text-[20px] xl:text-[60px] font-montserrat uppercase font-black select-none'>
+            <h1 className='text-[40px] leading-[90%] md:text-[50px] lg:text-[700px] xl:text-[80px] font-montserrat uppercase font-black select-none'>
               {"TIRTHO RAY".split("").map((letter, idx) => (
                 <span
                   key={idx}
                   className={cn(
-                    "inline-block mx-1 bg-linear-to-r from-white via-slate-300 to-slate-400 bg-clip-text text-transparent",
+                    "inline-block mx-px bg-gradient-to-r from-white via-sky-200 to-slate-400 bg-clip-text text-transparent",
                     "cursor-default"
                   )}
                 >

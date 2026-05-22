@@ -2,15 +2,11 @@
 import * as HoverCardPrimitive from "@radix-ui/react-hover-card";
 import Image from "next/image";
 import { encode } from "qss";
-import React from "react";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValue,
-  useSpring,
-} from "motion/react";
+import React, { useRef } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 type LinkPreviewProps = {
   children: React.ReactNode;
@@ -55,24 +51,41 @@ export const LinkPreview = ({
   }
 
   const [isOpen, setOpen] = React.useState(false);
-
   const [isMounted, setIsMounted] = React.useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  const springConfig = { stiffness: 100, damping: 15 };
-  const x = useMotionValue(0);
-
-  const translateX = useSpring(x, springConfig);
-
   const handleMouseMove = (event: any) => {
     const targetRect = event.target.getBoundingClientRect();
     const eventOffsetX = event.clientX - targetRect.left;
     const offsetFromCenter = (eventOffsetX - targetRect.width / 2) / 2; // Reduce the effect to make it subtle
-    x.set(offsetFromCenter);
+    if (containerRef.current) {
+      gsap.to(containerRef.current, {
+        x: offsetFromCenter,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
   };
+
+  useGSAP(() => {
+    if (isOpen && containerRef.current) {
+      gsap.fromTo(
+        containerRef.current,
+        { opacity: 0, y: 20, scale: 0.6 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.4,
+          ease: "back.out(1.7)",
+        }
+      );
+    }
+  }, [isOpen]);
 
   return (
     <>
@@ -93,7 +106,7 @@ export const LinkPreview = ({
       <HoverCardPrimitive.Root
         openDelay={50}
         closeDelay={100}
-        onOpenChange={(open: boolean | ((prevState: boolean) => boolean)) => {
+        onOpenChange={(open: boolean) => {
           setOpen(open);
         }}
       >
@@ -112,46 +125,27 @@ export const LinkPreview = ({
           align="center"
           sideOffset={10}
         >
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 20, scale: 0.6 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 260,
-                    damping: 20,
-                  },
-                }}
-                exit={{ opacity: 0, y: 20, scale: 0.6 }}
-                className="shadow-xl rounded-xl"
-                style={{
-                  x: translateX,
-                }}
+          {isOpen && (
+            <div ref={containerRef} className="shadow-xl rounded-xl">
+              <Link
+                target="_blank"
+                href={url}
+                className="block p-1 bg-white border-2 border-transparent shadow rounded-xl hover:border-neutral-200 dark:hover:border-neutral-800"
+                style={{ fontSize: 0 }}
               >
-                <Link
-                  target="_blank"
-                  href={url}
-                  className="block p-1 bg-white border-2 border-transparent shadow rounded-xl hover:border-neutral-200 dark:hover:border-neutral-800"
-                  style={{ fontSize: 0 }}
-                >
-                  <Image
-                    src={isStatic ? imageSrc : src}
-                    width={width}
-                    height={height}
-                    quality={quality}
-                    // layout={layout}
-                    priority={true}
-                    className="rounded-lg"
-                    alt="preview image"
-                  />
-                </Link>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                <Image
+                  src={isStatic ? imageSrc : src}
+                  width={width}
+                  height={height}
+                  quality={quality}
+                  // layout={layout}
+                  priority={true}
+                  className="rounded-lg"
+                  alt="preview image"
+                />
+              </Link>
+            </div>
+          )}
         </HoverCardPrimitive.Content>
       </HoverCardPrimitive.Root>
     </>

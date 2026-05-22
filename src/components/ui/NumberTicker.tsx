@@ -1,8 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useInView, useMotionValue, useSpring } from "motion/react";
 import { cn } from "@/lib/cn";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function NumberTicker({
   value,
@@ -19,38 +23,34 @@ export function NumberTicker({
 }) {
   const ref = useRef<HTMLSpanElement>(null);
 
-  // Initialize motionValue based on the direction (up or down)
-  const motionValue = useMotionValue(direction === "down" ? value : 0);
-  const springValue = useSpring(motionValue, {
-    damping: 60,
-    stiffness: 100,
-  });
+  useGSAP(() => {
+    if (!ref.current) return;
 
-  // Track whether the span element is in the viewport
-  const isInView = useInView(ref, { once: true, margin: "0px" });
+    const startValue = direction === "down" ? value : 0;
+    const endValue = direction === "down" ? 0 : value;
 
-  useEffect(() => {
-    // Debug: Log when in view is true
-    if (isInView) {
-      setTimeout(() => {
-        motionValue.set(direction === "down" ? 0 : value); // Start animation
-      }, delay * 1000); // Apply delay if any
-    }
-  }, [isInView, motionValue, delay, value, direction]);
+    const obj = { count: startValue };
 
-  useEffect(() => {
-    // Listen to changes in springValue and update the text content
-    const unsubscribe = springValue.on("change", (latest) => {
-      if (ref.current) {
-        ref.current.textContent = Intl.NumberFormat("en-US", {
-          minimumFractionDigits: decimalPlaces,
-          maximumFractionDigits: decimalPlaces,
-        }).format(Number(latest.toFixed(decimalPlaces))); // Format with decimal places
-      }
+    gsap.to(obj, {
+      count: endValue,
+      duration: 2,
+      delay: delay,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ref.current,
+        start: "top bottom",
+        once: true,
+      },
+      onUpdate: () => {
+        if (ref.current) {
+          ref.current.textContent = Intl.NumberFormat("en-US", {
+            minimumFractionDigits: decimalPlaces,
+            maximumFractionDigits: decimalPlaces,
+          }).format(Number(obj.count.toFixed(decimalPlaces)));
+        }
+      },
     });
-
-    return () => unsubscribe(); // Cleanup listener on unmount
-  }, [springValue, decimalPlaces]);
+  }, { scope: ref });
 
   return (
     <span

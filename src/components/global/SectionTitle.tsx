@@ -1,7 +1,11 @@
 "use client";
-import { useEffect, useRef } from "react";
-import { motion, useAnimation, useInView } from "motion/react";
+import { useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "@/styles/section-title.module.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface SectionTitleProps {
   color: string;
@@ -10,33 +14,38 @@ interface SectionTitleProps {
 }
 
 const SectionTitle: React.FC<SectionTitleProps> = ({ color, text, lineBrak = false }) => {
-  const controls = useAnimation();
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.2 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
 
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-    } else {
-      controls.start("hidden");
-    }
-  }, [controls, inView]);
+  useGSAP(() => {
+    if (!containerRef.current) return;
 
-  const variants = {
-    visible: { opacity: 1, y: 0 },
-    hidden: { opacity: 0, y: 50 },
-  };
+    gsap.fromTo(containerRef.current, 
+      { opacity: 0, y: 50 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        duration: 1,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+          once: true,
+          onEnter: () => setIsInView(true)
+        }
+      }
+    );
+  }, { scope: containerRef });
 
   return (
-    <motion.div ref={ref} initial='hidden' animate={controls} variants={variants} transition={{ duration: 1 }} className=' relative'>
+    <div ref={containerRef} className=' relative' style={{ opacity: 0 }}>
       <h2
-        className={`${inView && `${styles.animation}`} flex ${
+        className={`${isInView ? styles.animation : ""} flex ${
           lineBrak ? "flex-col" : ""
         } gap-2 text-3xl md:text-5xl font-semibold font-montserrat bg-gradient-to-r from-white/50 via-slate-300 to-slate-600 bg-clip-text text-transparent`}
       >
         <span>{color}</span> <span className='text-slate-300'>{text}</span>
       </h2>
-    </motion.div>
+    </div>
   );
 };
 

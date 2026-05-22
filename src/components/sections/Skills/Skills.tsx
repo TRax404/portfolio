@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useMemo, useState, useEffect, useRef } from "react";
-import { motion } from "motion/react";
+import React, { useMemo, useState, useRef } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import skills, { TABS, SkillCategory } from "@/data/skills";
 import TechCard from "./TechCard";
@@ -19,6 +19,11 @@ const Skills = () => {
   const marqueeRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const expertiseRef = useRef<HTMLDivElement>(null);
+  const activeTabRef = useRef<HTMLDivElement>(null);
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const arrowRef = useRef<HTMLSpanElement>(null);
+  const showMoreRef = useRef<HTMLDivElement>(null);
 
   // Priority skill IDs - Added 31 (Redis)
   const prioritySkillIds = [1, 2, 3, 4, 12, 13, 17, 18, 31, 27, 21, 22, 24, 26];
@@ -39,8 +44,27 @@ const Skills = () => {
     }
   };
 
+  useGSAP(() => {
+    if (expertiseRef.current) {
+      gsap.fromTo(expertiseRef.current, 
+        { opacity: 0, y: 20 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: expertiseRef.current,
+            start: "top 85%",
+            once: true
+          }
+        }
+      );
+    }
+  }, { scope: sectionRef });
+
   // Staggered Entrance Animation
-  useEffect(() => {
+  useGSAP(() => {
     if (!gridRef.current) return;
     
     const cards = gridRef.current.querySelectorAll(".tech-card-wrapper");
@@ -79,7 +103,7 @@ const Skills = () => {
   }, [filteredSkills]); 
 
   // GSAP Infinite Marquee
-  useEffect(() => {
+  useGSAP(() => {
     const marquee = marqueeRef.current;
     if (!marquee) return;
     const totalWidth = marquee.scrollWidth;
@@ -89,10 +113,10 @@ const Skills = () => {
       ease: "none",
       repeat: -1,
     });
-  }, []);
+  }, { scope: sectionRef });
 
   // Background Animations
-  useEffect(() => {
+  useGSAP(() => {
     if (!sectionRef.current) return;
     const orbs = sectionRef.current.querySelectorAll(".glow-orb");
     orbs.forEach((orb, i) => {
@@ -106,7 +130,41 @@ const Skills = () => {
         delay: i * 2,
       });
     });
-  }, []);
+  }, { scope: sectionRef });
+
+  // Active Tab animation
+  useGSAP(() => {
+    if (!activeTabRef.current || !tabsContainerRef.current) return;
+    const activeBtn = tabsContainerRef.current.querySelector(`button[data-active="true"]`);
+    if (activeBtn) {
+      const { offsetLeft, offsetWidth, offsetHeight, offsetTop } = activeBtn as HTMLElement;
+      gsap.to(activeTabRef.current, {
+        left: offsetLeft,
+        top: offsetTop,
+        width: offsetWidth,
+        height: offsetHeight,
+        duration: 0.4,
+        ease: "power2.out"
+      });
+    }
+  }, [activeTab]);
+
+  // Arrow rotation
+  useGSAP(() => {
+    if (arrowRef.current) {
+      gsap.to(arrowRef.current, {
+        rotate: showAll ? 180 : 0,
+        duration: 0.3
+      });
+    }
+  }, [showAll]);
+
+  // Show more button entrance
+  useGSAP(() => {
+    if (showMoreRef.current) {
+      gsap.fromTo(showMoreRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+    }
+  }, [activeTab === "all"]);
 
   return (
     <section 
@@ -131,17 +189,12 @@ const Skills = () => {
       <Container className="relative z-10 flex flex-col items-center">
         <div className="text-center mb-16">
           <SectionTitle color="Tech" text="Stack" />
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
+          <div ref={expertiseRef} style={{ opacity: 0 }}>
             <LargeTitle title="My Expertise" />
             <p className="mt-4 text-gray-400 max-w-2xl mx-auto text-lg">
               Crafting robust digital solutions with modern technologies and industry best practices.
             </p>
-          </motion.div>
+          </div>
         </div>
 
         {/* Marquee */}
@@ -161,23 +214,22 @@ const Skills = () => {
         </div>
 
         {/* Category Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-16 p-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+        <div ref={tabsContainerRef} className="relative flex flex-wrap justify-center gap-3 mb-16 p-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+          <div
+            ref={activeTabRef}
+            className="absolute bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-white/20 rounded-xl z-0"
+            style={{ pointerEvents: 'none' }}
+          />
           {TABS.map((tab) => (
             <button
               key={tab.value}
+              data-active={activeTab === tab.value}
               onClick={() => handleTabClick(tab.value)}
-              className={`relative px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+              className={`relative px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 z-10 ${
                 activeTab === tab.value ? "text-white" : "text-gray-400 hover:text-white hover:bg-white/5"
               }`}
             >
-              {activeTab === tab.value && (
-                <motion.div
-                  layoutId="activeTab"
-                  className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-white/20 rounded-xl z-0"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                />
-              )}
-              <span className="relative z-10">{tab.label}</span>
+              <span>{tab.label}</span>
             </button>
           ))}
         </div>
@@ -198,7 +250,7 @@ const Skills = () => {
 
         {/* Show More Button */}
         {activeTab === "all" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-12">
+          <div ref={showMoreRef} className="mt-12">
             <button
               onClick={() => setShowAll((current) => !current)}
               className="group relative px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white font-medium overflow-hidden transition-all duration-300 hover:border-cyan-500/50 hover:bg-white/10"
@@ -206,10 +258,10 @@ const Skills = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative z-10 flex items-center gap-2">
                 {showAll ? "Show Less" : "Show All"}
-                <motion.span animate={{ rotate: showAll ? 180 : 0 }}>↓</motion.span>
+                <span ref={arrowRef} className="inline-block">↓</span>
               </span>
             </button>
-          </motion.div>
+          </div>
         )}
 
         <div className="mt-24 text-center">

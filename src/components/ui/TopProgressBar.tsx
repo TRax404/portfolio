@@ -1,18 +1,36 @@
 "use client";
-import { useScroll, motion, useSpring } from "motion/react";
+import { useRef } from "react";
 import styles from "@/styles/progressbar.module.css";
 import { cn } from "@/lib/cn";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const TopProgressBar = () => {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
+  const progressBarRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    gsap.to(progressBarRef.current, {
+      scaleX: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: document.documentElement,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.3,
+      },
+    });
   });
+
   return (
     <>
-      <motion.div className={cn(styles.progressBar)} style={{ scaleX }} />
+      <div
+        ref={progressBarRef}
+        className={cn(styles.progressBar)}
+        style={{ transform: "scaleX(0)", transformOrigin: "left" }}
+      />
     </>
   );
 };

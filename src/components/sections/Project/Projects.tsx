@@ -92,7 +92,7 @@ const Projects = () => {
             key={idx} 
             // 'sticky' allows cards to stack as you scroll
             // Note: REMOVED `transition-all duration-300` to fix GSAP scrub jank!
-            className='sticky top-[12vh] w-full md:w-[900px] mx-auto h-[400px] md:h-[450px] shadow-2xl origin-top'
+            className='sticky top-[12vh] w-full md:max-w-[900px] mx-auto h-[400px] md:h-[450px] shadow-2xl origin-top'
             style={{ zIndex: idx }}
           >
             <Card 

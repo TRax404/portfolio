@@ -4,7 +4,6 @@ import { IconBrandGithub, IconPlayerPlay, IconServer, IconWorld, IconArticle, Ic
 import BoxReveal from "@/components/ui/BoxReveal";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "motion/react";
 
 const Card = ({ 
   project, 
@@ -77,11 +76,11 @@ const Card = ({
                 </BoxReveal>
               </h3>
               {project?.company && (
-                <motion.div className='px-3 bg-[#03e8f4]/10 border border-[#03e8f4]/30 rounded-full flex items-center justify-center h-6 shrink-0'>
+                <div className='px-3 bg-[#03e8f4]/10 border border-[#03e8f4]/30 rounded-full flex items-center justify-center h-6 shrink-0'>
                   <p className='text-[9px] uppercase tracking-[0.2em] font-black text-[#03e8f4] whitespace-nowrap mt-px'>
                     {project.company.name}
                   </p>
-                </motion.div>
+                </div>
               )}
             </div>
 
