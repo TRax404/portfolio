@@ -12,19 +12,19 @@ export const FlipWords = ({ words, duration = 3000, className }: { words: string
     if (!wordsRef.current) return;
 
     const chars = wordsRef.current.querySelectorAll(".char");
-    
+
     // Entrance animation
     const tl = gsap.timeline();
 
     tl.set(wordsRef.current, { opacity: 1, y: 0, x: 0, filter: "blur(0px)", scale: 1, position: "relative" });
-    
-    tl.fromTo(chars, 
+
+    tl.fromTo(chars,
       { opacity: 0, y: 10, filter: "blur(8px)" },
-      { 
-        opacity: 1, 
-        y: 0, 
-        filter: "blur(0px)", 
-        duration: 0.4, 
+      {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+        duration: 0.4,
         stagger: 0.05,
         ease: "back.out(2)",
       }
@@ -50,6 +50,7 @@ export const FlipWords = ({ words, duration = 3000, className }: { words: string
   }, [currentWordIndex, words, duration]);
 
   const currentWord = words[currentWordIndex];
+
 
   return (
     <div
