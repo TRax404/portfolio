@@ -83,9 +83,9 @@ const Hero = () => {
           alt='Docker'
         />
         <img
-          src='https://cdn.simpleicons.org/amazonaws/FF9900'
-          className='floating-icon absolute bottom-[40%] right-[45%] w-11 h-11'
-          alt='AWS'
+          src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
+          alt="AWS"
+          className="floating-icon absolute bottom-[40%] right-[45%] w-11 h-11"
         />
         <img
           src='https://cdn.simpleicons.org/githubactions/2088FF'
@@ -96,6 +96,11 @@ const Hero = () => {
           src='https://cdn.simpleicons.org/nginx/009639'
           className='floating-icon absolute bottom-[70%] right-[50%] w-10 h-10'
           alt='Nginx'
+        />
+        <img
+          src="https://cdn.simpleicons.org/nestjs/E0234E"
+          alt="NestJS"
+          className="floating-icon absolute top-[45%] right-[26%] w-10 h-10"
         />
       </div>
 
