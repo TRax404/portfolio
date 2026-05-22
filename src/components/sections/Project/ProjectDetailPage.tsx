@@ -116,8 +116,8 @@ const ProjectDetailPage = () => {
 
         <article className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_320px]">
           <div className="space-y-16">
-            <header ref={headerRef} className="detail-reveal relative overflow-hidden rounded-[3rem] border border-white/10 bg-[#0a0f1d]/60 shadow-3xl backdrop-blur-3xl">
-              <div className="relative h-[400px] overflow-hidden md:h-[550px]">
+            <header ref={headerRef} className="detail-reveal relative overflow-hidden rounded-3xl md:rounded-[3rem] border border-white/10 bg-[#0a0f1d]/60 shadow-3xl backdrop-blur-3xl">
+              <div className="relative h-100 overflow-hidden md:h-137.5">
                 <img
                   ref={heroImageRef}
                   src={project.project_thumnail}
@@ -126,7 +126,7 @@ const ProjectDetailPage = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-[#030712]/40 to-transparent" />
 
-                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-16">
                   <div className="mb-6 flex flex-wrap gap-3">
                     <div className="flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-200 px-4 py-1.5 text-[0.7rem] font-black uppercase tracking-widest backdrop-blur-md">
                       <IconRocket size={14} />
@@ -139,15 +139,15 @@ const ProjectDetailPage = () => {
                       </span>
                     ))}
                   </div>
-                  <h1 className="font-poppins text-3xl font-black leading-tight text-white md:text-5xl lg:text-6xl">
+                  <h1 className="font-poppins text-3xl font-black leading-tight text-white md:text-5xl lg:text-6xl break-words">
                     {project.project_name}
                   </h1>
                   <div className="mt-8 flex flex-wrap gap-4">
                     {project.live_link && (
-                      <a 
-                        href={project.live_link} 
-                        target="_blank" 
-                        rel="noreferrer" 
+                      <a
+                        href={project.live_link}
+                        target="_blank"
+                        rel="noreferrer"
                         className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 px-6 py-3.5 text-[0.75rem] font-bold uppercase tracking-[0.15em] text-slate-950 transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95"
                       >
                         <IconExternalLink size={18} />
@@ -178,15 +178,15 @@ const ProjectDetailPage = () => {
               </div>
             </header>
 
-            <div ref={contentRef} className="detail-reveal blog-prose-premium max-w-none space-y-12 rounded-[3rem] border border-white/5 bg-[#0a0f1d]/20 p-8 md:p-16 backdrop-blur-xl">
+            <div ref={contentRef} className="detail-reveal blog-prose-premium max-w-none space-y-12 rounded-3xl md:rounded-[3rem] border border-white/5 bg-[#0a0f1d]/20 p-5 md:p-16 backdrop-blur-xl">
               <p className="prose-block text-lg leading-relaxed text-slate-300 font-medium italic border-l-4 border-cyan-500/40 pl-6 py-2">
                 {project.description}
               </p>
 
               {project.content.map((block, index) => {
                 if (block.type === "heading") {
-                  return <h2 key={index} className="prose-block group flex items-center gap-6 pt-10 first:pt-0">
-                    <span className="text-white font-poppins text-lg md:text-xl font-black uppercase tracking-wider whitespace-nowrap">{block.body}</span>
+                  return <h2 key={index} className="prose-block group flex items-center gap-4 md:gap-6 pt-10 first:pt-0">
+                    <span className="text-white font-poppins text-lg md:text-xl font-black uppercase tracking-wider">{block.body}</span>
                     <span className="h-px flex-grow bg-gradient-to-r from-white/10 to-transparent" />
                   </h2>;
                 }
