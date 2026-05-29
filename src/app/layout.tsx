@@ -20,8 +20,62 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Tirtho Ray - Let's Build Something Amazing Together!",
-  description: "Let's code! 😊",
+  metadataBase: new URL("https://tirthoray.com"),
+  title: {
+    default: "Tirtho Ray | Full Stack Engineer & System Designer",
+    template: "%s | Tirtho Ray",
+  },
+  description:
+    "Full Stack Engineer specializing in React, Next.js, Node.js, and System Design. Explore my projects, engineering blogs, and technical insights.",
+  keywords: [
+    "Tirtho Ray",
+    "Full Stack Developer",
+    "Software Engineer",
+    "Next.js Developer",
+    "React Developer",
+    "Node.js Backend",
+    "System Design",
+    "Web Development",
+    "Portfolio",
+  ],
+  authors: [{ name: "Tirtho Ray", url: "https://tirthoray.com" }],
+  creator: "Tirtho Ray",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://tirthoray.com",
+    title: "Tirtho Ray | Full Stack Engineer & System Designer",
+    description:
+      "Full Stack Engineer specializing in React, Next.js, Node.js, and System Design. Explore my projects, engineering blogs, and technical insights.",
+    siteName: "Tirtho Ray Portfolio",
+    images: [
+      {
+        url: "/images/v2.png",
+        width: 1200,
+        height: 630,
+        alt: "Tirtho Ray - Full Stack Engineer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tirtho Ray | Full Stack Engineer & System Designer",
+    description:
+      "Full Stack Engineer specializing in React, Next.js, Node.js, and System Design.",
+    images: ["/images/v2.png"],
+    creator: "@tirthoray",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({

@@ -112,7 +112,7 @@ const BlogCard = ({ post, index = 0, compact = false }: BlogCardProps) => {
         <img
           ref={imageRef}
           src={post.coverImage}
-          alt=""
+          alt={post.title}
           className="h-[120%] w-full object-cover"
           loading="lazy"
         />
