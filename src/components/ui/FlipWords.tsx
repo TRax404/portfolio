@@ -75,4 +75,6 @@ export const FlipWords = ({ words, duration = 3000, className }: { words: string
   );
 };
 
+
+
 export default FlipWords;
