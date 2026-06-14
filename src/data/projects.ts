@@ -416,6 +416,39 @@ const projects: Project[] = [
       { type: "list", items: ["PostgreSQL with NeonDB for serverless database scaling.", "Prisma ORM for type-safe database access.", "BetterAuth for secure and modern authentication flow.", "Tailwind CSS for sleek, minimalist design."] }
     ]
   },
+  {
+    id: 8,
+    slug: "follow-me",
+    project_name: "Follow Me | Influencer Engagement Platform",
+    description:
+      "A next-generation influencer platform where users can buy and sell followers, likes, and engagement. Built with a focus on real-time transactions and secure payments.",
+    project_thumnail: "https://i.ibb.co.com/v6GvH3r/follow-me-thumbnail.png",
+    technology: ["TypeScript", "Node.js", "Express.js", "MongoDB", "Socket.io"],
+    client_github_link: "https://github.com/Tirtho-Ray/follow-me",
+    createdAt: "2024-11-20",
+    content: [
+      { type: "heading", body: "Concept" },
+      { type: "paragraph", body: "Follow Me was designed to streamline the process of social media engagement. It provides a marketplace for influencers and brands to connect and grow their presence." },
+      { type: "heading", body: "Key Features" },
+      { type: "list", items: ["Real-time engagement tracking.", "Secure payment gateway integration.", "Automated social media API interactions.", "User-friendly dashboard for influencers."] }
+    ]
+  },
+  {
+    id: 9,
+    slug: "bd-education-result",
+    project_name: "Bangladesh Education Result Platform",
+    description:
+      "A digital result management system allowing schools to publish results and students to search via School/Roll Number. Focused on high-speed search and scalability.",
+    project_thumnail: "https://i.ibb.co.com/LhB2P4N/bd-result-thumbnail.png",
+    technology: ["React", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
+    createdAt: "2024-08-10",
+    content: [
+      { type: "heading", body: "The Problem" },
+      { type: "paragraph", body: "Traditional result publication methods are slow and often crash under high load. This platform solves that with a highly optimized search architecture." },
+      { type: "heading", body: "Highlights" },
+      { type: "list", items: ["School-wise result publishing.", "Search by Roll and Registration number.", "PDF result sheet generation.", "Admin panel for result management."] }
+    ]
+  },
 ];
 
 export const getProjectBySlug = (slug: string) => projects.find((p) => p.slug === slug);

@@ -12,7 +12,7 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Tirtho Ray | Full Stack Engineer & System Designer",
+  title: "Tirtho Deb Ray | Full Stack Engineer & System Designer",
   description: "Passionate Full Stack Developer specializing in React, Next.js, Node.js, and PostgreSQL. Building scalable, high-performance web applications.",
 };
 
@@ -20,12 +20,12 @@ export default async function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Tirtho Ray",
-    url: "https://tirthoray.com",
+    name: "Tirtho Deb Ray",
+    url: "https://tirtho-ray.vercel.app/",
     jobTitle: "Full Stack Engineer",
     sameAs: [
-      "https://github.com/TRax404",
-      "https://www.linkedin.com/in/tirthoray10",
+      "https://github.com/tirtho-ray",
+      "https://www.linkedin.com/in/tirtho-deb-ray/",
       "https://www.facebook.com/tirtho.ray.935187",
     ],
     description: "Full Stack Engineer specializing in React, Next.js, Node.js, and System Design.",
