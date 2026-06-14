@@ -135,8 +135,8 @@ const Hero = () => {
         {/* Name */}
         <div className='text-slate-300 font-poppins font-normal max-w-175 mb-6'>
           <div ref={nameRef} className='mb-6'>
-            <h1 className='text-[40px] leading-[90%] md:text-[50px] lg:text-[700px] xl:text-[80px] font-montserrat uppercase font-black select-none'>
-              {"TIRTHO RAY".split("").map((letter, idx) => (
+            <h1 className='text-[40px] leading-[90%] md:text-[50px] lg:text-[70px] xl:text-[80px] font-montserrat uppercase font-black select-none'>
+              {"TIRTHO DEB RAY".split("").map((letter, idx) => (
                 <span
                   key={idx}
                   className={cn(
