@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!post) {
     return {
-      title: "Engineering Blog | Tirtho Ray",
+      title: "Engineering Blog | Tirtho Deb Ray",
       description: "Engineering notes on full-stack development, performance, architecture, DevOps, and real-world implementation decisions.",
     };
   }
@@ -26,11 +26,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: post.title,
     description: post.excerpt,
     openGraph: {
-      title: \`\${post.title} | Tirtho Ray\`,
+      title: `${post.title} | Tirtho Deb Ray`,
       description: post.excerpt,
       type: "article",
       publishedTime: post.createdAt,
-      authors: ["Tirtho Ray"],
+      authors: ["Tirtho Deb Ray"],
       images: [
         {
           url: post.coverImage,
