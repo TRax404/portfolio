@@ -1,7 +1,7 @@
 import { cloudinaryImageApi, cloudinaryVideoApi } from "@/lib/cloudinaryApi";
 
 const LINKS = {
-  resume: "https://drive.google.com/file/d/1sUcGjcADyUlUZoacE3s-UNE88dZsMdgq/view?usp=sharing",
+  resume: "https://docs.google.com/document/d/1rQV22UBqC6KU-qCdpkCFfbA__PQTvmYEYKqavNY2hDY/edit?usp=sharing",
 
   // social
   github: "https://github.com/tirtho-ray",
