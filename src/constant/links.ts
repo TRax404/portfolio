@@ -4,10 +4,10 @@ const LINKS = {
   resume: "https://drive.google.com/file/d/1sUcGjcADyUlUZoacE3s-UNE88dZsMdgq/view?usp=sharing",
 
   // social
-  github: "https://github.com/TRax404",
+  github: "https://github.com/tirtho-ray",
   facebook: "https://www.facebook.com/tirtho.ray.935187",
-  // discord: "https://discord.com/users/1151169623149002752/",
-  linkedIn: "https://www.linkedin.com/in/tirthoray10",
+  email: "mailto:tirthoray10@gmail.com",
+  linkedIn: "https://www.linkedin.com/in/tirtho-deb-ray/",
   blog: "/blogs",
 
   olynex: "https://olynex.com",

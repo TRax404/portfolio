@@ -46,6 +46,21 @@ const EXPERIENCE: TExperience[] = [
       "Built resilient real-time communication modules utilizing WebSockets to handle concurrent user state synchronization seamlessly for thousands of users.",
     ],
   },
+  {
+    id: "exp-3",
+    role: "Backend Developer Intern",
+    company: "BD Calling Academy (Betopia Group)",
+    location: "On-site · Dhaka, Bangladesh",
+    period: "Sep 2025 – Nov 2025",
+    tech: ["Node.js", "Express.js", "MongoDB", "JavaScript", "Git"],
+    keyAchievement: "Contributed to core server-side features and database schema designs for internal projects.",
+    highlights: [
+      "Assisted in developing RESTful APIs and server-side logic using Node.js and Express.js.",
+      "Participated in database schema design and optimized MongoDB queries for better performance.",
+      "Collaborated with senior developers to implement new features and resolve bugs in high-priority modules.",
+      "Gained hands-on experience with version control (Git) and collaborative development workflows.",
+    ],
+  },
 ];
 
 export default EXPERIENCE;

@@ -20,15 +20,15 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tirthoray.com"),
+  metadataBase: new URL("https://tirtho-ray.vercel.app/"),
   title: {
-    default: "Tirtho Ray | Full Stack Engineer & System Designer",
-    template: "%s | Tirtho Ray",
+    default: "Tirtho Deb Ray | Full Stack Engineer & System Designer",
+    template: "%s | Tirtho Deb Ray",
   },
   description:
-    "Full Stack Engineer specializing in React, Next.js, Node.js, and System Design. Explore my projects, engineering blogs, and technical insights.",
+    "Full Stack Engineer specializing in scalable backend systems, NestJS, and cloud architecture. Explore my projects, engineering blogs, and technical insights.",
   keywords: [
-    "Tirtho Ray",
+    "Tirtho Deb Ray",
     "Full Stack Developer",
     "Software Engineer",
     "Next.js Developer",
@@ -38,30 +38,30 @@ export const metadata: Metadata = {
     "Web Development",
     "Portfolio",
   ],
-  authors: [{ name: "Tirtho Ray", url: "https://tirthoray.com" }],
-  creator: "Tirtho Ray",
+  authors: [{ name: "Tirtho Deb Ray", url: "https://tirtho-ray.vercel.app/" }],
+  creator: "Tirtho Deb Ray",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://tirthoray.com",
-    title: "Tirtho Ray | Full Stack Engineer & System Designer",
+    url: "https://tirtho-ray.vercel.app/",
+    title: "Tirtho Deb Ray | Full Stack Engineer & System Designer",
     description:
-      "Full Stack Engineer specializing in React, Next.js, Node.js, and System Design. Explore my projects, engineering blogs, and technical insights.",
-    siteName: "Tirtho Ray Portfolio",
+      "Full Stack Engineer specializing in scalable backend systems, NestJS, and cloud architecture. Explore my projects, engineering blogs, and technical insights.",
+    siteName: "Tirtho Deb Ray Portfolio",
     images: [
       {
         url: "/images/v2.png",
         width: 1200,
         height: 630,
-        alt: "Tirtho Ray - Full Stack Engineer",
+        alt: "Tirtho Deb Ray - Full Stack Engineer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tirtho Ray | Full Stack Engineer & System Designer",
+    title: "Tirtho Deb Ray | Full Stack Engineer & System Designer",
     description:
-      "Full Stack Engineer specializing in React, Next.js, Node.js, and System Design.",
+      "Full Stack Engineer specializing in scalable backend systems, NestJS, and cloud architecture.",
     images: ["/images/v2.png"],
     creator: "@tirthoray",
   },
